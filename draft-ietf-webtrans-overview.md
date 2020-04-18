@@ -1,12 +1,13 @@
 ---
 title: The WebTransport Protocol Framework
 abbrev: WebTransport
-docname: draft-vvv-webtransport-overview-latest
+docname: draft-ietf-webtrans-overview-latest
 date: {DATE}
 category: std
+workgroup: WEBTRANS
 
 ipr: trust200902
-area: Transport
+area: Applications and Real-Time
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs]
@@ -45,8 +46,8 @@ Discussion of this draft takes place on the WebTransport mailing list
 \<https://mailarchive.ietf.org/arch/search/?email_list=webtransport\>.
 
 The repository tracking the issues for this draft can be found at
-\<https://github.com/vasilvv/webtransport/issues\>.  The web API draft
-corresponding to this document can be found at
+\<https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues\>.
+The web API draft corresponding to this document can be found at
 \<https://wicg.github.io/web-transport/\>.
 
 --- middle

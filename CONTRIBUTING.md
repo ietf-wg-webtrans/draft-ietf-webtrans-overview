@@ -28,4 +28,4 @@ contributions in GitHub, you are encouraged to participate in discussions there.
 technical issues needs to occur on the mailing list.
 
 You might also like to familiarize yourself with other
-[working group documents](https://datatracker.ietf.org/wg/webtransport/documents/).
+[working group documents](https://datatracker.ietf.org/wg/webtrans/documents/).
