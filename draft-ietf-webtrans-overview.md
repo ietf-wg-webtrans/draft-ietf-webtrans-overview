@@ -218,19 +218,48 @@ Policy [CSP].
 
 # Session Establishment
 
-WebTransport session establishment is most often asynchronous, although in
-some transports it can succeed instantaneously (for instance, if a transport is
-immediately pooled with an existing connection).  A session MUST NOT be
-considered established until it is secure against replay attacks.  For
-instance, in protocols creating a new TLS 1.3 session {{!RFC8446}}, this would
-mean that the user agent MUST NOT treat the session as established until it
-received a Finished message from the server.
+WebTransport session begins with a handshake in which the client and the server
+exchange a set of header fields.  This provides an opportunity for the parties
+to exchange the metadata such as the origin of the client and the path
+component of the URL.
+
+A WebTransport session MUST NOT be considered established until it is secure
+against replay attacks.  For instance, in protocols creating a new TLS 1.3
+session {{!RFC8446}}, this would mean that the user agent MUST NOT treat the
+session as established until it received a Finished message from the server.
 
 In some cases, the transport protocol might allow transmitting data before the
 session is established; an example is TLS 0-RTT data.  Since this data can be
 replayed by attackers, it MUST NOT be used unless the client has explicitly
 requested 0-RTT for specific streams or datagrams it knows to be safely
 replayable.
+
+## Headers
+
+Any WebTransport protocol MUST provide a method for peers to exchange headers.
+The client sends its header fields first; the server sends its headers in
+response to the ones received from the client.
+
+WebTransport headers are an unordered set of key-value pairs referred to as
+header fields.  Header fields have names; a name of a header field is not
+case-sensitive and it MUST be either a valid HTTP header name (Section 5.4.3 of
+{{!I-D.ietf-httpbis-semantics}}) or be one of `:scheme`, `:path`, `:authority`
+and `:status`.  The values of the header fields MUST be a sequence of
+non-control US ASCII characters as recommended in Section 5.4.4 of
+{{!I-D.ietf-httpbis-semantics}}.
+
+The client MUST convey the URI of the request to the server by specifying the
+`:scheme`, `:authority` and `:path` headers.  Those have the same semantics as
+they do in HTTP/2 (Section 8.1.2.4 of {{!RFC7540}}).  Note that the `:method`
+field is not included here; it is implied to be `CONNECT`.
+
+The client MUST convey the origin of the resource initiating the connection
+using the `Origin` header described in Section 7 of {{!RFC6454}}.
+
+The server MUST reply with an HTTP status code (Section 14 of
+{{!I-D.ietf-httpbis-semantics}}) in the `:status` header.  Note that like in
+HTTP, a status code indicating an error does not preclude subsequent data
+exchange between the client and the server.
 
 # Transport Features
 
