@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                           20 April 2020
-Expires: 22 October 2020
+Intended status: Standards Track                        17 February 2021
+Expires: 21 August 2021
 
 
                   The WebTransport Protocol Framework
@@ -49,18 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 October 2020.
-
-
-
-Vasiliev                 Expires 22 October 2020                [Page 1]
-
-Internet-Draft                WebTransport                    April 2020
-
+   This Internet-Draft will expire on 21 August 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -74,24 +67,24 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-     1.1.  Background  . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.2.  Conventions and Definitions . . . . . . . . . . . . . . .   4
-   2.  Common Transport Requirements . . . . . . . . . . . . . . . .   5
-   3.  Session Establishment . . . . . . . . . . . . . . . . . . . .   6
-   4.  Transport Features  . . . . . . . . . . . . . . . . . . . . .   6
-     4.1.  Datagrams . . . . . . . . . . . . . . . . . . . . . . . .   6
-     4.2.  Streams . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     4.3.  Protocol-Specific Features  . . . . . . . . . . . . . . .   8
-     4.4.  Bandwidth Prediction  . . . . . . . . . . . . . . . . . .   8
-   5.  Buffering and Prioritization  . . . . . . . . . . . . . . . .   8
-   6.  Transport Properties  . . . . . . . . . . . . . . . . . . . .   8
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  12
+   1.  Introduction
+     1.1.  Background
+     1.2.  Conventions and Definitions
+   2.  Common Transport Requirements
+   3.  Session Establishment
+   4.  Transport Features
+     4.1.  Datagrams
+     4.2.  Streams
+     4.3.  Protocol-Specific Features
+     4.4.  Bandwidth Prediction
+   5.  Buffering and Prioritization
+   6.  Transport Properties
+   7.  Security Considerations
+   8.  IANA Considerations
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
+   Author's Address
 
 1.  Introduction
 
@@ -104,15 +97,6 @@ Table of Contents
    This document defines the overall requirements on the protocols used
    in WebTransport, as well as the common features of the protocols,
    support for some of which may be optional.
-
-
-
-
-
-Vasiliev                 Expires 22 October 2020                [Page 2]
-
-Internet-Draft                WebTransport                    April 2020
-
 
 1.1.  Background
 
@@ -162,14 +146,6 @@ Internet-Draft                WebTransport                    April 2020
       but that would be much more complex unless they are all on the
       same connection).
 
-
-
-
-Vasiliev                 Expires 22 October 2020                [Page 3]
-
-Internet-Draft                WebTransport                    April 2020
-
-
    The WebTransport protocol framework avoids all of those issues by
    letting applications create a single transport object that can
    contain multiple streams multiplexed together in a single context
@@ -218,14 +194,6 @@ Internet-Draft                WebTransport                    April 2020
       the transport perspective they can be simulated by fully buffering
       a stream before passing it to the application.  However, this
       distinction is important to highlight since some of the similar
-
-
-
-Vasiliev                 Expires 22 October 2020                [Page 4]
-
-Internet-Draft                WebTransport                    April 2020
-
-
       protocols and APIs (notably WebSocket [RFC6455]) use messages as a
       core abstraction.
 
@@ -275,13 +243,6 @@ Internet-Draft                WebTransport                    April 2020
    Any transport protocol used MUST support simultaneously establishing
    multiple sessions between the same client and server.
 
-
-
-Vasiliev                 Expires 22 October 2020                [Page 5]
-
-Internet-Draft                WebTransport                    April 2020
-
-
    Any transport protocol used MUST prevent the clients from
    establishing transport sessions to network endpoints that are not
    WebTransport servers.
@@ -330,14 +291,6 @@ Internet-Draft                WebTransport                    April 2020
    to UDP while being subject to common requirements expressed in
    Section 2.
 
-
-
-
-Vasiliev                 Expires 22 October 2020                [Page 6]
-
-Internet-Draft                WebTransport                    April 2020
-
-
    The WebTransport sender is not expected to retransmit datagrams,
    though it may if it is using a TCP-based protocol or some other
    underlying protocol that requires reliable delivery.  WebTransport
@@ -381,18 +334,6 @@ Internet-Draft                WebTransport                    April 2020
    WebTransport does not impose any other specific restrictions on the
    structure of stream IDs, and they should be treated as opaque 64-bit
    blobs.
-
-
-
-
-
-
-
-
-Vasiliev                 Expires 22 October 2020                [Page 7]
-
-Internet-Draft                WebTransport                    April 2020
-
 
 4.3.  Protocol-Specific Features
 
@@ -443,13 +384,6 @@ Internet-Draft                WebTransport                    April 2020
    requiring knowledge of all protocols.  This allows introducing new
    transports as drop-in replacements for existing ones.
 
-
-
-Vasiliev                 Expires 22 October 2020                [Page 8]
-
-Internet-Draft                WebTransport                    April 2020
-
-
    The following properties are defined in this specification:
 
    *  Stream independence.  This indicates that there is no head of line
@@ -497,15 +431,6 @@ Internet-Draft                WebTransport                    April 2020
    TLS, individual transport protocols MAY expose TLS-based
    authentication capabilities such as client certificates.
 
-
-
-
-
-Vasiliev                 Expires 22 October 2020                [Page 9]
-
-Internet-Draft                WebTransport                    April 2020
-
-
 8.  IANA Considerations
 
    There are no requests to IANA in this document.
@@ -538,56 +463,50 @@ Internet-Draft                WebTransport                    April 2020
 
 9.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", April 2020,
+   [CSP]      W3C, "Content Security Policy Level 3", February 2021,
               <https://www.w3.org/TR/CSP/>.
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
-              quic-http-27, 21 February 2020, <http://www.ietf.org/
-              internet-drafts/draft-ietf-quic-http-27.txt>.
+              quic-http-34, 2 February 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-quic-http-
+              34.txt>.
 
    [I-D.ietf-quic-recovery]
               Iyengar, J. and I. Swett, "QUIC Loss Detection and
               Congestion Control", Work in Progress, Internet-Draft,
-              draft-ietf-quic-recovery-27, 9 March 2020,
-              <http://www.ietf.org/internet-drafts/draft-ietf-quic-
-              recovery-27.txt>.
-
-
-
-
-Vasiliev                 Expires 22 October 2020               [Page 10]
-
-Internet-Draft                WebTransport                    April 2020
-
+              draft-ietf-quic-recovery-34, 14 January 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-quic-recovery-
+              34.txt>.
 
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
               and Secure Transport", Work in Progress, Internet-Draft,
-              draft-ietf-quic-transport-27, 21 February 2020,
-              <http://www.ietf.org/internet-drafts/draft-ietf-quic-
-              transport-27.txt>.
+              draft-ietf-quic-transport-34, 14 January 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-quic-
+              transport-34.txt>.
 
    [I-D.ietf-rtcweb-data-channel]
               Jesup, R., Loreto, S., and M. Tuexen, "WebRTC Data
               Channels", Work in Progress, Internet-Draft, draft-ietf-
               rtcweb-data-channel-13, 4 January 2015,
-              <http://www.ietf.org/internet-drafts/draft-ietf-rtcweb-
-              data-channel-13.txt>.
+              <https://www.ietf.org/archive/id/draft-ietf-rtcweb-data-
+              channel-13.txt>.
 
    [I-D.ietf-tls-dtls13]
               Rescorla, E., Tschofenig, H., and N. Modadugu, "The
               Datagram Transport Layer Security (DTLS) Protocol Version
               1.3", Work in Progress, Internet-Draft, draft-ietf-tls-
-              dtls13-37, 9 March 2020, <http://www.ietf.org/internet-
-              drafts/draft-ietf-tls-dtls13-37.txt>.
+              dtls13-41, 7 February 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-tls-
+              dtls13-41.txt>.
 
    [I-D.pauly-quic-datagram]
               Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", Work in Progress, Internet-
               Draft, draft-pauly-quic-datagram-05, 4 November 2019,
-              <http://www.ietf.org/internet-drafts/draft-pauly-quic-
+              <https://www.ietf.org/archive/id/draft-pauly-quic-
               datagram-05.txt>.
 
    [RFC0896]  Nagle, J., "Congestion Control in IP/TCP Internetworks",
@@ -611,62 +530,9 @@ Internet-Draft                WebTransport                    April 2020
               RFC 8441, DOI 10.17487/RFC8441, September 2018,
               <https://www.rfc-editor.org/info/rfc8441>.
 
-
-
-Vasiliev                 Expires 22 October 2020               [Page 11]
-
-Internet-Draft                WebTransport                    April 2020
-
-
 Author's Address
 
    Victor Vasiliev
    Google
 
    Email: vasilvv@google.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Vasiliev                 Expires 22 October 2020               [Page 12]

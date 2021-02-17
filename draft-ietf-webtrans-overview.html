@@ -16,9 +16,27 @@ interchangeably.
 WebTransport, as well as the common features of the protocols, support for some
 of which may be optional. 
     " name="description">
-<meta content="xml2rfc 2.40.1" name="generator">
+<meta content="xml2rfc 3.5.0" name="generator">
 <meta content="draft-ietf-webtrans-overview-latest" name="ietf.draft">
-<link href="draft-ietf-webtrans-overview.xml" type="application/rfc+xml" rel="alternate">
+<!-- Generator version information:
+  xml2rfc 3.5.0
+    Python 3.8.7
+    appdirs 1.4.4
+    ConfigArgParse 1.2.3
+    google-i18n-address 2.4.0
+    html5lib 1.1
+    intervaltree 3.1.0
+    Jinja2 2.11.2
+    kitchen 1.2.6
+    lxml 4.6.2
+    pycountry 20.7.3
+    pyflakes 2.2.0
+    PyYAML 5.4.1
+    requests 2.25.1
+    setuptools 51.3.3
+    six 1.15.0
+-->
+<link href="draft-ietf-webtrans-overview.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
 
@@ -29,7 +47,23 @@ html {
   --link-color: #2a6496;
   --highlight-color: #f9f9f9;
   --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
+  scrollbar-color: #bbb #eee;
+}
+@media (prefers-color-scheme: dark) {
+html {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
 }
 body {
   max-width: 600px;
@@ -61,11 +95,11 @@ body {
 }
 h1, h2, h3 {
   font-size: 22px;
-  line-height: 26px;
+  line-height: 27px;
 }
 h4, h5, h6 {
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 20px;
+  line-height: 24px;
 }
 
 /* general structure */
@@ -80,9 +114,6 @@ p {
   padding: 0;
   margin: 0.5em 0;
   text-align: left;
-}
-div, span {
-  position: relative;
 }
 div {
   margin: 0;
@@ -141,7 +172,7 @@ svg {
 /* lists */
 ol, ul {
   padding: 0;
-  margin: 0 0 1em 2em;
+  margin: 0 0 0.5em 2em;
 }
 ol ol, ul ul, ol ul, ul ol {
   margin-left: 1em;
@@ -182,6 +213,9 @@ dl > dd > dl {
   margin-top: 0.5em;
   margin-bottom: 0em;
 }
+dd.break {
+  display: none;
+}
 
 /* links */
 a, a[href].selfRef:hover {
@@ -221,6 +255,7 @@ img {
 }
 figure {
   margin: 0.5em 0;
+  padding: 0;
 }
 figure blockquote {
   margin: 0.8em 0.4em 0.4em;
@@ -246,10 +281,6 @@ figcaption, caption {
     vertical-align: text-bottom;
     padding-bottom: 8px;
   }
-  table {
-    display: inline-block;
-    overflow-x: auto;
-  }
 }
 
 /* aside, blockquote */
@@ -272,19 +303,30 @@ cite {
 
 /* tables */
 table {
-  width: 100%;
+  max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
   border: 1px solid var(--line-color);
 }
 th, td {
   text-align: left;
   vertical-align: top;
-  padding: 0.5em 0.75em;
+  padding: 5px 10px;
 }
 th {
-  text-align: left;
-  background-color: #eee;
+  background-color: var(--line-color);
 }
 tr:nth-child(2n) > td {
   background-color: var(--background-color);
@@ -292,37 +334,40 @@ tr:nth-child(2n) > td {
 tr:nth-child(2n+1) > td {
   background-color: var(--highlight-color);
 }
-thead+tbody tr:nth-child(2n) > td {
+thead+tbody > tr:nth-child(2n) > td {
   background-color: var(--highlight-color);
 }
-thead+tbody tr:nth-child(2n+1) > td {
+thead+tbody > tr:nth-child(2n+1) > td {
   background-color: var(--background-color);
 }
 table caption {
   margin: 0;
-  padding: 3px 1em;
-  border-top: 1px solid var(--line-color);
+  padding: 3px 0 3px 1em;
 }
 table p {
-  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
-     be allowed within tables more generally, it would be far better to select on a class. */
   margin: 0;
 }
 
 /* pilcrow */
 a.pilcrow {
   margin-left: 3px;
-  visibility: hidden;
+  opacity: 0.2;
   user-select: none;
 }
-a.pilcrow[href] { color: #ddd; }
+a.pilcrow[href] { color: var(--pilcrow-weak); }
 a.pilcrow[href]:hover { text-decoration: none; }
-@media screen {
+@media not print {
   :hover > a.pilcrow {
-    visibility: visible;
+    opacity: 1;
   }
-  a.pilcrow:hover {
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
     background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
   }
 }
 
@@ -476,14 +521,10 @@ hr.addr {
 }
 @media (min-width: 500px) {
   #authors-addresses > section {
-    display: relative;
-    padding: 32px 0 0;
     column-count: 2;
     column-gap: 20px;
   }
-  #name-authors-addresses {
-    position: absolute;
-    top: 0px;
+  #authors-addresses > section > h2 {
     column-span: all;
   }
   /* hack for break-inside: avoid-column */
@@ -493,21 +534,8 @@ hr.addr {
   }
 }
 
-/* temporary notes */
-.rfcEditorRemove::before {
-  position: absolute;
-  top: 0.2em;
-  right: 0.2em;
-  padding: 0.2em;
-  content: "The RFC Editor will remove this note";
-  color: #b76427;
-  background-color: rgba(249, 232, 105, 0.3);
-}
-.rfcEditorRemove {
-  position: relative;
-  padding-top: 1.8em;
-  background-color: rgba(249, 232, 105, 0.3);
-  border-radius: 3px;
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
 }
 .cref {
   background-color: rgba(249, 232, 105, 0.3);
@@ -780,21 +808,6 @@ address div.right {
   text-align: right;
 }
 
-/* Provide table alignment support.  We can't use the alignX classes above
-   since they do unwanted things with caption and other styling. */
-table.right {
- margin-left: auto;
- margin-right: 0;
-}
-table.center {
- margin-left: auto;
- margin-right: auto;
-}
-table.left {
- margin-left: 0;
- margin-right: auto;
-}
-
 /* Give the table caption label the same styling as the figcaption */
 
 @media print {
@@ -823,18 +836,18 @@ table.left {
   font-size: 0.9em;
 }
 </style>
-<link href="rfc-local.css" type="text/css" rel="stylesheet">
+
 </head>
 <body>
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">WebTransport</td>
-<td class="right">April 2020</td>
+<td class="right">February 2021</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Vasiliev</td>
-<td class="center">Expires 22 October 2020</td>
+<td class="center">Expires 21 August 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -847,12 +860,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-webtrans-overview-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-04-20" class="published">20 April 2020</time>
+<time datetime="2021-02-17" class="published">17 February 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-10-22">22 October 2020</time></dd>
+<dd class="expires"><time datetime="2021-08-21">21 August 2021</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -905,7 +918,7 @@ The web API draft corresponding to this document can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 October 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 August 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -914,7 +927,7 @@ The web API draft corresponding to this document can be found at
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2020 IETF Trust and the persons identified as the
+            Copyright (c) 2021 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -933,68 +946,68 @@ The web API draft corresponding to this document can be found at
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="toc ulEmpty">
-<li class="toc ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty">
-<li class="toc ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-background" class="xref">Background</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
+<nav class="toc"><ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-background" class="xref">Background</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-conventions-and-definitions" class="xref">Conventions and Definitions</a><a href="#section-toc.1-1.1.2.2.1" class="pilcrow">¶</a></p>
+              <li class="compact ulEmpty toc" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-conventions-and-definitions" class="xref">Conventions and Definitions</a><a href="#section-toc.1-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-</ul>
+            </ul>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.2">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-common-transport-requiremen" class="xref">Common Transport Requirements</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.3">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-session-establishment" class="xref">Session Establishment</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.4">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-transport-features" class="xref">Transport Features</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty">
-<li class="toc ulEmpty" id="section-toc.1-1.4.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.4.2.1">
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-datagrams" class="xref">Datagrams</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.4.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.2">
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-streams" class="xref">Streams</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.4.2.3">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.3">
                 <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-protocol-specific-features" class="xref">Protocol-Specific Features</a><a href="#section-toc.1-1.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.4.2.4">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.4.2.4">
                 <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-bandwidth-prediction" class="xref">Bandwidth Prediction</a><a href="#section-toc.1-1.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
-</ul>
+            </ul>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.5">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-buffering-and-prioritizatio" class="xref">Buffering and Prioritization</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.6">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-transport-properties" class="xref">Transport Properties</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.7">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.8">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.9">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty">
-<li class="toc ulEmpty" id="section-toc.1-1.9.2.1">
+<ul class="compact ulEmpty toc">
+<li class="compact ulEmpty toc" id="section-toc.1-1.9.2.1">
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.9.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.9.2.2">
+              <li class="compact ulEmpty toc" id="section-toc.1-1.9.2.2">
                 <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.9.2.2.1" class="pilcrow">¶</a></p>
 </li>
-</ul>
+            </ul>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.10">
+          <li class="compact ulEmpty toc" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
-</ul>
+        </ul>
 </nav>
 </section>
 </div>
@@ -1037,16 +1050,16 @@ over HTTP/2 <span>[<a href="#RFC8441" class="xref">RFC8441</a>]</span>.  That wo
 an ability to cancel a stream by closing the corresponding WebSocket object.
 However, this approach has a number of drawbacks, which all stem primarily from
 the fact that semantically each WebSocket is a completely independent entity:<a href="#section-1.1-3" class="pilcrow">¶</a></p>
-<ul>
-<li id="section-1.1-4.1">Each new stream would require a WebSocket handshake to agree on application
+<ul class="normal">
+<li class="normal" id="section-1.1-4.1">Each new stream would require a WebSocket handshake to agree on application
 protocol used, meaning that it would take at least one RTT to establish each
 new stream before the client can write to it.<a href="#section-1.1-4.1" class="pilcrow">¶</a>
 </li>
-<li id="section-1.1-4.2">Only clients can initiate streams.  Server-initiated streams and other
+          <li class="normal" id="section-1.1-4.2">Only clients can initiate streams.  Server-initiated streams and other
 alternative modes of communication (such as the QUIC DATAGRAM frame
 <span>[<a href="#I-D.pauly-quic-datagram" class="xref">I-D.pauly-quic-datagram</a>]</span>) are not available.<a href="#section-1.1-4.2" class="pilcrow">¶</a>
 </li>
-<li id="section-1.1-4.3">While the streams would normally be pooled by the user agent, this is not
+          <li class="normal" id="section-1.1-4.3">While the streams would normally be pooled by the user agent, this is not
 guaranteed, and the general process of mapping a WebSocket to a server is
 opaque to the client.  This introduces unpredictable performance properties
 into the system, and prevents optimizations which rely on the streams being on
@@ -1054,7 +1067,7 @@ the same connection (for instance, it might be possible for the client to
 request different retransmission priorities for different streams, but that
 would be much more complex unless they are all on the same connection).<a href="#section-1.1-4.3" class="pilcrow">¶</a>
 </li>
-</ul>
+        </ul>
 <p id="section-1.1-5">The WebTransport protocol framework avoids all of those issues by letting
 applications create a single transport object that can contain multiple streams
 multiplexed together in a single context (similar to SCTP, HTTP/2, QUIC and
@@ -1073,68 +1086,86 @@ when, and only when, they appear in all capitals, as shown here.<a href="#sectio
 <p id="section-1.2-2">WebTransport is a framework that aims to abstract away the underlying transport
 protocol while still exposing a few key transport-layer aspects to application
 developers.  It is structured around the following concepts:<a href="#section-1.2-2" class="pilcrow">¶</a></p>
-<dl class="dlParallel" id="section-1.2-3">
-          <dt id="section-1.2-3.1">Transport session:</dt>
-<dd id="section-1.2-3.2">
-  A transport session is a single communication context established between a
+<span class="break"></span><dl class="dlParallel" id="section-1.2-3">
+          <dt id="section-1.2-3.1">
+Transport session:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.2">
+            <p id="section-1.2-3.2.1">A transport session is a single communication context established between a
 client and a server.  It may correspond to a specific transport-layer
 connection, or it may be a logical entity within an existing multiplexed
 transport-layer connection.  Transport sessions are logically independent
 from one another even if some sessions can share an underlying
-transport-layer connection.<a href="#section-1.2-3.2" class="pilcrow">¶</a>
+transport-layer connection.<a href="#section-1.2-3.2.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.3">Transport protocol:</dt>
-<dd id="section-1.2-3.4">
-  A transport protocol (WebTransport protocol in contexts where this might be
+          <dd class="break"></dd>
+<dt id="section-1.2-3.3">
+Transport protocol:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.4">
+            <p id="section-1.2-3.4.1">A transport protocol (WebTransport protocol in contexts where this might be
 ambiguous) is an instantiation of WebTransport over a given transport-layer
-protocol.<a href="#section-1.2-3.4" class="pilcrow">¶</a>
+protocol.<a href="#section-1.2-3.4.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.5">Datagram:</dt>
-<dd id="section-1.2-3.6">
-  A datagram is a unit of transmission that is treated atomically.<a href="#section-1.2-3.6" class="pilcrow">¶</a>
+          <dd class="break"></dd>
+<dt id="section-1.2-3.5">
+Datagram:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.6">
+            <p id="section-1.2-3.6.1">A datagram is a unit of transmission that is treated atomically.<a href="#section-1.2-3.6.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.7">Stream:</dt>
-<dd id="section-1.2-3.8">
-  A stream is a sequence of bytes that is reliably delivered to the receiving
+          <dd class="break"></dd>
+<dt id="section-1.2-3.7">
+Stream:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.8">
+            <p id="section-1.2-3.8.1">A stream is a sequence of bytes that is reliably delivered to the receiving
 application in the same order as it was transmitted by the sender.  Streams
 can be of arbitrary length, and therefore cannot always be buffered entirely
 in memory. It is expected for transport protocols and APIs to provide partial
-stream data to the application before the stream has been entirely received.<a href="#section-1.2-3.8" class="pilcrow">¶</a>
+stream data to the application before the stream has been entirely received.<a href="#section-1.2-3.8.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.9">Message:</dt>
-<dd id="section-1.2-3.10">
-  A message is a stream that is sufficiently small that it can be fully buffered
+          <dd class="break"></dd>
+<dt id="section-1.2-3.9">
+Message:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.10">
+            <p id="section-1.2-3.10.1">A message is a stream that is sufficiently small that it can be fully buffered
 before being passed to the application.  WebTransport does not define messages
 as a primitive, since from the transport perspective they can be simulated
 by fully buffering a stream before passing it to the application.  However,
 this distinction is important to highlight since some of the similar protocols
-and APIs (notably WebSocket <span>[<a href="#RFC6455" class="xref">RFC6455</a>]</span>) use messages as a core abstraction.<a href="#section-1.2-3.10" class="pilcrow">¶</a>
+and APIs (notably WebSocket <span>[<a href="#RFC6455" class="xref">RFC6455</a>]</span>) use messages as a core abstraction.<a href="#section-1.2-3.10.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.11">Transport property:</dt>
-<dd id="section-1.2-3.12">
-  A transport property is a specific behavior that may or may not be exhibited
+          <dd class="break"></dd>
+<dt id="section-1.2-3.11">
+Transport property:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.12">
+            <p id="section-1.2-3.12.1">A transport property is a specific behavior that may or may not be exhibited
 by a transport.  Some of those are inherent for all instances of a given
 transport protocol (TCP-based transport cannot support unreliable delivery),
 while others can vary even within the same protocol (QUIC connections may or
-may not support connection migration).<a href="#section-1.2-3.12" class="pilcrow">¶</a>
+may not support connection migration).<a href="#section-1.2-3.12.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.13">Server:</dt>
-<dd id="section-1.2-3.14">
-  A WebTransport server is an application that accepts incoming transport
-sessions.<a href="#section-1.2-3.14" class="pilcrow">¶</a>
+          <dd class="break"></dd>
+<dt id="section-1.2-3.13">
+Server:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.14">
+            <p id="section-1.2-3.14.1">A WebTransport server is an application that accepts incoming transport
+sessions.<a href="#section-1.2-3.14.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.15">Client:</dt>
-<dd id="section-1.2-3.16">
-  A WebTransport client is an application that initiates the transport
+          <dd class="break"></dd>
+<dt id="section-1.2-3.15">
+Client:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.16">
+            <p id="section-1.2-3.16.1">A WebTransport client is an application that initiates the transport
 session and may be running in a constrained security context, for instance,
-a JavaScript application running inside a browser.<a href="#section-1.2-3.16" class="pilcrow">¶</a>
+a JavaScript application running inside a browser.<a href="#section-1.2-3.16.1" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-1.2-3.17">User agent:</dt>
-<dd id="section-1.2-3.18">
-  A WebTransport user agent is a software system that has an unrestricted
+          <dd class="break"></dd>
+<dt id="section-1.2-3.17">
+User agent:  </dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.18">
+            <p id="section-1.2-3.18.1">A WebTransport user agent is a software system that has an unrestricted
 access to the host network stack and can create transports on behalf
-of the client.<a href="#section-1.2-3.18" class="pilcrow">¶</a>
+of the client.<a href="#section-1.2-3.18.1" class="pilcrow">¶</a></p>
 </dd>
+        <dd class="break"></dd>
 </dl>
 </section>
 </div>
@@ -1290,14 +1321,14 @@ SHOULD provide the client with an estimate of the available bandwidth.<a href="#
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-buffering-and-prioritizatio" class="section-name selfRef">Buffering and Prioritization</a>
       </h2>
 <p id="section-5-1">TODO: expand this outline into a full summary.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<ul>
-<li id="section-5-2.1">Datagrams are intended for low-latency communications, so the buffers for them
+<ul class="normal">
+<li class="normal" id="section-5-2.1">Datagrams are intended for low-latency communications, so the buffers for them
 should be small, and prioritized over stream data.<a href="#section-5-2.1" class="pilcrow">¶</a>
 </li>
-<li id="section-5-2.2">In general, the transport should not apply aggregation algorithms (e.g.,
+        <li class="normal" id="section-5-2.2">In general, the transport should not apply aggregation algorithms (e.g.,
 Nagle's algorithm <span>[<a href="#RFC0896" class="xref">RFC0896</a>]</span>) to datagrams.<a href="#section-5-2.2" class="pilcrow">¶</a>
 </li>
-</ul>
+      </ul>
 </section>
 </div>
 <div id="transport-properties">
@@ -1311,22 +1342,22 @@ the presence of features it can use without requiring knowledge of all
 protocols.  This allows introducing new transports as drop-in replacements
 for existing ones.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">The following properties are defined in this specification:<a href="#section-6-2" class="pilcrow">¶</a></p>
-<ul>
-<li id="section-6-3.1">Stream independence.  This indicates that there is no head of line blocking
+<ul class="normal">
+<li class="normal" id="section-6-3.1">Stream independence.  This indicates that there is no head of line blocking
 between different streams.<a href="#section-6-3.1" class="pilcrow">¶</a>
 </li>
-<li id="section-6-3.2">Partial reliability.  This indicates that if a stream is reset, none of the
+        <li class="normal" id="section-6-3.2">Partial reliability.  This indicates that if a stream is reset, none of the
 data sent on it will be retransmitted.  This also indicates that datagrams
 will not be retransmitted.<a href="#section-6-3.2" class="pilcrow">¶</a>
 </li>
-<li id="section-6-3.3">Pooling support.  Indicates that multiple transports using this transport
+        <li class="normal" id="section-6-3.3">Pooling support.  Indicates that multiple transports using this transport
 protocol may end up sharing the same transport layer connection, and thus
 share a congestion controller and other contexts.<a href="#section-6-3.3" class="pilcrow">¶</a>
 </li>
-<li id="section-6-3.4">Connection mobility.  Indicates that the transport may continue existing even
+        <li class="normal" id="section-6-3.4">Connection mobility.  Indicates that the transport may continue existing even
 if the network path between the client and the server changes.<a href="#section-6-3.4" class="pilcrow">¶</a>
 </li>
-</ul>
+      </ul>
 </section>
 </div>
 <div id="security-considerations">
@@ -1375,20 +1406,25 @@ client certificates.<a href="#section-7-4" class="pilcrow">¶</a></p>
         </h3>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
-<dd>
-<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC3986">[RFC3986]</dt>
-<dd>
-<span class="refAuthor">Berners-Lee, T.</span><span class="refAuthor">, Fielding, R.</span><span class="refAuthor">, and L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3986">https://www.rfc-editor.org/info/rfc3986</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span><span class="refAuthor">, Fielding, R.</span><span class="refAuthor">, and L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3986">https://www.rfc-editor.org/info/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6454">[RFC6454]</dt>
-<dd>
-<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6454">https://www.rfc-editor.org/info/rfc6454</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6454">https://www.rfc-editor.org/info/rfc6454</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-<dd>
-<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8446">[RFC8446]</dt>
-<dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8446">https://www.rfc-editor.org/info/rfc8446</a>&gt;</span>. </dd>
+      <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8446">https://www.rfc-editor.org/info/rfc8446</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 </dl>
 </section>
 <section id="section-9.2">
@@ -1397,41 +1433,53 @@ client certificates.<a href="#section-7-4" class="pilcrow">¶</a></p>
         </h3>
 <dl class="references">
 <dt id="CSP">[CSP]</dt>
-<dd>
-<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2020-04">April 2020</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-quic-http">[I-D.ietf-quic-http]</dt>
-<dd>
-<span class="refAuthor">Bishop, M.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-27</span>, <time datetime="2020-02-21">21 February 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-http-27.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-http-27.txt</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Bishop, M.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-34</span>, <time datetime="2021-02-02" class="refDate">2 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-quic-http-34.txt">https://www.ietf.org/archive/id/draft-ietf-quic-http-34.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-quic-recovery">[I-D.ietf-quic-recovery]</dt>
-<dd>
-<span class="refAuthor">Iyengar, J.</span><span class="refAuthor"> and I. Swett</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-27</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-recovery-27.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-recovery-27.txt</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Iyengar, J.</span><span class="refAuthor"> and I. Swett</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-34</span>, <time datetime="2021-01-14" class="refDate">14 January 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-quic-recovery-34.txt">https://www.ietf.org/archive/id/draft-ietf-quic-recovery-34.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-quic-transport">[I-D.ietf-quic-transport]</dt>
-<dd>
-<span class="refAuthor">Iyengar, J.</span><span class="refAuthor"> and M. Thomson</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-27</span>, <time datetime="2020-02-21">21 February 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-transport-27.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-transport-27.txt</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Iyengar, J.</span><span class="refAuthor"> and M. Thomson</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-34</span>, <time datetime="2021-01-14" class="refDate">14 January 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-quic-transport-34.txt">https://www.ietf.org/archive/id/draft-ietf-quic-transport-34.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-rtcweb-data-channel">[I-D.ietf-rtcweb-data-channel]</dt>
-<dd>
-<span class="refAuthor">Jesup, R.</span><span class="refAuthor">, Loreto, S.</span><span class="refAuthor">, and M. Tuexen</span>, <span class="refTitle">"WebRTC Data Channels"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rtcweb-data-channel-13</span>, <time datetime="2015-01-04">4 January 2015</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-rtcweb-data-channel-13.txt">http://www.ietf.org/internet-drafts/draft-ietf-rtcweb-data-channel-13.txt</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Jesup, R.</span><span class="refAuthor">, Loreto, S.</span><span class="refAuthor">, and M. Tuexen</span>, <span class="refTitle">"WebRTC Data Channels"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rtcweb-data-channel-13</span>, <time datetime="2015-01-04" class="refDate">4 January 2015</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-rtcweb-data-channel-13.txt">https://www.ietf.org/archive/id/draft-ietf-rtcweb-data-channel-13.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-tls-dtls13">[I-D.ietf-tls-dtls13]</dt>
-<dd>
-<span class="refAuthor">Rescorla, E.</span><span class="refAuthor">, Tschofenig, H.</span><span class="refAuthor">, and N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-dtls13-37</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tls-dtls13-37.txt">http://www.ietf.org/internet-drafts/draft-ietf-tls-dtls13-37.txt</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Rescorla, E.</span><span class="refAuthor">, Tschofenig, H.</span><span class="refAuthor">, and N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tls-dtls13-41</span>, <time datetime="2021-02-07" class="refDate">7 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-tls-dtls13-41.txt">https://www.ietf.org/archive/id/draft-ietf-tls-dtls13-41.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.pauly-quic-datagram">[I-D.pauly-quic-datagram]</dt>
-<dd>
-<span class="refAuthor">Pauly, T.</span><span class="refAuthor">, Kinnear, E.</span><span class="refAuthor">, and D. Schinazi</span>, <span class="refTitle">"An Unreliable Datagram Extension to QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-pauly-quic-datagram-05</span>, <time datetime="2019-11-04">4 November 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-pauly-quic-datagram-05.txt">http://www.ietf.org/internet-drafts/draft-pauly-quic-datagram-05.txt</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Pauly, T.</span><span class="refAuthor">, Kinnear, E.</span><span class="refAuthor">, and D. Schinazi</span>, <span class="refTitle">"An Unreliable Datagram Extension to QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-pauly-quic-datagram-05</span>, <time datetime="2019-11-04" class="refDate">4 November 2019</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-pauly-quic-datagram-05.txt">https://www.ietf.org/archive/id/draft-pauly-quic-datagram-05.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC0896">[RFC0896]</dt>
-<dd>
-<span class="refAuthor">Nagle, J.</span>, <span class="refTitle">"Congestion Control in IP/TCP Internetworks"</span>, <span class="seriesInfo">RFC 896</span>, <span class="seriesInfo">DOI 10.17487/RFC0896</span>, <time datetime="1984-01">January 1984</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc896">https://www.rfc-editor.org/info/rfc896</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Nagle, J.</span>, <span class="refTitle">"Congestion Control in IP/TCP Internetworks"</span>, <span class="seriesInfo">RFC 896</span>, <span class="seriesInfo">DOI 10.17487/RFC0896</span>, <time datetime="1984-01" class="refDate">January 1984</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc896">https://www.rfc-editor.org/info/rfc896</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5681">[RFC5681]</dt>
-<dd>
-<span class="refAuthor">Allman, M.</span><span class="refAuthor">, Paxson, V.</span><span class="refAuthor">, and E. Blanton</span>, <span class="refTitle">"TCP Congestion Control"</span>, <span class="seriesInfo">RFC 5681</span>, <span class="seriesInfo">DOI 10.17487/RFC5681</span>, <time datetime="2009-09">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5681">https://www.rfc-editor.org/info/rfc5681</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Allman, M.</span><span class="refAuthor">, Paxson, V.</span><span class="refAuthor">, and E. Blanton</span>, <span class="refTitle">"TCP Congestion Control"</span>, <span class="seriesInfo">RFC 5681</span>, <span class="seriesInfo">DOI 10.17487/RFC5681</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5681">https://www.rfc-editor.org/info/rfc5681</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6455">[RFC6455]</dt>
-<dd>
-<span class="refAuthor">Fette, I.</span><span class="refAuthor"> and A. Melnikov</span>, <span class="refTitle">"The WebSocket Protocol"</span>, <span class="seriesInfo">RFC 6455</span>, <span class="seriesInfo">DOI 10.17487/RFC6455</span>, <time datetime="2011-12">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6455">https://www.rfc-editor.org/info/rfc6455</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Fette, I.</span><span class="refAuthor"> and A. Melnikov</span>, <span class="refTitle">"The WebSocket Protocol"</span>, <span class="seriesInfo">RFC 6455</span>, <span class="seriesInfo">DOI 10.17487/RFC6455</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6455">https://www.rfc-editor.org/info/rfc6455</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7675">[RFC7675]</dt>
-<dd>
-<span class="refAuthor">Perumal, M.</span><span class="refAuthor">, Wing, D.</span><span class="refAuthor">, Ravindranath, R.</span><span class="refAuthor">, Reddy, T.</span><span class="refAuthor">, and M. Thomson</span>, <span class="refTitle">"Session Traversal Utilities for NAT (STUN) Usage for Consent Freshness"</span>, <span class="seriesInfo">RFC 7675</span>, <span class="seriesInfo">DOI 10.17487/RFC7675</span>, <time datetime="2015-10">October 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7675">https://www.rfc-editor.org/info/rfc7675</a>&gt;</span>. </dd>
+        <dd>
+<span class="refAuthor">Perumal, M.</span><span class="refAuthor">, Wing, D.</span><span class="refAuthor">, Ravindranath, R.</span><span class="refAuthor">, Reddy, T.</span><span class="refAuthor">, and M. Thomson</span>, <span class="refTitle">"Session Traversal Utilities for NAT (STUN) Usage for Consent Freshness"</span>, <span class="seriesInfo">RFC 7675</span>, <span class="seriesInfo">DOI 10.17487/RFC7675</span>, <time datetime="2015-10" class="refDate">October 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7675">https://www.rfc-editor.org/info/rfc7675</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8441">[RFC8441]</dt>
-<dd>
-<span class="refAuthor">McManus, P.</span>, <span class="refTitle">"Bootstrapping WebSockets with HTTP/2"</span>, <span class="seriesInfo">RFC 8441</span>, <span class="seriesInfo">DOI 10.17487/RFC8441</span>, <time datetime="2018-09">September 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8441">https://www.rfc-editor.org/info/rfc8441</a>&gt;</span>. </dd>
+      <dd>
+<span class="refAuthor">McManus, P.</span>, <span class="refTitle">"Bootstrapping WebSockets with HTTP/2"</span>, <span class="seriesInfo">RFC 8441</span>, <span class="seriesInfo">DOI 10.17487/RFC8441</span>, <time datetime="2018-09" class="refDate">September 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8441">https://www.rfc-editor.org/info/rfc8441</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 </dl>
 </section>
 </section>
