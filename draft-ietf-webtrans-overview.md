@@ -76,12 +76,12 @@ needed.  This makes it a poor fit for latency-sensitive applications which rely
 on partial reliability and stream independence for performance.
 
 One existing option available to Web developers are WebRTC data channels
-{{?I-D.ietf-rtcweb-data-channel}}, which provide a WebSocket-like API for a
-peer-to-peer SCTP channel protected by DTLS.  In theory, it is possible to use
-it for the use cases addressed by this specification. However, in practice, its
-use in non-browser-to-browser settings has been quite low due to its dependency
-on ICE (which fits poorly with the Web model) and userspace SCTP (which has very
-few implementations available).
+{{?RFC8831}}, which provide a WebSocket-like API for a peer-to-peer SCTP
+channel protected by DTLS.  In theory, it is possible to use it for the use
+cases addressed by this specification. However, in practice, its use in
+non-browser-to-browser settings has been quite low due to its dependency on ICE
+(which fits poorly with the Web model) and userspace SCTP (which has very few
+implementations available).
 
 An alternative design would be to layer WebSockets over HTTP/3
 {{?I-D.ietf-quic-http}} in a manner similar to how they are currently layered
@@ -95,7 +95,7 @@ the fact that semantically each WebSocket is a completely independent entity:
   new stream before the client can write to it.
 * Only clients can initiate streams.  Server-initiated streams and other
   alternative modes of communication (such as the QUIC DATAGRAM frame
-  {{?I-D.pauly-quic-datagram}}) are not available.
+  {{?I-D.ietf-quic-datagram}}) are not available.
 * While the streams would normally be pooled by the user agent, this is not
   guaranteed, and the general process of mapping a WebSocket to a server is
   opaque to the client.  This introduces unpredictable performance properties
@@ -199,7 +199,7 @@ the mechanism satisfying this requirement.
 
 Any WebTransport protocol MUST limit the rate at which the client sends data.
 This SHOULD be accomplished via a feedback-based congestion control mechanism
-(such as {{?RFC5681}} or {{?I-D.ietf-quic-recovery}}).
+(such as {{?RFC5681}} or {{?RFC9002}}).
 
 Any WebTransport protocol MUST support simultaneously establishing multiple
 sessions between the same client and server.
@@ -266,7 +266,7 @@ allows both endpoints to send data and can be conceptually represented as a pair
 of unidirectional streams.
 
 The streams are in general expected to follow the semantics and the state
-machine of QUIC streams ({{?I-D.ietf-quic-transport}}, Sections 2 and 3).
+machine of QUIC streams ({{?RFC9000}}, Sections 2 and 3).
 TODO: describe the stream state machine explicitly.
 
 A WebTransport stream can be reset, indicating that the endpoint is not
