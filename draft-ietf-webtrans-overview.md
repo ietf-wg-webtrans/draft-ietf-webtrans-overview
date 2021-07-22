@@ -120,20 +120,19 @@ WebTransport is a framework that aims to abstract away the underlying transport
 protocol while still exposing a few key transport-layer aspects to application
 developers.  It is structured around the following concepts:
 
-Transport session:
+WebTransport session:
 
-: A transport session is a single communication context established between a
+: A WebTransport session is a single communication context established between a
   client and a server.  It may correspond to a specific transport-layer
   connection, or it may be a logical entity within an existing multiplexed
   transport-layer connection.  Transport sessions are logically independent
   from one another even if some sessions can share an underlying
   transport-layer connection.
 
-Transport protocol:
+WebTransport protocol:
 
-:  A transport protocol (WebTransport protocol in contexts where this might be
-   ambiguous) is an instantiation of WebTransport over a given transport-layer
-   protocol.
+:  A WebTransport protocol is a specific protocol that can be used to establish
+   a WebTransport session.
 
 Datagram:
 
@@ -144,7 +143,7 @@ Stream:
 : A stream is a sequence of bytes that is reliably delivered to the receiving
   application in the same order as it was transmitted by the sender.  Streams
   can be of arbitrary length, and therefore cannot always be buffered entirely
-  in memory. It is expected for transport protocols and APIs to provide partial
+  in memory. WebTransport protocols and APIs are expected to provide partial
   stream data to the application before the stream has been entirely received.
 
 Message:
@@ -159,14 +158,14 @@ Message:
 Transport property:
 
 : A transport property is a specific behavior that may or may not be exhibited
-  by a transport.  Some of those are inherent for all instances of a given
-  transport protocol (TCP-based transport cannot support unreliable delivery),
-  while others can vary even within the same protocol (QUIC connections may or
-  may not support connection migration).
+  by a WebTransport protocol.  Some of those are inherent for all instances of
+  a given transport protocol (TCP-based transport cannot support unreliable
+  delivery), while others can vary even within the same protocol (QUIC
+  connections may or may not support connection migration).
 
 Server:
 
-: A WebTransport server is an application that accepts incoming transport
+: A WebTransport server is an application that accepts incoming WebTransport
   sessions.
 
 Client:
@@ -185,33 +184,33 @@ User agent:
 
 Since clients are not necessarily trusted and have to be constrained by the
 Web security model, WebTransport imposes certain requirements on any specific
-transport protocol used.
+protocol used.
 
-Any transport protocol used MUST use TLS {{!RFC8446}} or a semantically
+Any WebTransport protocol MUST use TLS {{!RFC8446}} or a semantically
 equivalent security protocol (for instance, DTLS {{?I-D.ietf-tls-dtls13}}).
 The protocols SHOULD use TLS version 1.3 or later, unless they aim for
 backwards compatibility with legacy systems.
 
-Any transport protocol used MUST require the user agent to obtain and maintain
+Any WebTransport protocol MUST require the user agent to obtain and maintain
 explicit consent from the server to send data.  For connection-oriented
 protocols (such as TCP or QUIC), the connection establishment and keep-alive
 mechanisms suffice.  STUN Consent Freshness {{?RFC7675}} is another example of
 the mechanism satisfying this requirement.
 
-Any transport protocol used MUST limit the rate at which the client sends data.
+Any WebTransport protocol MUST limit the rate at which the client sends data.
 This SHOULD be accomplished via a feedback-based congestion control mechanism
 (such as {{?RFC5681}} or {{?I-D.ietf-quic-recovery}}).
 
-Any transport protocol used MUST support simultaneously establishing multiple
+Any WebTransport protocol MUST support simultaneously establishing multiple
 sessions between the same client and server.
 
-Any transport protocol used MUST prevent the clients from establishing transport
+Any WebTransport protocol MUST prevent the clients from establishing transport
 sessions to network endpoints that are not WebTransport servers.
 
-Any transport protocol used MUST provide a way for servers to filter clients
+Any WebTransport protocol MUST provide a way for servers to filter clients
 that can access it by checking the initiating origin {{!RFC6454}}.
 
-Any transport protocol used MUST provide a way for a server endpoint location to
+Any WebTransport protocol MUST provide a way for a server endpoint location to
 be described using a URI {{!RFC3986}}.  This enables integration with various
 Web platform features that represent resources as URIs, such as Content Security
 Policy [CSP].
@@ -226,7 +225,7 @@ instance, in protocols creating a new TLS 1.3 session {{!RFC8446}}, this would
 mean that the user agent MUST NOT treat the session as established until it
 received a Finished message from the server.
 
-In some cases, the transport protocol might allow transmitting data before the
+In some cases, a WebTransport protocol might allow transmitting data before the
 session is established; an example is TLS 0-RTT data.  Since this data can be
 replayed by attackers, it MUST NOT be used unless the client has explicitly
 requested 0-RTT for specific streams or datagrams it knows to be safely
