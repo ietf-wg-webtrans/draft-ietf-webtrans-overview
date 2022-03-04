@@ -83,12 +83,13 @@ non-browser-to-browser settings has been quite low due to its dependency on ICE
 (which fits poorly with the Web model) and userspace SCTP (which has very few
 implementations available).
 
-An alternative design would be to layer WebSockets over HTTP/3
-{{?I-D.ietf-quic-http}} in a manner similar to how they are currently layered
-over HTTP/2 {{?RFC8441}}.  That would avoid head-of-line blocking and provide
-an ability to cancel a stream by closing the corresponding WebSocket object.
-However, this approach has a number of drawbacks, which all stem primarily from
-the fact that semantically each WebSocket is a completely independent entity:
+An alternative design would be to open multiple WebSocket connections over
+HTTP/3 {{?I-D.ietf-httpbis-h3-websockets}} in a manner similar to how they are
+currently layered over HTTP/2 {{?RFC8441}}.  That would avoid head-of-line
+blocking and provide an ability to cancel a stream by closing the corresponding
+WebSocket object.  However, this approach has a number of drawbacks, which all
+stem primarily from the fact that semantically each WebSocket is a completely
+independent entity:
 
 * Each new stream would require a WebSocket handshake to agree on application
   protocol used, meaning that it would take at least one RTT to establish each
@@ -155,14 +156,6 @@ Message:
   this distinction is important to highlight since some of the similar protocols
   and APIs (notably WebSocket {{?RFC6455}}) use messages as a core abstraction.
 
-Transport property:
-
-: A transport property is a specific behavior that may or may not be exhibited
-  by a WebTransport protocol.  Some of those are inherent for all instances of
-  a given transport protocol (TCP-based transport cannot support unreliable
-  delivery), while others can vary even within the same protocol (QUIC
-  connections may or may not support connection migration).
-
 Server:
 
 : A WebTransport server is an application that accepts incoming WebTransport
@@ -186,60 +179,48 @@ Since clients are not necessarily trusted and have to be constrained by the
 Web security model, WebTransport imposes certain requirements on any specific
 protocol used.
 
-Any WebTransport protocol MUST use TLS {{!RFC8446}} or a semantically
+All WebTransport protocols MUST use TLS {{!RFC8446}} or a semantically
 equivalent security protocol (for instance, DTLS {{?I-D.ietf-tls-dtls13}}).
 The protocols SHOULD use TLS version 1.3 or later, unless they aim for
 backwards compatibility with legacy systems.
 
-Any WebTransport protocol MUST require the user agent to obtain and maintain
+All WebTransport protocols MUST require the user agent to obtain and maintain
 explicit consent from the server to send data.  For connection-oriented
 protocols (such as TCP or QUIC), the connection establishment and keep-alive
 mechanisms suffice.  STUN Consent Freshness {{?RFC7675}} is another example of
-the mechanism satisfying this requirement.
+a mechanism satisfying this requirement.
 
-Any WebTransport protocol MUST limit the rate at which the client sends data.
+All WebTransport protocols MUST limit the rate at which the client sends data.
 This SHOULD be accomplished via a feedback-based congestion control mechanism
 (such as {{?RFC5681}} or {{?RFC9002}}).
 
-Any WebTransport protocol MUST support simultaneously establishing multiple
+All WebTransport protocols MUST support simultaneously establishing multiple
 sessions between the same client and server.
 
-Any WebTransport protocol MUST prevent the clients from establishing transport
+All WebTransport protocols MUST prevent clients from establishing transport
 sessions to network endpoints that are not WebTransport servers.
 
-Any WebTransport protocol MUST provide a way for servers to filter clients
-that can access it by checking the initiating origin {{!RFC6454}}.
+All WebTransport protocols MUST provide a way for the user agent to indicate
+the origin {{!RFC6454}} of the client to the server.
 
-Any WebTransport protocol MUST provide a way for a server endpoint location to
+All WebTransport protocols MUST provide a way for a server endpoint location to
 be described using a URI {{!RFC3986}}.  This enables integration with various
-Web platform features that represent resources as URIs, such as Content Security
-Policy [CSP].
+Web platform features that represent resources as URIs, such as Content
+Security Policy [CSP].
 
 # Session Establishment
 
-WebTransport session establishment is most often asynchronous, although in
-some transports it can succeed instantaneously (for instance, if a transport is
-immediately pooled with an existing connection).  A session MUST NOT be
-considered established until it is secure against replay attacks.  For
-instance, in protocols creating a new TLS 1.3 session {{!RFC8446}}, this would
-mean that the user agent MUST NOT treat the session as established until it
-received a Finished message from the server.
-
-In some cases, a WebTransport protocol might allow transmitting data before the
-session is established; an example is TLS 0-RTT data.  Since this data can be
-replayed by attackers, it MUST NOT be used unless the client has explicitly
-requested 0-RTT for specific streams or datagrams it knows to be safely
-replayable.
+WebTransport session establishment is an asynchronous process.  A session is
+considered _ready_ from the client's perspective when the server has confirmed
+that it is willing to accept the session with the provided origin and URI.
+WebTransport protocols MAY allow clients to send data before the session is
+ready; however, they MUST NOT use mechanisms that are unsafe against replay
+attacks without an explicit indication from the client.
 
 # Transport Features
 
-The following transport features are defined in this document.  This list is not
-meant to be comprehensive; future documents may define new features for both new
-and already existing transports.
-
 All transport protocols MUST provide datagrams, unidirectional and
-bidirectional streams in order to make the transport protocols easily
-interchangeable.
+bidirectional streams in order to make the transport protocols interchangeable.
 
 ## Datagrams
 
@@ -248,13 +229,13 @@ MTU) and is not expected to be transmitted reliably.  The general goal for
 WebTransport datagrams is to be similar in behavior to UDP while being subject
 to common requirements expressed in {{common-requirements}}.
 
-The WebTransport sender is not expected to retransmit datagrams, though it may
-if it is using a TCP-based protocol or some other underlying protocol that
-requires reliable delivery.  WebTransport datagrams are not expected to be flow
-controlled, meaning that the receiver might drop datagrams if the application is
-not consuming them fast enough.
+A WebTransport sender is not expected to retransmit datagrams, though it may
+end up doing so if it is using a TCP-based protocol or some other underlying
+protocol that only provides reliable delivery.  WebTransport datagrams are not
+expected to be flow controlled, meaning that the receiver might drop datagrams
+if the application is not consuming them fast enough.
 
-The application MUST be provided with the maxiumum datagram size that it can
+The application MUST be provided with the maximum datagram size that it can
 send.  The size SHOULD be derived from the result of performing path MTU
 discovery.
 
@@ -281,29 +262,6 @@ to flow controlling stream data, the creation of new streams is flow controlled
 as well: an endpoint may only open a limited number of streams until the peer
 explicitly allows creating more streams.
 
-Every stream within a transport has a unique 64-bit number identifying it.  Both
-unidirectional and bidirectional streams share the number space.  The client and
-the server have to agree on the numbering, so it can be referenced in the
-application payload.  WebTransport does not impose any other specific
-restrictions on the structure of stream IDs, and they should be treated as
-opaque 64-bit blobs.
-
-## Protocol-Specific Features
-
-In addition to features described above, there are some capabilities that may
-be provided by an individual protocol but are not universally applicable to all
-protocols.  Those are allowed, but any protocol is expected to be useful without
-those features, and portable clients should not rely on them.
-
-A notable class of protocol-specific features are features available only in
-non-pooled transports.  Since those transports have a dedicated connection, a
-user agent can provide clients with an extensive amount of transport-level data
-that would be too noisy and difficult to interpret when the connection is shared
-with unrelated traffic.  For instance, a user agent can provide the number of
-packets lost, or the number of times stream data was delayed due to flow
-control.  It can also expose variables related to congestion control, such as
-the size of the congestion window or the current pacing rate.
-
 ## Bandwidth Prediction
 
 Using congestion control state and transport metrics, the client can predict the
@@ -324,24 +282,21 @@ TODO: expand this outline into a full summary.
 
 # Transport Properties
 
-In addition to common requirements, each transport can have multiple optional
-properties associated with it.  Querying them allows the client to ascertain
-the presence of features it can use without requiring knowledge of all
-protocols.  This allows introducing new transports as drop-in replacements
-for existing ones.
+WebTransport defines common semantics for multiple protocols to allow them to
+be used interchangeably.  Nevertheless, those protocols still have
+substantially different performance properties that an application may want to
+query.
 
-The following properties are defined in this specification:
+The most notable property is support for unreliable data delivery.  The
+protocol supports unreliable delivery if:
 
-* Stream independence.  This indicates that there is no head of line blocking
-  between different streams.
-* Partial reliability.  This indicates that if a stream is reset, none of the
-  data sent on it will be retransmitted.  This also indicates that datagrams
-  will not be retransmitted.
-* Pooling support.  Indicates that multiple transports using this transport
-  protocol may end up sharing the same transport layer connection, and thus
-  share a congestion controller and other contexts.
-* Connection mobility.  Indicates that the transport may continue existing even
-  if the network path between the client and the server changes.
+* Resetting a stream results in the lost stream data no longer being
+  retransmitted, and
+* The datagrams are never retransmitted.
+
+Another important property is pooling support.  Pooling means that multiple
+transport sessions may end up sharing the same transport layer connection, and
+thus share a congestion controller and other contexts.
 
 # Security Considerations
 
