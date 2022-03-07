@@ -262,24 +262,6 @@ to flow controlling stream data, the creation of new streams is flow controlled
 as well: an endpoint may only open a limited number of streams until the peer
 explicitly allows creating more streams.
 
-## Bandwidth Prediction
-
-Using congestion control state and transport metrics, the client can predict the
-rate at which it can send data.  That is essential for many WebTransport use
-cases; for instance, real time media applications adapt the video bitrate to be
-a fraction of the throughput they expect to be available.  While not all
-transport protocols can provide low-level transport details, all protocols
-SHOULD provide the client with an estimate of the available bandwidth.
-
-# Buffering and Prioritization
-
-TODO: expand this outline into a full summary.
-
-* Datagrams are intended for low-latency communications, so the buffers for them
-  should be small, and prioritized over stream data.
-* In general, the transport should not apply aggregation algorithms (e.g.,
-  Nagle's algorithm {{?RFC0896}}) to datagrams.
-
 # Transport Properties
 
 WebTransport defines common semantics for multiple protocols to allow them to
