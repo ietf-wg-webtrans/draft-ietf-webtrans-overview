@@ -270,7 +270,7 @@ substantially different performance properties that an application may want to
 query.
 
 The most notable property is support for unreliable data delivery.  The
-protocol supports unreliable delivery if:
+protocol is defined to support unreliable delivery if:
 
 * Resetting a stream results in the lost stream data no longer being
   retransmitted, and
