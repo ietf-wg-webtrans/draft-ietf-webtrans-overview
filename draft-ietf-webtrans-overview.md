@@ -222,7 +222,28 @@ attacks without an explicit indication from the client.
 All transport protocols MUST provide datagrams, unidirectional and
 bidirectional streams in order to make the transport protocols interchangeable.
 
-## Datagrams
+## Session-Wide Features  {#features-session}
+
+Any WebTransport protocol SHALL provide the following operations on the
+session:
+
+establish a session
+: Create a new WebTransport session given a URI {{!RFC3986}} and the origin
+  {{!RFC6454}}.
+
+terminate a session
+: Terminate the session while communicating to the peer an unsigned 32-bit
+  error code and an error reason string of at most 1024 bytes.  The error code
+  and string are optional; the default values are 0 and "".
+
+Any WebTransport protocol SHALL provide the following events:
+
+session terminated event
+: Indicates that the WebTransport session has been terminated, and no user data
+  can be exchanged on it any further.  Similarly to the "terminate a session"
+  operation above, an error code and an error string can be provided.
+
+## Datagrams  {#features-datagrams}
 
 A datagram is a sequence of bytes that is limited in size (generally to the path
 MTU) and is not expected to be transmitted reliably.  The general goal for
@@ -239,7 +260,24 @@ The application MUST be provided with the maximum datagram size that it can
 send.  The size SHOULD be derived from the result of performing path MTU
 discovery.
 
-## Streams
+In the WebTransport model, all of the outgoing and incoming datagrams are
+placed into a size-bound queue (similar to a NIC queue).
+
+Any WebTransport protocol SHALL provide the following operations on the
+session:
+
+send a datagram
+: Enqueues a datagram to be sent to the peer.  This can potentially result in
+  the datagram being dropped if the queue is full.
+
+receive a datagram
+: Dequeues an incoming datagram, if one is available.
+
+get maxiumum datagram size
+: Returns the largest size of the datagram that a WebTransport session is
+  expected to be able to transfer.
+
+## Streams  {#features-streams}
 
 A unidirectional stream is a one-way reliable in-order stream of bytes where the
 initiator is the only endpoint that can send data.  A bidirectional stream
@@ -260,7 +298,67 @@ Streams SHOULD be sufficiently lightweight that they can be used as messages.
 Data sent on a stream is flow controlled by the transport protocol.  In addition
 to flow controlling stream data, the creation of new streams is flow controlled
 as well: an endpoint may only open a limited number of streams until the peer
-explicitly allows creating more streams.
+explicitly allows creating more streams.  From the perspective of the client,
+this is presented as a size-bounded queue of incoming streams.
+
+Any WebTransport protocol SHALL provide the following operations on the
+session:
+
+create a unidirectional stream
+: Creates an outgoing unidirectional stream; this operation may block until the
+  flow control allows for it to be completed.
+
+create a bidirectional stream
+: Creates an outgoing bidirectional stream; this operation may block until the
+  flow control allows for it to be completed.
+
+receieve a unidirectional stream
+: Removes a stream from the queue of incoming unidirectional streams, if one is
+  available.
+
+receive a bidirectional stream
+: Removes a stream from the queue of incoming unidirectional streams, if one is
+  available.
+
+Any WebTransport protocol SHALL provide the following operations on an
+individual stream:
+
+send bytes
+: Add bytes into the stream send buffer.  The sender can also indicate a FIN,
+  signalling the fact that no new data will be send on the stream.  Not
+  applicable for incoming unidirectional streams.
+
+receive bytes
+: Removes bytes from the stream receive buffer.  FIN can be received together
+  with the stream data.  Not applicable for outgoing unidirectional streams.
+
+abort send side
+: Sends a signal to the peer that the write side of the stream has been aborted.
+  Discards the send buffer; if possible, no currently outstanding data is
+  transmitted or retransmitted.  An unsigned 8-bit error code can be supplied
+  as a part of the signal to the peer.
+
+abort receive side
+: Sends a signal to the peer that the read side of the stream has been aborted.
+  Discards the receive buffer; the peer is typically expected to abort the
+  corresponding send side in response.  An unsigned 8-bit error code can be
+  supplied as a part of the signal to the peer.
+
+Any WebTransport protocol SHALL provide the following events for an individual
+stream:
+
+send side aborted
+: Indicates that the peer has aborted the corresponding receive side of the
+  stream.  An unsigned 8-bit error code from the peer may be available.
+
+receive side aborted
+: Indicates that the peer has aborted the corresponding send side of the
+  stream.  An unsigned 8-bit error code from the peer may be available.
+
+Data Recvd state reached
+: Indicates that no further data will be transmitted or retransmitted, and that
+  the FIN has been sent.  Data Recvd implies that aborting send-side is a
+  no-op.
 
 # Transport Properties
 
