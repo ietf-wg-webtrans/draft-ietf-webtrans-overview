@@ -239,9 +239,11 @@ terminate a session
 Any WebTransport protocol SHALL provide the following events:
 
 session terminated event
-: Indicates that the WebTransport session has been terminated, and no user data
-  can be exchanged on it any further.  Similarly to the "terminate a session"
-  operation above, an error code and an error string can be provided.
+: Indicates that the WebTransport session has been terminated, either by the
+  peer or by the local networking stack, and no user data can be exchanged on
+  it any further.  If the session has been terminated as a result of the peer
+  performing the "terminate a session" operation above, a corresponding error
+  code and an error string can be provided.
 
 ## Datagrams  {#features-datagrams}
 
@@ -275,7 +277,7 @@ receive a datagram
 
 get maxiumum datagram size
 : Returns the largest size of the datagram that a WebTransport session is
-  expected to be able to transfer.
+  expected to be able to send.
 
 ## Streams  {#features-streams}
 
@@ -312,7 +314,7 @@ create a bidirectional stream
 : Creates an outgoing bidirectional stream; this operation may block until the
   flow control allows for it to be completed.
 
-receieve a unidirectional stream
+receive a unidirectional stream
 : Removes a stream from the queue of incoming unidirectional streams, if one is
   available.
 
@@ -356,9 +358,9 @@ receive side aborted
   stream.  An unsigned 8-bit error code from the peer may be available.
 
 Data Recvd state reached
-: Indicates that no further data will be transmitted or retransmitted, and that
-  the FIN has been sent.  Data Recvd implies that aborting send-side is a
-  no-op.
+: Indicates that no further data will be transmitted or retransmitted on the
+  local send side, and that the FIN has been sent.  Data Recvd implies that
+  aborting send-side is a no-op.
 
 # Transport Properties
 
