@@ -338,7 +338,8 @@ abort send side
 : Sends a signal to the peer that the write side of the stream has been aborted.
   Discards the send buffer; if possible, no currently outstanding data is
   transmitted or retransmitted.  An unsigned 8-bit error code can be supplied
-  as a part of the signal to the peer.
+  as a part of the signal to the peer; if omitted, the error code is presumed
+  to be 0.
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
