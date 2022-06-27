@@ -229,7 +229,7 @@ session:
 
 establish a session
 : Create a new WebTransport session given a URI {{!RFC3986}} and the origin
-  {{!RFC6454}}.
+  {{!RFC6454}} of the requester.
 
 terminate a session
 : Terminate the session while communicating to the peer an unsigned 32-bit
@@ -263,7 +263,7 @@ send.  The size SHOULD be derived from the result of performing path MTU
 discovery.
 
 In the WebTransport model, all of the outgoing and incoming datagrams are
-placed into a size-bound queue (similar to a NIC queue).
+placed into a size-bound queue (similar to a network interface card queue).
 
 Any WebTransport protocol SHALL provide the following operations on the
 session:
@@ -308,11 +308,11 @@ session:
 
 create a unidirectional stream
 : Creates an outgoing unidirectional stream; this operation may block until the
-  flow control allows for it to be completed.
+  flow control of the underlying protocol allows for it to be completed.
 
 create a bidirectional stream
 : Creates an outgoing bidirectional stream; this operation may block until the
-  flow control allows for it to be completed.
+  flow control of the underlying protocol allows for it to be completed.
 
 receive a unidirectional stream
 : Removes a stream from the queue of incoming unidirectional streams, if one is
