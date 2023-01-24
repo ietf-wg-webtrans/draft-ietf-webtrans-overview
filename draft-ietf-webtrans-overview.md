@@ -84,7 +84,7 @@ non-browser-to-browser settings has been quite low due to its dependency on ICE
 implementations available).
 
 An alternative design would be to open multiple WebSocket connections over
-HTTP/3 {{?I-D.ietf-httpbis-h3-websockets}} in a manner similar to how they are
+HTTP/3 {{?RFC9220}} in a manner similar to how they are
 currently layered over HTTP/2 {{?RFC8441}}.  That would avoid head-of-line
 blocking and provide an ability to cancel a stream by closing the corresponding
 WebSocket object.  However, this approach has a number of drawbacks, which all
@@ -96,7 +96,7 @@ independent entity:
   new stream before the client can write to it.
 * Only clients can initiate streams.  Server-initiated streams and other
   alternative modes of communication (such as the QUIC DATAGRAM frame
-  {{?I-D.ietf-quic-datagram}}) are not available.
+  {{?RFC9221}}) are not available.
 * While the streams would normally be pooled by the user agent, this is not
   guaranteed, and the general process of mapping a WebSocket to a server is
   opaque to the client.  This introduces unpredictable performance properties
@@ -180,7 +180,7 @@ Web security model, WebTransport imposes certain requirements on any specific
 protocol used.
 
 All WebTransport protocols MUST use TLS {{!RFC8446}} or a semantically
-equivalent security protocol (for instance, DTLS {{?I-D.ietf-tls-dtls13}}).
+equivalent security protocol (for instance, DTLS {{?RFC9147}}).
 The protocols SHOULD use TLS version 1.3 or later, unless they aim for
 backwards compatibility with legacy systems.
 
