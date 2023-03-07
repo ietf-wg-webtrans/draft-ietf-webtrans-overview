@@ -233,8 +233,10 @@ establish a session
 
 terminate a session
 : Terminate the session while communicating to the peer an unsigned 32-bit
-  error code and an error reason string of at most 1024 bytes.  The error code
-  and string are optional; the default values are 0 and "".
+  error code and an error reason string of at most 1024 bytes.  As soon as the
+  session is terminated, no further application data will be exchanged on it.
+  The error code and string are optional; the default values are 0 and "".  The
+  delivery of the error code and string MAY be best-effort.
 
 Any WebTransport protocol SHALL provide the following events:
 
