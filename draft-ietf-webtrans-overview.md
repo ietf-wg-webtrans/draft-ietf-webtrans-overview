@@ -32,8 +32,8 @@ informative:
 The WebTransport Protocol Framework enables clients constrained by the Web
 security model to communicate with a remote server using a secure multiplexed
 transport.  It consists of a set of individual protocols that are safe to expose
-to untrusted applications, combined with a model that allows them to be used
-interchangeably.
+to untrusted applications, combined with an abstract model that allows them
+to be used interchangeably.
 
 This document defines the overall requirements on the protocols used in
 WebTransport, as well as the common features of the protocols, support for some
@@ -57,8 +57,8 @@ The web API draft corresponding to this document can be found at
 The WebTransport Protocol Framework enables clients constrained by the Web
 security model to communicate with a remote server using a secure multiplexed
 transport.  It consists of a set of individual protocols that are safe to expose
-to untrusted applications, combined with a model that allows them to be used
-interchangeably.
+to untrusted applications, combined with an abstract model that allows them
+to be used interchangeably.
 
 This document defines the overall requirements on the protocols used in
 WebTransport, as well as the common features of the protocols, support for some
@@ -69,27 +69,27 @@ of which may be optional.
 Historically, web applications that needed a bidirectional data stream between a
 client and a server could rely on WebSockets {{?RFC6455}}, a message-based
 protocol compatible with the Web security model.  However, since the
-abstraction it provides is a single ordered stream of messages, it suffers from
-head-of-line blocking (HOLB), meaning that all messages must be sent and
-received in order even if they are independent and some of them are no longer
-needed.  This makes it a poor fit for latency-sensitive applications which rely
-on partial reliability and stream independence for performance.
+abstraction it provides is a single ordered reliable stream of messages, it
+suffers from head-of-line blocking, meaning that all messages must be sent and
+received in order even if they could be processed independently of each other,
+and some messages may no longer be relevant.  This makes it a poor fit for
+latency-sensitive applications which rely on partial reliability and stream
+independence for performance.
 
 One existing option available to Web developers are WebRTC data channels
 {{?RFC8831}}, which provide a WebSocket-like API for a peer-to-peer SCTP
 channel protected by DTLS.  In theory, it is possible to use it for the use
-cases addressed by this specification. However, in practice, its use in
-non-browser-to-browser settings has been quite low due to its dependency on ICE
-(which fits poorly with the Web model) and userspace SCTP (which has very few
-implementations available).
+cases addressed by this specification. However, in practice, it has not seen
+wide adoption outside of browser-to-browser settings due to its dependency on
+ICE (which fits poorly with the Web model) and userspace SCTP (which has a
+limited number of implementations available due to not being used in other
+contexts).
 
 An alternative design would be to open multiple WebSocket connections over
-HTTP/3 {{?RFC9220}} in a manner similar to how they are
-currently layered over HTTP/2 {{?RFC8441}}.  That would avoid head-of-line
-blocking and provide an ability to cancel a stream by closing the corresponding
-WebSocket object.  However, this approach has a number of drawbacks, which all
-stem primarily from the fact that semantically each WebSocket is a completely
-independent entity:
+HTTP/3 {{?RFC9220}}.  That would avoid head-of-line blocking and provide an
+ability to cancel a stream by closing the corresponding WebSocket session.
+However, this approach has a number of drawbacks, which all stem primarily from
+the fact that semantically each WebSocket is a completely independent entity:
 
 * Each new stream would require a WebSocket handshake to agree on application
   protocol used, meaning that it would take at least one RTT to establish each
@@ -105,10 +105,10 @@ independent entity:
   request different retransmission priorities for different streams, but that
   would be much more complex unless they are all on the same connection).
 
-The WebTransport protocol framework avoids all of those issues by letting
-applications create a single transport object that can contain multiple streams
-multiplexed together in a single context (similar to SCTP, HTTP/2, QUIC and
-others), and can be also used to send unreliable datagrams (similar to UDP).
+WebTransport avoids all of those issues by letting applications create a single
+transport object that can contain multiple streams multiplexed together in a
+single context (similar to SCTP, HTTP/2, QUIC and others), and can be also used
+to send unreliable datagrams (similar to UDP).
 
 ## Conventions and Definitions
 
@@ -137,7 +137,9 @@ WebTransport protocol:
 
 Datagram:
 
-: A datagram is a unit of transmission that is treated atomically.
+: A datagram is a unit of transmission that is limited in size (typically to
+  the path MTU), does not have an expectation of being delivered reliably, and
+  is treated atomically by the transport.
 
 Stream:
 
@@ -159,7 +161,11 @@ Message:
 Server:
 
 : A WebTransport server is an application that accepts incoming WebTransport
-  sessions.
+  sessions.  In cases when WebTransport is served over a multiplexed protocol
+  (such as HTTP/2 or HTTP/3), "WebTransport server" refers to a handler for a
+  specific multiplexed endpoint (e.g. an application handling specific HTTP
+  resource), rather than the application listening on a given TCP or UDP
+  socket.
 
 Client:
 
@@ -256,10 +262,10 @@ WebTransport datagrams is to be similar in behavior to UDP while being subject
 to common requirements expressed in {{common-requirements}}.
 
 A WebTransport sender is not expected to retransmit datagrams, though it may
-end up doing so if it is using a TCP-based protocol or some other underlying
-protocol that only provides reliable delivery.  WebTransport datagrams are not
-expected to be flow controlled, meaning that the receiver might drop datagrams
-if the application is not consuming them fast enough.
+end up doing so if it is using TCP or some other underlying protocol that only
+provides reliable delivery.  WebTransport datagrams are not expected to be flow
+controlled, meaning that the receiver might drop datagrams if the application
+is not consuming them fast enough.
 
 The application MUST be provided with the maximum datagram size that it can
 send.  The size SHOULD be derived from the result of performing path MTU
