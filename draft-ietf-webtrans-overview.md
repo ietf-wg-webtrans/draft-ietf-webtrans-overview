@@ -367,10 +367,10 @@ receive side aborted
 : Indicates that the peer has aborted the corresponding send side of the
   stream.  An unsigned 8-bit error code from the peer may be available.
 
-Data Recvd state reached
-: Indicates that no further data will be transmitted or retransmitted on the
-  local send side, and that the FIN has been sent.  Data Recvd implies that
-  aborting send-side is a no-op.
+all data committed
+: Indicates that all of the outgoing data on the stream, including the FIN, is
+  in the state where aborting the send side would have no further effect on any
+  data being delivered.
 
 # Transport Properties
 
