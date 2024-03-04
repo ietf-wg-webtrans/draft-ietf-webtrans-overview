@@ -370,7 +370,12 @@ receive side aborted
 all data committed
 : Indicates that all of the outgoing data on the stream, including the FIN, is
   in the state where aborting the send side would have no further effect on any
-  data being delivered.
+  data being delivered.  For protocols that support unreliable delivery, such
+  as QUIC, that would typically mean that all of the data has been acknowledged
+  by the peer; for protocols that model a single reliable in-order stream of
+  bytes, such as TCP, this means the moment at which the data has been fully
+  passed to the lower layer (e.g. for kernel-based TCP implementations, that
+  would typically mean the data has been written to the socket).
 
 # Transport Properties
 
