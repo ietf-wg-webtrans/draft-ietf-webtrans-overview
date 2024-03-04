@@ -1,0 +1,209 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2021-02-18T00:19:45.291646+00:00",
+  "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU2NjMzMTQyMTY=",
+      "title": "Decide the model for stream IDs",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/1",
+      "state": "OPEN",
+      "author": "vasilvv",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, the draft has the following text:\r\n\r\n> Every stream within a transport has a unique 64-bit number identifying it. Both unidirectional and bidirectional streams share the number space. The client and the server have to agree on the numbering, so it can be referenced in the application payload. WebTransport does not impose any other specific restrictions on the structure of stream IDs, and they should be treated as opaque 64-bit blobs.\r\n\r\nIn the API draft, we've removed stream IDs (see WICG/web-transport#74).  However, there seems to be some interest from Web developers in bringing those back (WICG/web-transport#124), at least for the purpose of knowing the stream order.\r\n\r\nWe should figure out what approach we actually want.  Some ideas:\r\n1. No stream IDs\r\n1. Stream IDs that do not match on client and server, but that do go in creation order.\r\n1. Stream IDs that match on both client and server.\r\n\r\nNote that as we go down the list, the complexity rises due to:\r\n1. Pooling.\r\n1. Need to support proxies.",
+      "createdAt": "2020-07-21T21:16:48Z",
+      "updatedAt": "2020-09-12T19:23:33Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kixelated",
+          "authorAssociation": "NONE",
+          "body": "I advocated for exposing stream IDs and/or accepting streams in order. The idea is to avoid application framing as the information already exists at the QUIC level.\r\n\r\n...but it doesn't seem possible to determine the stream ID or order if WebTransport is multiplexed with any other traffic over a QUIC connection. This is particularly problematic for Http3Transport. QUIC stream IDs also have a non-intuitive scheme that I would not expose to the application.\r\n\r\nIt's probably best to forgo stream IDs for the sake of WebTransport as a whole. QuicTransport could expose the raw stream ID for the sake of compatibility, but it's only relevant when there are protocols built on top of QUIC that depend on the ID. For now we're going to add our own framing and identification mechanism.",
+          "createdAt": "2020-09-12T19:23:33Z",
+          "updatedAt": "2020-09-12T19:23:33Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "MDU6SXNzdWU2NjMzMTgxMjA=",
+      "title": "Stream reset semantics",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/2",
+      "state": "OPEN",
+      "author": "vasilvv",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to define whether WebTransport stream reset acts the way TCP and HTTP/2 reset does (resetting send side resets the receive side), or the way QUIC and HTTP/3 reset does (separate RESET_STREAM and STOP_SENDING).\r\n\r\nMy intuition here is that it's easier to go HTTP/2 way, since adding one-way reset to HTTP/2 would be a much more complex change than requiring QUIC endpoints to send STOP_SENDING on RESET_STREAM and vice versa.",
+      "createdAt": "2020-07-21T21:24:14Z",
+      "updatedAt": "2020-09-14T15:45:08Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kixelated",
+          "authorAssociation": "NONE",
+          "body": "For QuicTransport, there should be way to gracefully half-close a stream. The ability to half-reseting a stream doesn't really matter but I would suggest consistency. If HTTP/2 is a burden to implement... that's a better case for dropping it than to make the ideal implementations worse.",
+          "createdAt": "2020-09-12T19:08:59Z",
+          "updatedAt": "2020-09-12T19:08:59Z"
+        },
+        {
+          "author": "afrind",
+          "authorAssociation": "NONE",
+          "body": "You can half-close a QUIC stream by sending a FIN.  Do you need the ability to half-close a QUIC stream in error?",
+          "createdAt": "2020-09-14T15:45:07Z",
+          "updatedAt": "2020-09-14T15:45:07Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "MDU6SXNzdWU2NjU5MDI2NzU=",
+      "title": "Streams and messages",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/3",
+      "state": "OPEN",
+      "author": "vasilvv",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Alan has [pointed out on the mailing list](https://mailarchive.ietf.org/arch/msg/webtransport/rZ4JPXw4MPPw21L3HN_rDXkvsFw/) that we do not provide a reliable in-order message abstraction.  The draft currently discusses this as follows:\r\n\r\n> Stream: A stream is a sequence of bytes that is reliably delivered to the receiving application in the same order as it was transmitted by the sender. Streams can be of arbitrary length, and therefore cannot always be buffered entirely in memory. It is expected for transport protocols and APIs to provide partial stream data to the application before the stream has been entirely received.\r\n>\r\n> Message: A message is a stream that is sufficiently small that it can be fully buffered before being passed to the application. WebTransport does not define messages as a primitive, since from the transport perspective they can be simulated by fully buffering a stream before passing it to the application. However, this distinction is important to highlight since some of the similar protocols and APIs (notably WebSocket [RFC6455]) use messages as a core abstraction.\r\n\r\nWe went with streams of bytes as our fundamental primitive since that was the primitive of QUIC, HTTP/2 and HTTP/3.  WebSocket, SCTP and RTC Data Channels all use streams of messages.  Fundamentally, streams of messages are streams of bytes with some boundaries preserved.  As an application, going between those two is easy:\r\n\r\n- Streams of bytes -> streams of messages: this can be done by application adding its own framing, which is not that hard.\r\n- Streams of messages -> streams of bytes: this can be done by simply ignoring the message boundaries.\r\n\r\nThe question here is whether we want to:\r\n\r\n1. Keep situation as-is\r\n1. Replace streams of bytes with streams of messages, to be consistent with WebSocket and DataChannel.\r\n1. Support both",
+      "createdAt": "2020-07-27T01:09:53Z",
+      "updatedAt": "2020-09-12T19:02:53Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kixelated",
+          "authorAssociation": "NONE",
+          "body": "I'm a big fan of the HTTP/3 approach and using individual streams for framing messages, so option 1.\r\n\r\nSending a message means creating a new stream, writing the message, closing the stream. Receiving a message means accepting a stream, buffering all of the contents, and returning the message. Buffering a WHATWG stream into a single ArrayBuffer is a little annoying, but it can be done with a simple helper function.\r\n\r\nIt seems very possible to port an application using WebSockets to WebTransport by doing the above, although messages could be delivered out of order. If head-of-line blocking is desired, which I hope becomes less common, the application can add it's own framing like you suggested.",
+          "createdAt": "2020-09-12T19:02:53Z",
+          "updatedAt": "2020-09-12T19:02:53Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 4,
+      "id": "MDExOlB1bGxSZXF1ZXN0NTE5MDE5NTQ3",
+      "title": "Define unified header semantics across all transports",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/4",
+      "state": "OPEN",
+      "author": "vasilvv",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2020-11-11T07:47:59Z",
+      "updatedAt": "2021-02-17T23:19:29Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "1b7852fd72e021ec2b07f5ecc232ea3d2e658f85",
+      "headRepository": "vasilvv/draft-ietf-webtrans-overview",
+      "headRefName": "headers",
+      "headRefOid": "c954a400042e6619c5a9cee21bd80a65ed5703a8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "I asked this question during the IETF 109 session but due to the technical difficulties I said I'd put it on this ticket.\r\n\r\n@vasilvv, do you believe that this change is a good one even if the group were to to decide that no-one wants the HTTP-based WebTransports?",
+          "createdAt": "2020-11-16T09:57:49Z",
+          "updatedAt": "2020-11-16T09:57:49Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "As a general observation about this change, the header rules seem quite loose. In HTTP, we send messages. But this change talks about header fields and things that look a bit like requests or responses but aren't. I'm not really sure how I would write a server-side WebTransport parser with confidence, especially if I already have code that handles HTTP/3 framing and messages.",
+          "createdAt": "2020-11-16T10:02:23Z",
+          "updatedAt": "2020-11-16T10:02:23Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NTI4NTI3NDc0",
+          "commit": {
+            "abbreviatedOid": "c954a40"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2020-11-11T20:55:21Z",
+          "updatedAt": "2020-11-11T20:58:53Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "nit: I'd say QUIC or TLS 1.3",
+              "createdAt": "2020-11-11T20:55:22Z",
+              "updatedAt": "2020-11-11T20:58:53Z"
+            },
+            {
+              "originalPosition": 29,
+              "body": "I would move this to after the definition of headers",
+              "createdAt": "2020-11-11T20:56:42Z",
+              "updatedAt": "2020-11-11T20:58:53Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "I'd stick to \"key\" or \"name\" instead of using both?",
+              "createdAt": "2020-11-11T20:57:44Z",
+              "updatedAt": "2020-11-11T20:58:53Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
