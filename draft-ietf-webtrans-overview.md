@@ -370,12 +370,19 @@ receive side aborted
 all data committed
 : Indicates that all of the outgoing data on the stream, including the FIN, is
   in the state where aborting the send side would have no further effect on any
-  data being delivered.  For protocols that support unreliable delivery, such
-  as QUIC, that would typically mean that all of the data has been acknowledged
-  by the peer; for protocols that model a single reliable in-order stream of
-  bytes, such as TCP, this means the moment at which the data has been fully
-  passed to the lower layer (e.g. for kernel-based TCP implementations, that
-  would typically mean the data has been written to the socket).
+  data being delivered.  
+  
+: For protocols, like HTTP/2, stream data might be passed to another
+  component (like a kernel) for transmission. Once data is passed to that
+  component it might not be possible to abort the sending of stream data
+  without also aborting the entire connection.
+  For these protocols, data is considered committed once it passes to the
+  other component.
+  
+: A protocol, like HTTP/3, that uses a more integrated stack might be able to
+  retract data further into the process. For these protocols, sending on a
+  stream might be aborted at any time until all data has been received,
+  corresponding to the "Data Recvd" state in QUIC; see {{Section X.Y of QUIC}}.
 
 # Transport Properties
 
