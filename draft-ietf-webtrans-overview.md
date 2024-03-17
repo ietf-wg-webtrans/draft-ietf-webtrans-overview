@@ -368,7 +368,7 @@ receive side aborted
   stream.  An unsigned 8-bit error code from the peer may be available.
 
 all data committed
-: Indicates that all of the outgoing data on the stream, including the FIN, is
+: Indicates that all of the outgoing data on the stream, including the end stream indication, is
   in the state where aborting the send side would have no further effect on any
   data being delivered.  
   
