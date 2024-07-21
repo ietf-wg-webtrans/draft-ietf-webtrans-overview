@@ -223,6 +223,17 @@ WebTransport protocols MAY allow clients to send data before the session is
 ready; however, they MUST NOT use mechanisms that are unsafe against replay
 attacks without an explicit indication from the client.
 
+Any WebTransport protocol SHALL provide the following operations as part of the
+initial request to establish a WebTransport session:
+
+negotiate a subprotocol
+: The session initiator provides an optional list of subprotocols to the peer.
+  The peer selects one and responds indicating the selected subprotocol or
+  rejects the session establishment request if none of the subprotocols are
+  supported. Note that the semantics of individual subprotocol token values is
+  determined by the WebTransport resource in question and are not registered
+  in IANA's "ALPN Protocol IDs" registry.
+
 # Transport Features
 
 All transport protocols MUST provide datagrams, unidirectional and
