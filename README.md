@@ -3,8 +3,8 @@
 This is the working area for the IETF WEBTRANS Working Group Internet-Draft, "The WebTransport Protocol Framework".
 
 * [Editor's Copy](https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.html)
-* [Individual Draft](https://tools.ietf.org/html/draft-ietf-webtrans-overview)
-* [Compare Editor's Copy to Individual Draft](https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-webtrans-overview.txt&url2=https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.txt)
+* [Working Group Draft](https://tools.ietf.org/html/draft-ietf-webtrans-overview)
+* [Compare Editor's Copy to the Working Group Draft](https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-webtrans-overview.txt&url2=https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.txt)
 
 ## Related Links
 
