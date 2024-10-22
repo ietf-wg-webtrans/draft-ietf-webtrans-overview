@@ -367,10 +367,22 @@ receive side aborted
 : Indicates that the peer has aborted the corresponding send side of the
   stream.  An unsigned 8-bit error code from the peer may be available.
 
-Data Recvd state reached
-: Indicates that no further data will be transmitted or retransmitted on the
-  local send side, and that the FIN has been sent.  Data Recvd implies that
-  aborting send-side is a no-op.
+all data committed
+: Indicates that all of the outgoing data on the stream, including the end stream indication, is
+  in the state where aborting the send side would have no further effect on any
+  data being delivered.  
+  
+: For protocols, like HTTP/2, stream data might be passed to another
+  component (like a kernel) for transmission. Once data is passed to that
+  component it might not be possible to abort the sending of stream data
+  without also aborting the entire connection.
+  For these protocols, data is considered committed once it passes to the
+  other component.
+  
+: A protocol, like HTTP/3, that uses a more integrated stack might be able to
+  retract data further into the process. For these protocols, sending on a
+  stream might be aborted at any time until all data has been received and acknowledged by the peer,
+  corresponding to the "Data Recvd" state in QUIC; see {{Section 3.1 of QUIC}}.
 
 # Transport Properties
 
