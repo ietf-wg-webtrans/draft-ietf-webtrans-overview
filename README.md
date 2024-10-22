@@ -1,21 +1,23 @@
 # The WebTransport Protocol Framework
 
-This is the working area for the IETF WEBTRANS Working Group Internet-Draft, "The WebTransport Protocol Framework".
+This is the working area for the IETF [WEBTRANS Working Group](https://datatracker.ietf.org/wg/webtrans/documents/) Internet-Draft, "The WebTransport Protocol Framework".
 
-* [Editor's Copy](https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.html)
-* [Working Group Draft](https://tools.ietf.org/html/draft-ietf-webtrans-overview)
-* [Compare Editor's Copy to the Working Group Draft](https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-webtrans-overview.txt&url2=https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.txt)
-
-## Related Links
-
-Documents related to the W3C WebTransport Web API:
-
-* [API Overview](https://discourse.wicg.io/t/webtransport-proposal/3508)
-* [API Explainer](https://github.com/wicg/web-transport/blob/master/explainer.md)
-* [API Spec Draft](https://wicg.github.io/web-transport/)
+* [Editor's Copy](https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/#go.draft-ietf-webtrans-overview.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-webtrans-overview)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-webtrans-overview)
+* [Compare Editor's Copy to Working Group Draft](https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/#go.draft-ietf-webtrans-overview.diff)
 
 
-## Building the Draft
+## Contributing
+
+See the
+[guidelines for contributions](https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/blob/main/CONTRIBUTING.md).
+
+Contributions can be made by creating pull requests.
+The GitHub interface supports creating pull requests using the Edit (✏) button.
+
+
+## Command Line Usage
 
 Formatted text and HTML versions of the draft can be built using `make`.
 
@@ -23,11 +25,6 @@ Formatted text and HTML versions of the draft can be built using `make`.
 $ make
 ```
 
-This requires that you have the necessary software installed.  See
-[the instructions](https://github.com/martinthomson/i-d-template/blob/master/doc/SETUP.md).
+Command line usage requires that you have the necessary software installed.  See
+[the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
 
-
-## Contributing
-
-See the
-[guidelines for contributions](https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/blob/master/CONTRIBUTING.md).
