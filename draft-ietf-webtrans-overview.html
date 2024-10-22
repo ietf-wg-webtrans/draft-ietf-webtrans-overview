@@ -16,23 +16,22 @@ to be used interchangeably.
 WebTransport, as well as the common features of the protocols, support for some
 of which may be optional. 
     " name="description">
-<meta content="xml2rfc 3.18.0" name="generator">
+<meta content="xml2rfc 3.23.2" name="generator">
 <meta content="draft-ietf-webtrans-overview-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.0
-    Python 3.11.5
-    ConfigArgParse 1.5.3
-    google-i18n-address 3.1.0
+  xml2rfc 3.23.2
+    Python 3.12.7
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.2
-    lxml 4.9.3
-    platformdirs 3.10.0
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.3.6
     pycountry 22.3.5
-    PyYAML 6.0
-    requests 2.31.0
-    setuptools 67.7.2
-    six 1.16.0
-    wcwidth 0.2.6
+    PyYAML 6.0.1
+    requests 2.32.3
+    setuptools 70.3.0
+    wcwidth 0.2.13
 -->
 <link href="draft-ietf-webtrans-overview.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -655,7 +654,7 @@ sub, sup {
 }
 #toc nav li {
   line-height: 1.3em;
-  margin: 0.75em 0;
+  margin: 2px 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
 }
@@ -748,7 +747,7 @@ hr.addr {
     z-index: 2;
     top: 0;
     right: 0;
-    padding: 0;
+    padding: 1px 0 0 0;
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
@@ -872,16 +871,13 @@ hr.addr {
     border-top: none;
     padding-top: 0;
   }
-  figure, pre {
+  figure, pre, .vcard {
     page-break-inside: avoid;
-  }
-  figure {
-    overflow: scroll;
   }
   h1, h2, h3, h4, h5, h6 {
     page-break-after: avoid;
   }
-  h2+*, h3+*, h4+*, h5+*, h6+* {
+  :is(h2, h3, h4, h5, h6)+*, dd {
     page-break-before: avoid;
   }
   pre {
@@ -894,6 +890,9 @@ hr.addr {
   }
   td {
     border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
   }
 }
 
@@ -995,28 +994,6 @@ address div.right {
   text-align: right;
 }
 
-/* Give the table caption label the same styling as the figcaption */
-
-@media print {
-  .toplink {
-    display: none;
-  }
-
-  /* avoid overwriting the top border line with the ToC header */
-  #toc {
-    padding-top: 1px;
-  }
-
-  /* Avoid page breaks inside dl and author address entries */
-  dd {
-    page-break-before: avoid;
-  }
-  .vcard {
-    page-break-inside: avoid;
-  }
-
-}
-
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
 :root {
@@ -1053,11 +1030,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">WebTransport</td>
-<td class="right">September 2023</td>
+<td class="right">October 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Vasiliev</td>
-<td class="center">Expires 9 March 2024</td>
+<td class="center">Expires 25 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-webtrans-overview-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-09-06" class="published">6 September 2023</time>
+<time datetime="2024-10-22" class="published">22 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-03-09">9 March 2024</time></dd>
+<dd class="expires"><time datetime="2025-04-25">25 April 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1128,7 +1105,7 @@ The web API draft corresponding to this document can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 9 March 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1137,7 +1114,7 @@ The web API draft corresponding to this document can be found at
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1256,21 +1233,24 @@ ability to cancel a stream by closing the corresponding WebSocket session.
 However, this approach has a number of drawbacks, which all stem primarily from
 the fact that semantically each WebSocket is a completely independent entity:<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1-4.1">Each new stream would require a WebSocket handshake to agree on application
+<li class="normal" id="section-1.1-4.1">
+            <p id="section-1.1-4.1.1">Each new stream would require a WebSocket handshake to agree on application
 protocol used, meaning that it would take at least one RTT to establish each
-new stream before the client can write to it.<a href="#section-1.1-4.1" class="pilcrow">¶</a>
+new stream before the client can write to it.<a href="#section-1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.1-4.2">Only clients can initiate streams.  Server-initiated streams and other
+          <li class="normal" id="section-1.1-4.2">
+            <p id="section-1.1-4.2.1">Only clients can initiate streams.  Server-initiated streams and other
 alternative modes of communication (such as the QUIC DATAGRAM frame
-<span>[<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>) are not available.<a href="#section-1.1-4.2" class="pilcrow">¶</a>
+<span>[<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>) are not available.<a href="#section-1.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.1-4.3">While the streams would normally be pooled by the user agent, this is not
+          <li class="normal" id="section-1.1-4.3">
+            <p id="section-1.1-4.3.1">While the streams would normally be pooled by the user agent, this is not
 guaranteed, and the general process of mapping a WebSocket to a server is
 opaque to the client.  This introduces unpredictable performance properties
 into the system, and prevents optimizations which rely on the streams being on
 the same connection (for instance, it might be possible for the client to
 request different retransmission priorities for different streams, but that
-would be much more complex unless they are all on the same connection).<a href="#section-1.1-4.3" class="pilcrow">¶</a>
+would be much more complex unless they are all on the same connection).<a href="#section-1.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-1.1-5">WebTransport avoids all of those issues by letting applications create a single
@@ -1619,10 +1599,12 @@ query.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">The most notable property is support for unreliable data delivery.  The
 protocol is defined to support unreliable delivery if:<a href="#section-5-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5-3.1">Resetting a stream results in the lost stream data no longer being
-retransmitted, and<a href="#section-5-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5-3.1">
+          <p id="section-5-3.1.1">Resetting a stream results in the lost stream data no longer being
+retransmitted, and<a href="#section-5-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-3.2">The datagrams are never retransmitted.<a href="#section-5-3.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-3.2">
+          <p id="section-5-3.2.1">The datagrams are never retransmitted.<a href="#section-5-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-5-4">Another important property is pooling support.  Pooling means that multiple
@@ -1666,10 +1648,12 @@ client certificates.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-7-1">There are no requests to IANA in this document.<a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="sec-combined-references">
 <section id="section-8">
       <h2 id="name-references">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
+<div id="sec-normative-references">
 <section id="section-8.1">
         <h3 id="name-normative-references">
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
@@ -1697,6 +1681,8 @@ client certificates.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
+<div id="sec-informative-references">
 <section id="section-8.2">
         <h3 id="name-informative-references">
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
@@ -1704,7 +1690,7 @@ client certificates.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="CSP">[CSP]</dt>
         <dd>
-<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2023-09" class="refDate">September 2023</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
+<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2024-10" class="refDate">October 2024</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5681">[RFC5681]</dt>
         <dd>
@@ -1744,7 +1730,9 @@ client certificates.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
 </section>
+</div>
 <div id="authors-addresses">
 <section id="appendix-A">
       <h2 id="name-authors-address">

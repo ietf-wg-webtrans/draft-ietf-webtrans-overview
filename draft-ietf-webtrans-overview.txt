@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                        6 September 2023
-Expires: 9 March 2024
+Intended status: Standards Track                         22 October 2024
+Expires: 25 April 2025
 
 
                   The WebTransport Protocol Framework
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 March 2024.
+   This Internet-Draft will expire on 25 April 2025.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -493,7 +493,7 @@ Table of Contents
 
 8.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", September 2023,
+   [CSP]      W3C, "Content Security Policy Level 3", October 2024,
               <https://www.w3.org/TR/CSP/>.
 
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
