@@ -381,7 +381,7 @@ all data committed
   
 : A protocol, like HTTP/3, that uses a more integrated stack might be able to
   retract data further into the process. For these protocols, sending on a
-  stream might be aborted at any time until all data has been received,
+  stream might be aborted at any time until all data has been received and acknowledged by the peer,
   corresponding to the "Data Recvd" state in QUIC; see {{Section 3.1 of QUIC}}.
 
 # Transport Properties
