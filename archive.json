@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-02-18T00:19:45.291646+00:00",
+  "timestamp": "2024-10-24T00:54:29.864216+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "MDU6SXNzdWU2NjMzMTQyMTY=",
       "title": "Decide the model for stream IDs",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "vasilvv",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Currently, the draft has the following text:\r\n\r\n> Every stream within a transport has a unique 64-bit number identifying it. Both unidirectional and bidirectional streams share the number space. The client and the server have to agree on the numbering, so it can be referenced in the application payload. WebTransport does not impose any other specific restrictions on the structure of stream IDs, and they should be treated as opaque 64-bit blobs.\r\n\r\nIn the API draft, we've removed stream IDs (see WICG/web-transport#74).  However, there seems to be some interest from Web developers in bringing those back (WICG/web-transport#124), at least for the purpose of knowing the stream order.\r\n\r\nWe should figure out what approach we actually want.  Some ideas:\r\n1. No stream IDs\r\n1. Stream IDs that do not match on client and server, but that do go in creation order.\r\n1. Stream IDs that match on both client and server.\r\n\r\nNote that as we go down the list, the complexity rises due to:\r\n1. Pooling.\r\n1. Need to support proxies.",
       "createdAt": "2020-07-21T21:16:48Z",
-      "updatedAt": "2020-09-12T19:23:33Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-17T16:57:43Z",
+      "closedAt": "2022-03-17T16:57:43Z",
       "comments": [
         {
           "author": "kixelated",
@@ -71,6 +71,13 @@
           "body": "I advocated for exposing stream IDs and/or accepting streams in order. The idea is to avoid application framing as the information already exists at the QUIC level.\r\n\r\n...but it doesn't seem possible to determine the stream ID or order if WebTransport is multiplexed with any other traffic over a QUIC connection. This is particularly problematic for Http3Transport. QUIC stream IDs also have a non-intuitive scheme that I would not expose to the application.\r\n\r\nIt's probably best to forgo stream IDs for the sake of WebTransport as a whole. QuicTransport could expose the raw stream ID for the sake of compatibility, but it's only relevant when there are protocols built on top of QUIC that depend on the ID. For now we're going to add our own framing and identification mechanism.",
           "createdAt": "2020-09-12T19:23:33Z",
           "updatedAt": "2020-09-12T19:23:33Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I believe all the discussions we had so far (in both W3C and IETF) have concluded with us deciding to not provide user-exposed stream IDs.  Closing this.",
+          "createdAt": "2022-03-17T16:57:43Z",
+          "updatedAt": "2022-03-17T16:57:43Z"
         }
       ]
     },
@@ -79,15 +86,15 @@
       "id": "MDU6SXNzdWU2NjMzMTgxMjA=",
       "title": "Stream reset semantics",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "vasilvv",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We need to define whether WebTransport stream reset acts the way TCP and HTTP/2 reset does (resetting send side resets the receive side), or the way QUIC and HTTP/3 reset does (separate RESET_STREAM and STOP_SENDING).\r\n\r\nMy intuition here is that it's easier to go HTTP/2 way, since adding one-way reset to HTTP/2 would be a much more complex change than requiring QUIC endpoints to send STOP_SENDING on RESET_STREAM and vice versa.",
       "createdAt": "2020-07-21T21:24:14Z",
-      "updatedAt": "2020-09-14T15:45:08Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-17T16:55:12Z",
+      "closedAt": "2022-03-17T16:55:12Z",
       "comments": [
         {
           "author": "kixelated",
@@ -102,6 +109,13 @@
           "body": "You can half-close a QUIC stream by sending a FIN.  Do you need the ability to half-close a QUIC stream in error?",
           "createdAt": "2020-09-14T15:45:07Z",
           "updatedAt": "2020-09-14T15:45:07Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "WebTransport over HTTP/2 that the Working Group have adopted effectively resolves this in favor of unifying on QUIC reset semantics.  Closing this as resolved.",
+          "createdAt": "2022-03-17T16:55:12Z",
+          "updatedAt": "2022-03-17T16:55:12Z"
         }
       ]
     },
@@ -110,15 +124,15 @@
       "id": "MDU6SXNzdWU2NjU5MDI2NzU=",
       "title": "Streams and messages",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "vasilvv",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Alan has [pointed out on the mailing list](https://mailarchive.ietf.org/arch/msg/webtransport/rZ4JPXw4MPPw21L3HN_rDXkvsFw/) that we do not provide a reliable in-order message abstraction.  The draft currently discusses this as follows:\r\n\r\n> Stream: A stream is a sequence of bytes that is reliably delivered to the receiving application in the same order as it was transmitted by the sender. Streams can be of arbitrary length, and therefore cannot always be buffered entirely in memory. It is expected for transport protocols and APIs to provide partial stream data to the application before the stream has been entirely received.\r\n>\r\n> Message: A message is a stream that is sufficiently small that it can be fully buffered before being passed to the application. WebTransport does not define messages as a primitive, since from the transport perspective they can be simulated by fully buffering a stream before passing it to the application. However, this distinction is important to highlight since some of the similar protocols and APIs (notably WebSocket [RFC6455]) use messages as a core abstraction.\r\n\r\nWe went with streams of bytes as our fundamental primitive since that was the primitive of QUIC, HTTP/2 and HTTP/3.  WebSocket, SCTP and RTC Data Channels all use streams of messages.  Fundamentally, streams of messages are streams of bytes with some boundaries preserved.  As an application, going between those two is easy:\r\n\r\n- Streams of bytes -> streams of messages: this can be done by application adding its own framing, which is not that hard.\r\n- Streams of messages -> streams of bytes: this can be done by simply ignoring the message boundaries.\r\n\r\nThe question here is whether we want to:\r\n\r\n1. Keep situation as-is\r\n1. Replace streams of bytes with streams of messages, to be consistent with WebSocket and DataChannel.\r\n1. Support both",
       "createdAt": "2020-07-27T01:09:53Z",
-      "updatedAt": "2020-09-12T19:02:53Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-17T18:32:43Z",
+      "closedAt": "2022-03-17T16:59:25Z",
       "comments": [
         {
           "author": "kixelated",
@@ -126,6 +140,223 @@
           "body": "I'm a big fan of the HTTP/3 approach and using individual streams for framing messages, so option 1.\r\n\r\nSending a message means creating a new stream, writing the message, closing the stream. Receiving a message means accepting a stream, buffering all of the contents, and returning the message. Buffering a WHATWG stream into a single ArrayBuffer is a little annoying, but it can be done with a simple helper function.\r\n\r\nIt seems very possible to port an application using WebSockets to WebTransport by doing the above, although messages could be delivered out of order. If head-of-line blocking is desired, which I hope becomes less common, the application can add it's own framing like you suggested.",
           "createdAt": "2020-09-12T19:02:53Z",
           "updatedAt": "2020-09-12T19:02:53Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We've not discussed this recently, and I believe there is currently no interest in adding a dedicated message structure to either streams or datagrams.  Closing it as such; please reopen if you have a proposal for a dedicated message API both H/2 and H/3.",
+          "createdAt": "2022-03-17T16:59:25Z",
+          "updatedAt": "2022-03-17T16:59:25Z"
+        },
+        {
+          "author": "afrind",
+          "authorAssociation": "NONE",
+          "body": "I think it's fine to close this issue.  I also think there's an opportunity for someone to get out in front of this and create javascript and server-side libraries for message framing over WebTransport streams (could Capsule Protocol be viable?).  I get the sense a lot of WebSocket developers use the built-in reliable message framing and WebTransport leaves this gap unfilled.",
+          "createdAt": "2022-03-17T17:44:07Z",
+          "updatedAt": "2022-03-17T17:44:07Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yeah, I imagine at some point someone will inevitably build a framework for this (or extend an existing WebSocket framework), so I'm not particularly worried.",
+          "createdAt": "2022-03-17T18:32:42Z",
+          "updatedAt": "2022-03-17T18:32:42Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOD0ymps5F5pXu",
+      "title": "Overview draft and HTTP",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/6",
+      "state": "CLOSED",
+      "author": "vasilvv",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "No text in the overview draft currently assumes that WebTransport is running over HTTP, largely because it was written before we made a decision on WT-over-QUIC vs WT-over-HTTP/3.  I wonder if it makes sense to add anything HTTP-specific that's common to H/3 and H/2 draft now that we have that option.  One aspect I was thinking about is registering an upgrade token (right now, H2 draft cites H3 draft for this, but it feels somewhat wrong).",
+      "createdAt": "2022-03-17T18:35:38Z",
+      "updatedAt": "2023-03-07T23:58:33Z",
+      "closedAt": "2023-03-07T23:58:33Z",
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Chair: discussed during editor's meeting, close with no action - I'll open a separate issue for the IANA registry",
+          "createdAt": "2023-03-07T23:58:33Z",
+          "updatedAt": "2023-03-07T23:58:33Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOD0ymps5hWlRv",
+      "title": "WebTransport can't use HTTP authentication?",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/10",
+      "state": "OPEN",
+      "author": "LPardue",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In other parts of the IETF, we've been discussing how WebTransport is attractive because we can use HTTP authentication techniques during the WT session creation. This seems to be an accepted assumption that I haven't seen challenged (but I might just have missed that). Therefore, I was a bit surprised by the statement in the overview security considerations that says \r\n\r\n> WebTransport does not support any traditional means of HTTP-based authentication. It is not necessarily based on HTTP, and hence does not support HTTP cookies or HTTP authentication.\r\n\r\nPerhaps this statement is true for the abstract overview but then the WebTransport over HTTP/X drafts don't speak about authentication at all, which seems to leave the reader in a position where its unclear what could be used in reality. \r\n\r\nIs HTTP authentication really not supported, or is this just a gap that grew in the document family as we developed them?",
+      "createdAt": "2023-03-21T06:36:12Z",
+      "updatedAt": "2024-07-25T23:10:10Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "It is definitely true that it not supported in the browsers.  I imagine a native client can send whatever headers it wants, including HTTP auth.",
+          "createdAt": "2023-03-21T06:38:28Z",
+          "updatedAt": "2023-03-21T06:38:28Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "Sounds like it's half true based on an implementation decision \ud83d\ude00\r\n\r\nAlso makes me wondering when people building on top of WebTransport talk about auth, if they mean standard techniques or some hand-rolled thing",
+          "createdAt": "2023-03-21T06:45:14Z",
+          "updatedAt": "2023-03-21T06:45:14Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Chair: briefly discussed in slide at IETF 120. Sounds like we do need to revisit the auth text",
+          "createdAt": "2024-07-25T23:10:09Z",
+          "updatedAt": "2024-07-25T23:10:09Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOD0ymps51Alv8",
+      "title": "WebTransport stream capabilities and signals",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/12",
+      "state": "OPEN",
+      "author": "nidhijaju",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "ekinnear"
+      ],
+      "labels": [],
+      "body": "The W3C spec currently refers to definitions in QUIC (in https://www.w3.org/TR/webtransport/#webtransport-stream) for concepts that should be transport protocol independent. Would it be possible to add these concepts to the overview document, so that we can refer to them without having to specify concepts in terms of QUIC? ",
+      "createdAt": "2023-10-26T09:25:36Z",
+      "updatedAt": "2024-09-22T20:06:41Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Most of those already should be in https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.html#name-transport-features -- which ones are missing?",
+          "createdAt": "2023-10-31T11:57:48Z",
+          "updatedAt": "2023-10-31T11:57:48Z"
+        },
+        {
+          "author": "nidhijaju",
+          "authorAssociation": "NONE",
+          "body": "I think the ones that are missing are:\r\n- STOP_SENDING\r\n- RESET_STREAM\r\n\r\nI guess technically \"resetting a stream\" could refer to [Section 4.3-3](https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.html#section-4.3-3), and the \"flow control\" event can refer to [Section 4.3-5](https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.html#section-4.3-5) but maybe something more explicit might be nice to be able to refer to. What do you think?",
+          "createdAt": "2023-11-01T02:53:54Z",
+          "updatedAt": "2023-11-01T02:53:54Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "STOP_SENDING is \"abort receive side\", and RESET_STREAM is \"abort send side\" (I believe they were called that way in the API spec at some point).  I'm not sure what the spec means by the \"flow control event\".",
+          "createdAt": "2023-11-02T00:07:56Z",
+          "updatedAt": "2023-11-02T00:07:56Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "We've also got DRAIN_WT_SESSION and CLOSE_WT_SESSION (which might want to be renamed as such) in common now, do we need to add those to the list of concepts that should be in the overview? (Even if not referred to by the W3C API)",
+          "createdAt": "2024-03-04T23:53:16Z",
+          "updatedAt": "2024-03-16T06:04:05Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Chair: briefly discussed in slide at IETF 120. No comments from room.",
+          "createdAt": "2024-07-25T23:09:06Z",
+          "updatedAt": "2024-07-25T23:09:06Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOD0ymps6BD7TJ",
+      "title": "Redefine Data Recvd to make sense for HTTP/2",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/13",
+      "state": "CLOSED",
+      "author": "vasilvv",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "vasilvv"
+      ],
+      "labels": [],
+      "body": "We currently use the term \"Data Recvd\" and reference QUIC explicitly. That definition does not really make sense for HTTP/2; we should redefine it.\r\n\r\nSee w3c/webtransport#580",
+      "createdAt": "2024-03-03T10:24:25Z",
+      "updatedAt": "2024-10-22T23:50:48Z",
+      "closedAt": "2024-10-22T23:50:48Z",
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Chair: discussed at IETF 120, there was a discussion about replacing Data Recvd with Data Sent",
+          "createdAt": "2024-07-25T23:08:20Z",
+          "updatedAt": "2024-07-25T23:08:26Z"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOD0ymps6GtECQ",
+      "title": "Subprotocol negotiation",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/15",
+      "state": "OPEN",
+      "author": "nidhijaju",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "ekinnear"
+      ],
+      "labels": [],
+      "body": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/pull/144 added subprotocol negotiation to the HTTP/3 document, but it would be good to specify this for other protocols as well. https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http2/issues/108 was opened for HTTP/2 as well.\r\n\r\nIt would be good to add it to the overview doc as well to be able to refer from the W3C spec (context: https://github.com/w3c/webtransport/pull/598#discussion_r1572030911), as the mechanism probably shouldn't be limited to HTTP/3.",
+      "createdAt": "2024-04-23T23:47:14Z",
+      "updatedAt": "2024-08-20T22:36:46Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "NONE",
+          "body": "@aboba  - this issue is blocking a PR at https://github.com/w3c/webtransport/pull/598. Can an editor be assigned for a PR for tjhis issue so that we can move forward on the W3C side? ",
+          "createdAt": "2024-06-03T14:22:32Z",
+          "updatedAt": "2024-06-03T14:22:32Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Would anyone like to volunteer to write a PR here? We do welcome contributions from outside the editor team as well. If not, we'll ask editors at our next editor's call.",
+          "createdAt": "2024-06-03T18:40:44Z",
+          "updatedAt": "2024-06-03T18:40:44Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Chair: discussed at IETF 120. There was a discussion about renaming from WebTransport-SubProtocol to WebTransport-Protocol. There's wasn't clear consensus on the rename but there weren't strong opinions either. Everyone agreed that we should have the same name in W3C/overview/h2/h3 though",
+          "createdAt": "2024-07-25T23:07:18Z",
+          "updatedAt": "2024-07-25T23:07:18Z"
+        },
+        {
+          "author": "jan-ivar",
+          "authorAssociation": "NONE",
+          "body": "The poll results I recall were 19 for protocol, 3 for subprotocol, and 9 for applicationLevelProtocol.",
+          "createdAt": "2024-07-30T14:06:01Z",
+          "updatedAt": "2024-07-30T14:06:01Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Note that https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/pull/162 renamed SubProtocol to Protocol in WebTransport over h3. Unless someone objects strongly, let's go with that bikeshed color for all the drafts",
+          "createdAt": "2024-08-20T22:36:45Z",
+          "updatedAt": "2024-08-20T22:36:45Z"
         }
       ]
     }
@@ -136,21 +367,21 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NTE5MDE5NTQ3",
       "title": "Define unified header semantics across all transports",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "vasilvv",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2020-11-11T07:47:59Z",
-      "updatedAt": "2021-02-17T23:19:29Z",
+      "updatedAt": "2022-06-21T19:35:02Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "1b7852fd72e021ec2b07f5ecc232ea3d2e658f85",
       "headRepository": "vasilvv/draft-ietf-webtrans-overview",
       "headRefName": "headers",
       "headRefOid": "c954a400042e6619c5a9cee21bd80a65ed5703a8",
-      "closedAt": null,
+      "closedAt": "2022-06-21T19:35:02Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -168,6 +399,13 @@
           "body": "As a general observation about this change, the header rules seem quite loose. In HTTP, we send messages. But this change talks about header fields and things that look a bit like requests or responses but aren't. I'm not really sure how I would write a server-side WebTransport parser with confidence, especially if I already have code that handles HTTP/3 framing and messages.",
           "createdAt": "2020-11-16T10:02:23Z",
           "updatedAt": "2020-11-16T10:02:23Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this PR without merging as no longer relevant.",
+          "createdAt": "2022-06-21T19:35:02Z",
+          "updatedAt": "2022-06-21T19:35:02Z"
         }
       ],
       "reviews": [
@@ -202,6 +440,988 @@
               "updatedAt": "2020-11-11T20:58:53Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOD0ymps40nBmg",
+      "title": "Describe operations and events WebTransport is expected to implement",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/5",
+      "state": "MERGED",
+      "author": "vasilvv",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, in the W3C API draft, we cite the HTTP/3 draft and RFC 9000\r\ndirectly.  This does not work with WebTransport over HTTP/2, hence we\r\nneed for the overview draft to provide a common set of operations that\r\nboth H3 and H2 versions of the draft are expected to implement.",
+      "createdAt": "2022-03-17T16:51:50Z",
+      "updatedAt": "2022-07-11T18:36:08Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "721c04d49494884701df2ae167d00ccc8c031643",
+      "headRepository": "vasilvv/draft-ietf-webtrans-overview",
+      "headRefName": "common-ops",
+      "headRefOid": "58ef619ca6e2ded3b9a6014f2afd159a12a96ec6",
+      "closedAt": "2022-07-11T18:36:08Z",
+      "mergedAt": "2022-07-11T18:36:08Z",
+      "mergedBy": "vasilvv",
+      "mergeCommit": {
+        "oid": "d4f6d4b050e03f53d316921142e4a844c6c43bd8"
+      },
+      "comments": [
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "cc @aboba @yutakahirano @ekinnear @martinthomson",
+          "createdAt": "2022-03-17T16:53:09Z",
+          "updatedAt": "2022-03-17T16:53:09Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "How does this square with the set of _features_ that we list in the overview draft -- right now it looks like we'll just have two lists. Do we want to do anything to relate them / break things down as being part of each feature? (Not saying that's strictly necessary, just curious if we'd thought about it)",
+          "createdAt": "2022-03-17T17:18:41Z",
+          "updatedAt": "2022-03-17T17:18:41Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Chair: discussed at 113, request for folks to review this PR",
+          "createdAt": "2022-03-24T14:12:34Z",
+          "updatedAt": "2022-03-24T14:12:34Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks everyone for the comments!  I've revised the PR; please take another look.\r\n\r\n> How does this square with the set of _features_ that we list in the overview draft -- right now it looks like we'll just have two lists. Do we want to do anything to relate them / break things down as being part of each feature? (Not saying that's strictly necessary, just curious if we'd thought about it)\r\n\r\nBy features, you mean the requirements in the section above that?  Those are somewhat different in nature, I feel.  The features are the list of things that I should be able to do with a WebTransport, whereas the requirements are on how it is supposed to work (e.g. you must use TLS, etc).",
+          "createdAt": "2022-06-23T04:05:18Z",
+          "updatedAt": "2022-06-23T04:05:18Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps43J4bj",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-29T23:19:56Z",
+          "updatedAt": "2022-03-30T04:39:43Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "terminated by a peer?",
+              "createdAt": "2022-03-29T23:19:56Z",
+              "updatedAt": "2022-03-30T04:39:43Z"
+            },
+            {
+              "originalPosition": 50,
+              "body": "s/transfer/send ?",
+              "createdAt": "2022-03-29T23:20:13Z",
+              "updatedAt": "2022-03-30T04:39:43Z"
+            },
+            {
+              "originalPosition": 81,
+              "body": "Don't we need events for these?",
+              "createdAt": "2022-03-29T23:20:50Z",
+              "updatedAt": "2022-03-30T04:39:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps43K5bn",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "yutakahirano",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-30T06:48:53Z",
+          "updatedAt": "2022-03-30T06:54:30Z",
+          "comments": [
+            {
+              "originalPosition": 119,
+              "body": "FIN needs to be ACKed too, right?",
+              "createdAt": "2022-03-30T06:48:53Z",
+              "updatedAt": "2022-03-30T06:54:30Z"
+            },
+            {
+              "originalPosition": 118,
+              "body": "How about adding \"send side\" for this too?",
+              "createdAt": "2022-03-30T06:49:44Z",
+              "updatedAt": "2022-03-30T06:54:30Z"
+            },
+            {
+              "originalPosition": 24,
+              "body": "This is not yet used in the W3C spec, but the path migration event will be useful to update the max datagram size.",
+              "createdAt": "2022-03-30T06:51:24Z",
+              "updatedAt": "2022-03-30T06:54:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps43PWJJ",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-30T21:55:17Z",
+          "updatedAt": "2022-03-30T21:55:18Z",
+          "comments": [
+            {
+              "originalPosition": 75,
+              "body": "```suggestion\r\nreceive a unidirectional stream\r\n```",
+              "createdAt": "2022-03-30T21:55:17Z",
+              "updatedAt": "2022-03-30T21:55:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48czi5",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:10:02Z",
+          "updatedAt": "2022-06-21T20:10:03Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "By the peer or by the host network stack (though the error code is only for the peer).  Clarified that.",
+              "createdAt": "2022-06-21T20:10:03Z",
+              "updatedAt": "2022-06-21T20:10:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48czrH",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:10:34Z",
+          "updatedAt": "2022-06-21T20:10:34Z",
+          "comments": [
+            {
+              "originalPosition": 81,
+              "body": "No, since those are subject to backpressure (i.e. the client has to actively pull new streams).",
+              "createdAt": "2022-06-21T20:10:34Z",
+              "updatedAt": "2022-06-21T20:10:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c0GJ",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:12:17Z",
+          "updatedAt": "2022-06-21T20:12:17Z",
+          "comments": [
+            {
+              "originalPosition": 119,
+              "body": "\"no further data will be transmitted or retransmitted\" should imply that (since FIN will be retransmitted).  I don't want to write down ACK specifically, since in H/2, we have no way of knowing when things get ACKed.",
+              "createdAt": "2022-06-21T20:12:17Z",
+              "updatedAt": "2022-06-21T20:12:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c0Ip",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:12:27Z",
+          "updatedAt": "2022-06-21T20:12:27Z",
+          "comments": [
+            {
+              "originalPosition": 118,
+              "body": "Good point.  Done.",
+              "createdAt": "2022-06-21T20:12:27Z",
+              "updatedAt": "2022-06-21T20:12:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c0yF",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:15:05Z",
+          "updatedAt": "2022-06-21T20:15:05Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "I might be misreading but H3 doesn't define any error code 0.",
+              "createdAt": "2022-06-21T20:15:05Z",
+              "updatedAt": "2022-06-21T20:15:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c06u",
+          "commit": {
+            "abbreviatedOid": "071c988"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:15:39Z",
+          "updatedAt": "2022-06-21T20:15:39Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "Looking through the notes for w3c/webtransport#314, I think we should probably leave this as-is for now.  If we do end up adding that, I would prefer us to go for something more specific like \"max datagram size changed event\", since this makes it easier for the API user to have the correct expectations on how this event is used.",
+              "createdAt": "2022-06-21T20:15:39Z",
+              "updatedAt": "2022-06-21T20:15:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c2Gs",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:20:15Z",
+          "updatedAt": "2022-06-21T20:20:16Z",
+          "comments": [
+            {
+              "originalPosition": 75,
+              "body": "I think this identifies a problem with overloading the term flow control to apply to actual data and stream counts. I can't disambiguation which one you mean here, or could it be both?",
+              "createdAt": "2022-06-21T20:20:15Z",
+              "updatedAt": "2022-06-21T20:20:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c2nF",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:22:13Z",
+          "updatedAt": "2022-06-21T20:22:14Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Does that return stream coint credit to the peer? In used to implementations that only return the credit once the stream completes.",
+              "createdAt": "2022-06-21T20:22:13Z",
+              "updatedAt": "2022-06-21T20:22:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c2qs",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:22:26Z",
+          "updatedAt": "2022-06-21T20:22:26Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "The way this looks in practice is that if an H/3 session receives a FIN with no session close capsule, the API will return a `(0, \"\")` error, see [here](https://w3c.github.io/webtransport/#web-transport-termination) and [here](https://w3c.github.io/webtransport/#dictdef-webtransportcloseinfo).  We may want to update H/3 spec to mention those are semantically equivalent operations.",
+              "createdAt": "2022-06-21T20:22:26Z",
+              "updatedAt": "2022-06-21T20:22:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c3Gu",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:24:09Z",
+          "updatedAt": "2022-06-21T20:24:09Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "In h2 and h3, the code is mandatory but the value is application detemined",
+              "createdAt": "2022-06-21T20:24:09Z",
+              "updatedAt": "2022-06-21T20:24:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48c3ve",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-21T20:26:42Z",
+          "updatedAt": "2022-06-21T20:26:42Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Ah makes sense, thanks.",
+              "createdAt": "2022-06-21T20:26:42Z",
+              "updatedAt": "2022-06-21T20:26:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48k4be",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-23T03:56:44Z",
+          "updatedAt": "2022-06-23T03:56:44Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "That's currently implementation defined.  Chromium currently uses the latter approach (limit on total max open streams), but I can imagine implementations setting different limits for unaccepted streams vs total streams.",
+              "createdAt": "2022-06-23T03:56:44Z",
+              "updatedAt": "2022-06-23T03:56:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48k5D3",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-23T04:02:27Z",
+          "updatedAt": "2022-06-23T04:02:27Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "True.  In some cases, we do need a default though, so I mentioned that it's zero.",
+              "createdAt": "2022-06-23T04:02:27Z",
+              "updatedAt": "2022-06-23T04:02:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps48k5IY",
+          "commit": {
+            "abbreviatedOid": "28e75bb"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-23T04:03:02Z",
+          "updatedAt": "2022-06-23T04:03:02Z",
+          "comments": [
+            {
+              "originalPosition": 75,
+              "body": "I think it should be only stream-level flow control, but here it's just \"any form of flow control that applies\".",
+              "createdAt": "2022-06-23T04:03:02Z",
+              "updatedAt": "2022-06-23T04:03:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps480lqe",
+          "commit": {
+            "abbreviatedOid": "d9bd6b8"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "(no hats) overall this LGTM, my comments are minor",
+          "createdAt": "2022-06-27T15:58:11Z",
+          "updatedAt": "2022-06-27T16:02:27Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "Isn't the origin a component of the URI? If not can we briefly explain why?",
+              "createdAt": "2022-06-27T15:58:11Z",
+              "updatedAt": "2022-06-27T16:02:27Z"
+            },
+            {
+              "originalPosition": 38,
+              "body": "nit: expand acronym",
+              "createdAt": "2022-06-27T15:59:06Z",
+              "updatedAt": "2022-06-27T16:02:27Z"
+            },
+            {
+              "originalPosition": 75,
+              "body": "Perhaps saying \"flow control of the underlying protocol\"?",
+              "createdAt": "2022-06-27T16:00:26Z",
+              "updatedAt": "2022-06-27T16:02:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps480px2",
+          "commit": {
+            "abbreviatedOid": "d9bd6b8"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-06-27T16:11:30Z",
+          "updatedAt": "2022-06-27T16:11:30Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "It's the origin of the requesting page, not of the WebTransport server.  Clarified.",
+              "createdAt": "2022-06-27T16:11:30Z",
+              "updatedAt": "2022-06-27T16:11:30Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOD0ymps5IdI6R",
+      "title": "Update references",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/7",
+      "state": "MERGED",
+      "author": "vasilvv",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-01-24T19:22:46Z",
+      "updatedAt": "2023-01-24T19:27:41Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "d4f6d4b050e03f53d316921142e4a844c6c43bd8",
+      "headRepository": "vasilvv/draft-ietf-webtrans-overview",
+      "headRefName": "main",
+      "headRefOid": "ea9d2ca687ad5f0282f34d8aa251b628ea6d77b2",
+      "closedAt": "2023-01-24T19:27:41Z",
+      "mergedAt": "2023-01-24T19:27:40Z",
+      "mergedBy": "vasilvv",
+      "mergeCommit": {
+        "oid": "adcd657768c1f1889165debc52a616931d2648dc"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOD0ymps5LQ1mF",
+      "title": "Clarify the semantics of session termination",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/8",
+      "state": "MERGED",
+      "author": "vasilvv",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-03-03T22:42:27Z",
+      "updatedAt": "2023-03-07T23:53:26Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "adcd657768c1f1889165debc52a616931d2648dc",
+      "headRepository": "vasilvv/draft-ietf-webtrans-overview",
+      "headRefName": "termination",
+      "headRefOid": "2f913342f28292da58ce618001249b301d426129",
+      "closedAt": "2023-03-07T23:53:26Z",
+      "mergedAt": "2023-03-07T23:53:26Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "3f98e918ed5c64c43e51b15a1c032f09fa1af171"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps5O_owg",
+          "commit": {
+            "abbreviatedOid": "2f91334"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-03-05T23:52:58Z",
+          "updatedAt": "2023-03-05T23:52:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps5PQlSL",
+          "commit": {
+            "abbreviatedOid": "2f91334"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-03-07T23:52:45Z",
+          "updatedAt": "2023-03-07T23:52:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps5PQlT-",
+          "commit": {
+            "abbreviatedOid": "2f91334"
+          },
+          "author": "afrind",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-03-07T23:52:56Z",
+          "updatedAt": "2023-03-07T23:52:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps5PQlX1",
+          "commit": {
+            "abbreviatedOid": "2f91334"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-03-07T23:53:17Z",
+          "updatedAt": "2023-03-07T23:53:17Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOD0ymps5LjIc2",
+      "title": "Editorial: Clarify session related sentences",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/9",
+      "state": "MERGED",
+      "author": "bashi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-03-08T08:20:17Z",
+      "updatedAt": "2023-09-06T16:42:41Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "3f98e918ed5c64c43e51b15a1c032f09fa1af171",
+      "headRepository": "bashi/draft-ietf-webtrans-overview",
+      "headRefName": "editorial",
+      "headRefOid": "c747a31780506b43e3d136d743d9bcd86a3a866c",
+      "closedAt": "2023-09-06T16:42:41Z",
+      "mergedAt": "2023-09-06T16:42:41Z",
+      "mergedBy": "vasilvv",
+      "mergeCommit": {
+        "oid": "5552bb1d6a93586313f08bf961194a0da823b5de"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps5gEagn",
+          "commit": {
+            "abbreviatedOid": "c747a31"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-05T19:14:28Z",
+          "updatedAt": "2023-09-05T19:14:28Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps5gFaoA",
+          "commit": {
+            "abbreviatedOid": "c747a31"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-05T22:23:38Z",
+          "updatedAt": "2023-09-05T22:23:38Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOD0ymps5Zm1Gg",
+      "title": "Editorial changes",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/11",
+      "state": "MERGED",
+      "author": "vasilvv",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-09-05T19:13:40Z",
+      "updatedAt": "2023-09-06T22:16:21Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "3f98e918ed5c64c43e51b15a1c032f09fa1af171",
+      "headRepository": "vasilvv/draft-ietf-webtrans-overview",
+      "headRefName": "editorial",
+      "headRefOid": "f240c87d09917bdee8b7b1e140c9318ae16b6859",
+      "closedAt": "2023-09-06T22:16:21Z",
+      "mergedAt": "2023-09-06T22:16:21Z",
+      "mergedBy": "vasilvv",
+      "mergeCommit": {
+        "oid": "521d0b532d64d374d77a2292df98eb9906cb9240"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps5gFags",
+          "commit": {
+            "abbreviatedOid": "f240c87"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-05T22:22:59Z",
+          "updatedAt": "2023-09-05T22:22:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDOD0ymps5oghrI",
+      "title": "Data Recvd -> all data committed",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/14",
+      "state": "MERGED",
+      "author": "vasilvv",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #13\r\n",
+      "createdAt": "2024-03-03T10:44:31Z",
+      "updatedAt": "2024-10-22T23:50:48Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "521d0b532d64d374d77a2292df98eb9906cb9240",
+      "headRepository": "vasilvv/draft-ietf-webtrans-overview",
+      "headRefName": "data-recvd",
+      "headRefOid": "01dcccce4a81526dced0c814e0bcd2a63535502f",
+      "closedAt": "2024-10-22T23:50:47Z",
+      "mergedAt": "2024-10-22T23:50:47Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "49da41ead22027fd1fd33d0b1ef24a2f83ab74b7"
+      },
+      "comments": [
+        {
+          "author": "jan-ivar",
+          "authorAssociation": "NONE",
+          "body": "@martinthomson does this LGTY now?",
+          "createdAt": "2024-10-22T14:21:24Z",
+          "updatedAt": "2024-10-22T14:21:24Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps5yCDzr",
+          "commit": {
+            "abbreviatedOid": "82f0a00"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2024-03-03T22:57:54Z",
+          "updatedAt": "2024-03-03T22:57:59Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "This is a fine definition, but I think that you need to add a section explaining what that means, concretely, for different protocols.  That will necessarily involve some ambiguity and talking about layering and APIs, but this is not really very clear without that elaboration.",
+              "createdAt": "2024-03-03T22:57:54Z",
+              "updatedAt": "2024-03-03T22:57:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps5yHQgw",
+          "commit": {
+            "abbreviatedOid": "82f0a00"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-04T14:46:25Z",
+          "updatedAt": "2024-03-04T14:46:25Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "Does this look better?",
+              "createdAt": "2024-03-04T14:46:25Z",
+              "updatedAt": "2024-03-04T14:46:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps5yLFlY",
+          "commit": {
+            "abbreviatedOid": "9918d12"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-04T22:52:01Z",
+          "updatedAt": "2024-03-05T07:58:05Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\n: Indicates that all of the outgoing data on the stream, including the end stream indication, is\r\n```\r\n\r\nFIN is such a nasty label.",
+              "createdAt": "2024-03-04T22:52:01Z",
+              "updatedAt": "2024-03-05T07:58:05Z"
+            },
+            {
+              "originalPosition": 16,
+              "body": "I would reorder these.  That is, provide the historical context first.\r\n\r\n```suggestion\r\n  data being delivered.  \r\n  \r\n: For protocols, like HTTP/2, stream data might be passed to another\r\n  component (like a kernel) for transmission. Once data is passed to that\r\n  component it might not be possible to abort the sending of stream data\r\n  without also aborting the entire connection.\r\n  For these protocols, data is considered committed once it passes to the\r\n  other component.\r\n  \r\n: A protocol, like HTTP/3, that uses a more integrated stack might be able to\r\n  retract data further into the process. For these protocols, sending on a\r\n  stream might be aborted at any time until all data has been received,\r\n  corresponding to the \"Data Recvd\" state in QUIC; see {{Section X.Y of QUIC}}.\r\n```",
+              "createdAt": "2024-03-04T23:14:39Z",
+              "updatedAt": "2024-03-05T07:58:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps5zwRho",
+          "commit": {
+            "abbreviatedOid": "a581852"
+          },
+          "author": "MikeBishop",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-18T06:00:13Z",
+          "updatedAt": "2024-03-18T06:01:08Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "\"Data Recvd\" indicates that ACKs have been received that cover all data sent. Do all QUIC stacks expose this to the application layer?  HTTP/3 made a hard line that the application layer didn't have or need access to transport-level ACKs of its data.",
+              "createdAt": "2024-03-18T06:00:13Z",
+              "updatedAt": "2024-03-18T06:01:08Z"
+            },
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\r\n  stream might be aborted at any time until all data has been received,\r\n  corresponding to the \"Data Recvd\" state in QUIC; see {{Section 3.1 of QUIC}}.\r\n```\r\nIf we keep this text, the section number is missing.",
+              "createdAt": "2024-03-18T06:00:53Z",
+              "updatedAt": "2024-03-18T06:01:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6C-vd8",
+          "commit": {
+            "abbreviatedOid": "a581852"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-24T18:28:29Z",
+          "updatedAt": "2024-07-24T18:28:29Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Due to the way W3C APIs are structured, we have to keep a stream in a \"kind of open\" state so that the application could send a reset for a stream in the window between the FIN being sent and all data being acknowledged.  It's somewhat unfortunate, but it isn't really meant to be a solid signal for the application (in fact, I think in WebTransport over HTTP/2, this will be probably signaled instantly).",
+              "createdAt": "2024-07-24T18:28:29Z",
+              "updatedAt": "2024-07-24T18:28:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6DePUe",
+          "commit": {
+            "abbreviatedOid": "7c7bd46"
+          },
+          "author": "MikeBishop",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-29T18:48:28Z",
+          "updatedAt": "2024-07-29T18:48:41Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "```suggestion\r\n  stream might be aborted at any time until all data has been received and acknowledged by the peer,\r\n```",
+              "createdAt": "2024-07-29T18:48:28Z",
+              "updatedAt": "2024-07-29T18:48:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6OQJ_w",
+          "commit": {
+            "abbreviatedOid": "01dcccc"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-22T23:47:35Z",
+          "updatedAt": "2024-10-22T23:47:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6OQKgq",
+          "commit": {
+            "abbreviatedOid": "01dcccc"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-22T23:50:25Z",
+          "updatedAt": "2024-10-22T23:50:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOD0ymps52BkIC",
+      "title": "Add subprotocol negotiation as part of session establishment",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/16",
+      "state": "OPEN",
+      "author": "ekinnear",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Add subprotocol negotiation as part of session establishment.\r\n\r\nVery open to alternate ideas for how to structure this.\r\n\r\nCloses #15",
+      "createdAt": "2024-07-21T22:14:56Z",
+      "updatedAt": "2024-07-22T18:16:13Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "521d0b532d64d374d77a2292df98eb9906cb9240",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/subprotocol_negotiation",
+      "headRefOid": "0af5635babd6540f61beb6f704cb9910116d0fef",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6Cqviw",
+          "commit": {
+            "abbreviatedOid": "0af5635"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-22T18:14:01Z",
+          "updatedAt": "2024-07-22T18:14:01Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "I think given how this isn't really operation, and how similar it is to the origin requirement in the section above, would it make more sense to move it there?",
+              "createdAt": "2024-07-22T18:14:01Z",
+              "updatedAt": "2024-07-22T18:14:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6Cqxww",
+          "commit": {
+            "abbreviatedOid": "0af5635"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-22T18:16:13Z",
+          "updatedAt": "2024-07-22T18:16:13Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Yeah, that could work! It is a thing that'll directly prompt an entry in the W3C API, so was trying to match that (whereas the origin requirement is more of a thing the browser must do?).",
+              "createdAt": "2024-07-22T18:16:13Z",
+              "updatedAt": "2024-07-22T18:16:13Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOD0ymps58USsU",
+      "title": "Add protocol negotiation to the overview",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/17",
+      "state": "OPEN",
+      "author": "ekinnear",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Add protocol negotiation to the overview\r\n\r\nCloses #15 ",
+      "createdAt": "2024-09-23T06:09:27Z",
+      "updatedAt": "2024-09-24T01:50:15Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "1552901011b3118bf25063d4f13e6580b06e0bd2",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/protocol_negotiation",
+      "headRefOid": "055396409ac852f0dcf9552c4df40371b7119700",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6Kgt6P",
+          "commit": {
+            "abbreviatedOid": "0553964"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-24T01:50:14Z",
+          "updatedAt": "2024-09-24T01:50:14Z",
+          "comments": []
         }
       ]
     }
