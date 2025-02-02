@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T00:52:55.842500+00:00",
+  "timestamp": "2025-02-02T00:56:48.897347+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -357,6 +357,60 @@
           "body": "Note that https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/pull/162 renamed SubProtocol to Protocol in WebTransport over h3. Unless someone objects strongly, let's go with that bikeshed color for all the drafts",
           "createdAt": "2024-08-20T22:36:45Z",
           "updatedAt": "2024-08-20T22:36:45Z"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "I_kwDOD0ymps6oUEHx",
+      "title": "8-bit error code width is unnecessarily restrictive",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/18",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The WebTransport overview says\n\n>    abort receive side  Sends a signal to the peer that the read side of\n>       the stream has been aborted.  Discards the receive buffer; the\n>       peer is typically expected to abort the corresponding send side in\n>       response.  An unsigned 8-bit error code can be supplied as a part\n>       of the signal to the peer.\n\nHowever, draft-ietf-webtrans-http2 says\n\n>    Application Protocol Error Code:  A variable-length integer\n>       containing the application protocol error code that indicates why\n>       the stream is being closed.\n\nAnd draft-ietf-webtrans-http3 says\n\n> WebTransport application errors for streams are limited to an\n>    unsigned 32-bit integer\n\nAnd the W3C WebTransport API defines streamErrorCode as an \"unsigned long\", which is 32 bits.\n\nCan we change this 8-bit limit to 32, or at least 31?",
+      "createdAt": "2025-01-31T15:41:36Z",
+      "updatedAt": "2025-01-31T15:41:36Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 19,
+      "id": "I_kwDOD0ymps6oUr5E",
+      "title": "No safe way to close a stream with an error code",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/19",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The current text says:\n\n>    abort send side  Sends a signal to the peer that the write side of\n>       the stream has been aborted.  Discards the send buffer; if\n>       possible, no currently outstanding data is transmitted or\n>       retransmitted.\n\nI believe this means there is no safe way to close a stream, unless the application has some other way to confirm that all previous writes have been acknowledged by the server.\n\nIn contrast, the W3C streams API distinguishes between close() (clean shutdown) and abort() (may lose data).\n\nWe should add a \"close send side\" operation, identical to \"abort send side\" but blocking until the send buffer has been delivered.",
+      "createdAt": "2025-01-31T17:00:22Z",
+      "updatedAt": "2025-01-31T17:42:47Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "Already covered by \"send bytes\" no?\n\n> Add bytes into the stream send buffer. The sender can also indicate a FIN, signalling the fact that no new data will be send on the stream. Not applicable for incoming unidirectional streams.\n\nAll h2 and h3 implementations I'm familiar with support a notion of stream fin",
+          "createdAt": "2025-01-31T17:13:26Z",
+          "updatedAt": "2025-01-31T17:13:26Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "NONE",
+          "body": "Thanks for the reminder.  However, I think that still means that there is no way to send a defined final message _and_ an error code.  Sending an error code requires using \"abort\", which can always lose data.",
+          "createdAt": "2025-01-31T17:24:20Z",
+          "updatedAt": "2025-01-31T17:24:20Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "Yeah that's a part of the QUIC reliable reset stuff (as in we adopted that work and wrote the spec in order to address the type or problem you highlight).\n\nI'll leave it to one of editors to comment on their plans to incorporate the other I-D here",
+          "createdAt": "2025-01-31T17:42:46Z",
+          "updatedAt": "2025-01-31T17:42:46Z"
         }
       ]
     }
