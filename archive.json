@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-02T00:56:48.897347+00:00",
+  "timestamp": "2025-02-04T00:54:04.546289+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -372,9 +372,24 @@
       "labels": [],
       "body": "The WebTransport overview says\n\n>    abort receive side  Sends a signal to the peer that the read side of\n>       the stream has been aborted.  Discards the receive buffer; the\n>       peer is typically expected to abort the corresponding send side in\n>       response.  An unsigned 8-bit error code can be supplied as a part\n>       of the signal to the peer.\n\nHowever, draft-ietf-webtrans-http2 says\n\n>    Application Protocol Error Code:  A variable-length integer\n>       containing the application protocol error code that indicates why\n>       the stream is being closed.\n\nAnd draft-ietf-webtrans-http3 says\n\n> WebTransport application errors for streams are limited to an\n>    unsigned 32-bit integer\n\nAnd the W3C WebTransport API defines streamErrorCode as an \"unsigned long\", which is 32 bits.\n\nCan we change this 8-bit limit to 32, or at least 31?",
       "createdAt": "2025-01-31T15:41:36Z",
-      "updatedAt": "2025-01-31T15:41:36Z",
+      "updatedAt": "2025-02-03T14:08:00Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "marten-seemann",
+          "authorAssociation": "NONE",
+          "body": "This should be 32 bits. We changed that a while ago.",
+          "createdAt": "2025-02-03T07:21:15Z",
+          "updatedAt": "2025-02-03T07:21:15Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "NONE",
+          "body": "OK, PR up at https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/20.",
+          "createdAt": "2025-02-03T14:07:59Z",
+          "updatedAt": "2025-02-03T14:07:59Z"
+        }
+      ]
     },
     {
       "number": 19,
@@ -1478,6 +1493,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOD0ymps6J2vpD",
+      "title": "Stream errors are 32 bits",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/20",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/18",
+      "createdAt": "2025-02-03T14:07:19Z",
+      "updatedAt": "2025-02-03T14:07:20Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "bb95060d839c48189a26a189a484507b344da6fc",
+      "headRepository": "bemasc/draft-ietf-webtrans-overview",
+      "headRefName": "bemasc-32",
+      "headRefOid": "a7d0d3a9f2ab245fe31f58345f1acde5e45aef53",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
