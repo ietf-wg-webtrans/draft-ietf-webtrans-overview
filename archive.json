@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-20T00:55:31.430463+00:00",
+  "timestamp": "2025-02-23T00:59:34.829627+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -426,6 +426,51 @@
           "body": "Yeah that's a part of the QUIC reliable reset stuff (as in we adopted that work and wrote the spec in order to address the type or problem you highlight).\n\nI'll leave it to one of editors to comment on their plans to incorporate the other I-D here",
           "createdAt": "2025-01-31T17:42:46Z",
           "updatedAt": "2025-01-31T17:42:46Z"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOD0ymps6q59pw",
+      "title": "TLS doesn't protect against middlebox confusion",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/21",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft currently says that TLS is mandatory in part because it\n\n> protects the network elements from potential confusion attacks such as the one discussed in Section 10.3 of {{?RFC6455}}.\n\nThis is not correct.  WebSocket masking works because each frame is masked by a separate, fresh masking key that the application cannot predict, as discussed at length in that reference.  TLS (with all existing ciphers) uses a single symmetric key for each session.  This renders the \"masking\" entirely predictable to the attacker, and hence ineffective.  The attacker can easily choose plaintext that, when encrypted, will produce any chosen bytes on the wire, including bytes that will confuse a non-compliant middlebox.\n\nIf a principled defense against this threat model is a goal, we will need something like [Pseudorandom cTLS](https://datatracker.ietf.org/doc/draft-cpbs-pseudorandom-ctls/).  As a practical matter, we should probably just cut this claim from the draft and note our hope that any vulnerable middleboxes have been retired.",
+      "createdAt": "2025-02-20T21:34:23Z",
+      "updatedAt": "2025-02-21T15:07:40Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "TLS 1.2 with AES-CBC is also a principled defense against this threat :-)\n\nBut more practically, I agree that we should remove that text from the draft and instead just say that we require TLS to ensure confidentiality and integrity. We discussed this kind of attack with the working group, and the consensus was that these attacks could be leveraged on HTTP/3 with POST so there was no need to solve them at the WebTransport layer.",
+          "createdAt": "2025-02-20T22:05:09Z",
+          "updatedAt": "2025-02-20T22:05:09Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "NONE",
+          "body": "> TLS 1.2 with AES-CBC is also a principled defense against this threat :-)\n\nNit: The attack is more complicated but it still works.  Once the attacker knows the session key, it can figure out everything else and control the ciphertext.",
+          "createdAt": "2025-02-20T22:35:31Z",
+          "updatedAt": "2025-02-20T22:35:31Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Now I'm curious: how does the attack work? CBC generates a random nonce for each record, so the ciphertext should be unpredictable as long as records don't span multiple RTTs",
+          "createdAt": "2025-02-20T23:19:46Z",
+          "updatedAt": "2025-02-20T23:19:46Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "NONE",
+          "body": "You're right.  AES-CBC in general (and in TLS 1.0) does not protect against this, but the version in TLS 1.2 does achieve protection.",
+          "createdAt": "2025-02-21T15:07:38Z",
+          "updatedAt": "2025-02-21T15:07:38Z"
         }
       ]
     }
