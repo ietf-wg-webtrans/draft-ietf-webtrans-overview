@@ -223,6 +223,18 @@ WebTransport protocols MAY allow clients to send data before the session is
 ready; however, they MUST NOT use mechanisms that are unsafe against replay
 attacks without an explicit indication from the client.
 
+## Application Protocol Negotiation
+
+WebTransport sessions offer a protocol negotiation mechanism, similar to
+TLS Application-Layer Protocol Negotiation Extension (ALPN) {{?RFC7301}}.
+
+When establishing a session, a WebTransport client can offer the server a list
+of protocols that it would like to use on that session, in preference order.
+When the server receives such a list, it selects a single choice from that list
+and communicates that choice to the client.  A server that does not wish to use
+any of the protocols offered by the client can reject the WebTransport session
+establishment attempt.
+
 # Transport Features
 
 All transport protocols MUST provide datagrams, unidirectional and
