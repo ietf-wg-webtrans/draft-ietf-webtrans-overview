@@ -358,14 +358,14 @@ receive bytes
 abort send side
 : Sends a signal to the peer that the write side of the stream has been aborted.
   Discards the send buffer; if possible, no currently outstanding data is
-  transmitted or retransmitted.  An unsigned 8-bit error code can be supplied
+  transmitted or retransmitted.  An unsigned 32-bit error code can be supplied
   as a part of the signal to the peer; if omitted, the error code is presumed
   to be 0.
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
   Discards the receive buffer; the peer is typically expected to abort the
-  corresponding send side in response.  An unsigned 8-bit error code can be
+  corresponding send side in response.  An unsigned 32-bit error code can be
   supplied as a part of the signal to the peer.
 
 Any WebTransport protocol SHALL provide the following events for an individual
@@ -373,11 +373,11 @@ stream:
 
 send side aborted
 : Indicates that the peer has aborted the corresponding receive side of the
-  stream.  An unsigned 8-bit error code from the peer may be available.
+  stream.  An unsigned 32-bit error code from the peer may be available.
 
 receive side aborted
 : Indicates that the peer has aborted the corresponding send side of the
-  stream.  An unsigned 8-bit error code from the peer may be available.
+  stream.  An unsigned 32-bit error code from the peer may be available.
 
 all data committed
 : Indicates that all of the outgoing data on the stream, including the end
