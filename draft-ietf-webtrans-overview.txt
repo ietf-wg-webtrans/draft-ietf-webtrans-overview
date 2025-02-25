@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                         22 October 2024
-Expires: 25 April 2025
+Intended status: Standards Track                        25 February 2025
+Expires: 29 August 2025
 
 
                   The WebTransport Protocol Framework
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 April 2025.
+   This Internet-Draft will expire on 29 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -72,6 +72,7 @@ Table of Contents
      1.2.  Conventions and Definitions
    2.  Common Transport Requirements
    3.  Session Establishment
+     3.1.  Application Protocol Negotiation
    4.  Transport Features
      4.1.  Session-Wide Features
      4.2.  Datagrams
@@ -259,6 +260,20 @@ Table of Contents
    clients to send data before the session is ready; however, they MUST
    NOT use mechanisms that are unsafe against replay attacks without an
    explicit indication from the client.
+
+3.1.  Application Protocol Negotiation
+
+   WebTransport sessions offer a protocol negotiation mechanism, similar
+   to TLS Application-Layer Protocol Negotiation Extension (ALPN)
+   [RFC7301].
+
+   When establishing a session, a WebTransport client can offer the
+   server a list of protocols that it would like to use on that session,
+   in preference order.  When the server receives such a list, it
+   selects a single choice from that list and communicates that choice
+   to the client.  A server that does not wish to use any of the
+   protocols offered by the client can reject the WebTransport session
+   establishment attempt.
 
 4.  Transport Features
 
@@ -512,7 +527,7 @@ Table of Contents
 
 8.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", October 2024,
+   [CSP]      W3C, "Content Security Policy Level 3", February 2025,
               <https://www.w3.org/TR/CSP/>.
 
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
@@ -522,6 +537,11 @@ Table of Contents
    [RFC6455]  Fette, I. and A. Melnikov, "The WebSocket Protocol",
               RFC 6455, DOI 10.17487/RFC6455, December 2011,
               <https://www.rfc-editor.org/rfc/rfc6455>.
+
+   [RFC7301]  Friedl, S., Popov, A., Langley, A., and E. Stephan,
+              "Transport Layer Security (TLS) Application-Layer Protocol
+              Negotiation Extension", RFC 7301, DOI 10.17487/RFC7301,
+              July 2014, <https://www.rfc-editor.org/rfc/rfc7301>.
 
    [RFC7675]  Perumal, M., Wing, D., Ravindranath, R., Reddy, T., and M.
               Thomson, "Session Traversal Utilities for NAT (STUN) Usage
