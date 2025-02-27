@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-25T00:56:41.217145+00:00",
+  "timestamp": "2025-02-27T00:56:24.371780+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -266,7 +266,7 @@
         },
         {
           "author": "ekinnear",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "We've also got DRAIN_WT_SESSION and CLOSE_WT_SESSION (which might want to be renamed as such) in common now, do we need to add those to the list of concepts that should be in the overview? (Even if not referred to by the W3C API)",
           "createdAt": "2024-03-04T23:53:16Z",
           "updatedAt": "2024-03-16T06:04:05Z"
@@ -311,7 +311,7 @@
       "id": "I_kwDOD0ymps6GtECQ",
       "title": "Subprotocol negotiation",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/15",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "nidhijaju",
       "authorAssociation": "NONE",
       "assignees": [
@@ -320,8 +320,8 @@
       "labels": [],
       "body": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/pull/144 added subprotocol negotiation to the HTTP/3 document, but it would be good to specify this for other protocols as well. https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http2/issues/108 was opened for HTTP/2 as well.\r\n\r\nIt would be good to add it to the overview doc as well to be able to refer from the W3C spec (context: https://github.com/w3c/webtransport/pull/598#discussion_r1572030911), as the mechanism probably shouldn't be limited to HTTP/3.",
       "createdAt": "2024-04-23T23:47:14Z",
-      "updatedAt": "2024-08-20T22:36:46Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-25T06:07:47Z",
+      "closedAt": "2025-02-25T06:07:47Z",
       "comments": [
         {
           "author": "wilaw",
@@ -365,15 +365,15 @@
       "id": "I_kwDOD0ymps6oUEHx",
       "title": "8-bit error code width is unnecessarily restrictive",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/18",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bemasc",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The WebTransport overview says\n\n>    abort receive side  Sends a signal to the peer that the read side of\n>       the stream has been aborted.  Discards the receive buffer; the\n>       peer is typically expected to abort the corresponding send side in\n>       response.  An unsigned 8-bit error code can be supplied as a part\n>       of the signal to the peer.\n\nHowever, draft-ietf-webtrans-http2 says\n\n>    Application Protocol Error Code:  A variable-length integer\n>       containing the application protocol error code that indicates why\n>       the stream is being closed.\n\nAnd draft-ietf-webtrans-http3 says\n\n> WebTransport application errors for streams are limited to an\n>    unsigned 32-bit integer\n\nAnd the W3C WebTransport API defines streamErrorCode as an \"unsigned long\", which is 32 bits.\n\nCan we change this 8-bit limit to 32, or at least 31?",
       "createdAt": "2025-01-31T15:41:36Z",
-      "updatedAt": "2025-02-03T14:08:00Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-25T06:09:23Z",
+      "closedAt": "2025-02-25T06:09:23Z",
       "comments": [
         {
           "author": "marten-seemann",
@@ -384,7 +384,7 @@
         },
         {
           "author": "bemasc",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "OK, PR up at https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/20.",
           "createdAt": "2025-02-03T14:07:59Z",
           "updatedAt": "2025-02-03T14:07:59Z"
@@ -398,7 +398,7 @@
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/19",
       "state": "OPEN",
       "author": "bemasc",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The current text says:\n\n>    abort send side  Sends a signal to the peer that the write side of\n>       the stream has been aborted.  Discards the send buffer; if\n>       possible, no currently outstanding data is transmitted or\n>       retransmitted.\n\nI believe this means there is no safe way to close a stream, unless the application has some other way to confirm that all previous writes have been acknowledged by the server.\n\nIn contrast, the W3C streams API distinguishes between close() (clean shutdown) and abort() (may lose data).\n\nWe should add a \"close send side\" operation, identical to \"abort send side\" but blocking until the send buffer has been delivered.",
@@ -415,7 +415,7 @@
         },
         {
           "author": "bemasc",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Thanks for the reminder.  However, I think that still means that there is no way to send a defined final message _and_ an error code.  Sending an error code requires using \"abort\", which can always lose data.",
           "createdAt": "2025-01-31T17:24:20Z",
           "updatedAt": "2025-01-31T17:24:20Z"
@@ -436,7 +436,7 @@
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/21",
       "state": "OPEN",
       "author": "bemasc",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The draft currently says that TLS is mandatory in part because it\n\n> protects the network elements from potential confusion attacks such as the one discussed in Section 10.3 of {{?RFC6455}}.\n\nThis is not correct.  WebSocket masking works because each frame is masked by a separate, fresh masking key that the application cannot predict, as discussed at length in that reference.  TLS (with all existing ciphers) uses a single symmetric key for each session.  This renders the \"masking\" entirely predictable to the attacker, and hence ineffective.  The attacker can easily choose plaintext that, when encrypted, will produce any chosen bytes on the wire, including bytes that will confuse a non-compliant middlebox.\n\nIf a principled defense against this threat model is a goal, we will need something like [Pseudorandom cTLS](https://datatracker.ietf.org/doc/draft-cpbs-pseudorandom-ctls/).  As a practical matter, we should probably just cut this claim from the draft and note our hope that any vulnerable middleboxes have been retired.",
@@ -453,7 +453,7 @@
         },
         {
           "author": "bemasc",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> TLS 1.2 with AES-CBC is also a principled defense against this threat :-)\n\nNit: The attack is more complicated but it still works.  Once the attacker knows the session key, it can figure out everything else and control the ciphertext.",
           "createdAt": "2025-02-20T22:35:31Z",
           "updatedAt": "2025-02-20T22:35:31Z"
@@ -467,7 +467,7 @@
         },
         {
           "author": "bemasc",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "You're right.  AES-CBC in general (and in TLS 1.0) does not protect against this, but the version in TLS 1.2 does achieve protection.",
           "createdAt": "2025-02-21T15:07:38Z",
           "updatedAt": "2025-02-21T15:07:38Z"
@@ -592,7 +592,7 @@
         },
         {
           "author": "ekinnear",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "How does this square with the set of _features_ that we list in the overview draft -- right now it looks like we'll just have two lists. Do we want to do anything to relate them / break things down as being part of each feature? (Not saying that's strictly necessary, just curious if we'd thought about it)",
           "createdAt": "2022-03-17T17:18:41Z",
           "updatedAt": "2022-03-17T17:18:41Z"
@@ -1131,7 +1131,7 @@
             "abbreviatedOid": "2f91334"
           },
           "author": "ekinnear",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2023-03-07T23:53:17Z",
@@ -1439,18 +1439,18 @@
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/16",
       "state": "OPEN",
       "author": "ekinnear",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Add subprotocol negotiation as part of session establishment.\r\n\r\nVery open to alternate ideas for how to structure this.\r\n\r\nCloses #15",
       "createdAt": "2024-07-21T22:14:56Z",
-      "updatedAt": "2024-07-22T18:16:13Z",
+      "updatedAt": "2025-02-25T06:35:57Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "521d0b532d64d374d77a2292df98eb9906cb9240",
       "headRepository": "ekinnear/draft-ietf-webtrans-overview",
       "headRefName": "ek/subprotocol_negotiation",
-      "headRefOid": "0af5635babd6540f61beb6f704cb9910116d0fef",
+      "headRefOid": "e2ff47fc24e17257259277896090dc9f1960cd10",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -1483,7 +1483,7 @@
             "abbreviatedOid": "0af5635"
           },
           "author": "ekinnear",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-07-22T18:16:13Z",
@@ -1496,6 +1496,26 @@
               "updatedAt": "2024-07-22T18:16:13Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6dVcLn",
+          "commit": {
+            "abbreviatedOid": "0af5635"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-25T06:35:56Z",
+          "updatedAt": "2025-02-25T06:35:57Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Moved it up in [e2ff47f](https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/16/commits/e2ff47fc24e17257259277896090dc9f1960cd10)",
+              "createdAt": "2025-02-25T06:35:56Z",
+              "updatedAt": "2025-02-25T06:35:57Z"
+            }
+          ]
         }
       ]
     },
@@ -1504,37 +1524,39 @@
       "id": "PR_kwDOD0ymps58USsU",
       "title": "Add protocol negotiation to the overview",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/17",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ekinnear",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Add protocol negotiation to the overview\r\n\r\nCloses #15 ",
       "createdAt": "2024-09-23T06:09:27Z",
-      "updatedAt": "2024-09-24T01:50:15Z",
+      "updatedAt": "2025-02-25T06:07:46Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
-      "baseRefOid": "1552901011b3118bf25063d4f13e6580b06e0bd2",
+      "baseRefOid": "bb95060d839c48189a26a189a484507b344da6fc",
       "headRepository": "ekinnear/draft-ietf-webtrans-overview",
       "headRefName": "ek/protocol_negotiation",
-      "headRefOid": "055396409ac852f0dcf9552c4df40371b7119700",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "58bd5671a98c5c2a224e116ba38aa0576d2f4e5b",
+      "closedAt": "2025-02-25T06:07:46Z",
+      "mergedAt": "2025-02-25T06:07:46Z",
+      "mergedBy": "ekinnear",
+      "mergeCommit": {
+        "oid": "4809a62c72a2d5dfea11099b2c005da6409c5439"
+      },
       "comments": [],
       "reviews": [
         {
           "id": "PRR_kwDOD0ymps6Kgt6P",
           "commit": {
-            "abbreviatedOid": "0553964"
+            "abbreviatedOid": "58bd567"
           },
           "author": "vasilvv",
           "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-09-24T01:50:14Z",
-          "updatedAt": "2024-09-24T01:50:14Z",
+          "updatedAt": "2025-02-25T06:03:43Z",
           "comments": []
         }
       ]
@@ -1544,26 +1566,42 @@
       "id": "PR_kwDOD0ymps6J2vpD",
       "title": "Stream errors are 32 bits",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/20",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "bemasc",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/18",
       "createdAt": "2025-02-03T14:07:19Z",
-      "updatedAt": "2025-02-03T14:07:20Z",
+      "updatedAt": "2025-02-25T06:09:22Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "bb95060d839c48189a26a189a484507b344da6fc",
       "headRepository": "bemasc/draft-ietf-webtrans-overview",
       "headRefName": "bemasc-32",
       "headRefOid": "a7d0d3a9f2ab245fe31f58345f1acde5e45aef53",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-02-25T06:09:22Z",
+      "mergedAt": "2025-02-25T06:09:22Z",
+      "mergedBy": "ekinnear",
+      "mergeCommit": {
+        "oid": "de0817ada6f0d50ce7e7883a6637ab30c5adece0"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6dU_h_",
+          "commit": {
+            "abbreviatedOid": "a7d0d3a"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Thanks!",
+          "createdAt": "2025-02-25T06:08:30Z",
+          "updatedAt": "2025-02-25T06:08:30Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
