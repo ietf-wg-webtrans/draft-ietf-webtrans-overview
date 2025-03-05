@@ -107,7 +107,7 @@ the fact that semantically each WebSocket is a completely independent entity:
 
 WebTransport avoids all of those issues by letting applications create a single
 transport object that can contain multiple streams multiplexed together in a
-single context (similar to SCTP, HTTP/2, QUIC and others), and can be also used
+single context (similar to SCTP, HTTP/2, QUIC and others), and can also be used
 to send unreliable datagrams (similar to UDP).
 
 ## Conventions and Definitions
