@@ -214,6 +214,15 @@ be described using a URI {{!RFC3986}}.  This enables integration with various
 Web platform features that represent resources as URIs, such as Content
 Security Policy [CSP].
 
+All WebTransport protocols MUST provide a way for the session initiator to
+negotiate a subprotocol with the peer when establishing a WebTransport session.
+The session initiator provides an optional list of subprotocols to the peer.
+The peer selects one and responds indicating the selected subprotocol or
+rejects the session establishment request if none of the subprotocols are
+supported. Note that the semantics of individual subprotocol token values is
+determined by the WebTransport resource in question and are not registered in
+IANA's "ALPN Protocol IDs" registry.
+
 # Session Establishment
 
 WebTransport session establishment is an asynchronous process.  A session is
