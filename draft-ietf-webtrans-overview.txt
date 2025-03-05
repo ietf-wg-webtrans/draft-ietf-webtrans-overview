@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                        25 February 2025
-Expires: 29 August 2025
+Intended status: Standards Track                            5 March 2025
+Expires: 6 September 2025
 
 
                   The WebTransport Protocol Framework
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2025.
+   This Internet-Draft will expire on 6 September 2025.
 
 Copyright Notice
 
@@ -250,6 +250,16 @@ Table of Contents
    location to be described using a URI [RFC3986].  This enables
    integration with various Web platform features that represent
    resources as URIs, such as Content Security Policy [CSP].
+
+   All WebTransport protocols MUST provide a way for the session
+   initiator to negotiate a subprotocol with the peer when establishing
+   a WebTransport session.  The session initiator provides an optional
+   list of subprotocols to the peer.  The peer selects one and responds
+   indicating the selected subprotocol or rejects the session
+   establishment request if none of the subprotocols are supported.
+   Note that the semantics of individual subprotocol token values is
+   determined by the WebTransport resource in question and are not
+   registered in IANA's "ALPN Protocol IDs" registry.
 
 3.  Session Establishment
 
@@ -527,7 +537,7 @@ Table of Contents
 
 8.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", February 2025,
+   [CSP]      W3C, "Content Security Policy Level 3", March 2025,
               <https://www.w3.org/TR/CSP/>.
 
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion

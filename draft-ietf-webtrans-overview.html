@@ -16,10 +16,10 @@ to be used interchangeably.
 WebTransport, as well as the common features of the protocols, support for some
 of which may be optional. 
     " name="description">
-<meta content="xml2rfc 3.27.0" name="generator">
+<meta content="xml2rfc 3.28.0" name="generator">
 <meta content="draft-ietf-webtrans-overview-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.27.0
+  xml2rfc 3.28.0
     Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">WebTransport</td>
-<td class="right">February 2025</td>
+<td class="right">March 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Vasiliev</td>
-<td class="center">Expires 29 August 2025</td>
+<td class="center">Expires 6 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-webtrans-overview-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-25" class="published">25 February 2025</time>
+<time datetime="2025-03-05" class="published">5 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-29">29 August 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-06">6 September 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1125,7 +1125,7 @@ The web API draft corresponding to this document can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1398,6 +1398,14 @@ the origin <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span> of th
 be described using a URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>.  This enables integration with various
 Web platform features that represent resources as URIs, such as Content
 Security Policy <span>[<a href="#CSP" class="cite xref">CSP</a>]</span>.<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-9">All WebTransport protocols MUST provide a way for the session initiator to
+negotiate a subprotocol with the peer when establishing a WebTransport session.
+The session initiator provides an optional list of subprotocols to the peer.
+The peer selects one and responds indicating the selected subprotocol or
+rejects the session establishment request if none of the subprotocols are
+supported. Note that the semantics of individual subprotocol token values is
+determined by the WebTransport resource in question and are not registered in
+IANA's "ALPN Protocol IDs" registry.<a href="#section-2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="session-establishment">
@@ -1753,7 +1761,7 @@ client certificates.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="CSP">[CSP]</dt>
         <dd>
-<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2025-02" class="refDate">February 2025</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
+<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2025-03" class="refDate">March 2025</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5681">[RFC5681]</dt>
         <dd>
