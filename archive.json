@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-04T00:57:26.749246+00:00",
+  "timestamp": "2025-03-06T00:57:15.627551+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -200,7 +200,7 @@
       "labels": [],
       "body": "In other parts of the IETF, we've been discussing how WebTransport is attractive because we can use HTTP authentication techniques during the WT session creation. This seems to be an accepted assumption that I haven't seen challenged (but I might just have missed that). Therefore, I was a bit surprised by the statement in the overview security considerations that says \r\n\r\n> WebTransport does not support any traditional means of HTTP-based authentication. It is not necessarily based on HTTP, and hence does not support HTTP cookies or HTTP authentication.\r\n\r\nPerhaps this statement is true for the abstract overview but then the WebTransport over HTTP/X drafts don't speak about authentication at all, which seems to leave the reader in a position where its unclear what could be used in reality. \r\n\r\nIs HTTP authentication really not supported, or is this just a gap that grew in the document family as we developed them?",
       "createdAt": "2023-03-21T06:36:12Z",
-      "updatedAt": "2024-07-25T23:10:10Z",
+      "updatedAt": "2025-03-05T00:46:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -223,6 +223,13 @@
           "body": "Chair: briefly discussed in slide at IETF 120. Sounds like we do need to revisit the auth text",
           "createdAt": "2024-07-25T23:10:09Z",
           "updatedAt": "2024-07-25T23:10:09Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "- HTTP Basic Auth and Client Certificates are challenging because they show a model view to the user\n- Explicitly set Auth header by the clients should be okay\n- Can we leave this to the W3C and say nothing?",
+          "createdAt": "2025-03-05T00:46:10Z",
+          "updatedAt": "2025-03-05T00:46:10Z"
         }
       ]
     },
@@ -403,7 +410,7 @@
       "labels": [],
       "body": "The current text says:\n\n>    abort send side  Sends a signal to the peer that the write side of\n>       the stream has been aborted.  Discards the send buffer; if\n>       possible, no currently outstanding data is transmitted or\n>       retransmitted.\n\nI believe this means there is no safe way to close a stream, unless the application has some other way to confirm that all previous writes have been acknowledged by the server.\n\nIn contrast, the W3C streams API distinguishes between close() (clean shutdown) and abort() (may lose data).\n\nWe should add a \"close send side\" operation, identical to \"abort send side\" but blocking until the send buffer has been delivered.",
       "createdAt": "2025-01-31T17:00:22Z",
-      "updatedAt": "2025-01-31T17:42:47Z",
+      "updatedAt": "2025-03-05T00:50:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -426,6 +433,13 @@
           "body": "Yeah that's a part of the QUIC reliable reset stuff (as in we adopted that work and wrote the spec in order to address the type or problem you highlight).\n\nI'll leave it to one of editors to comment on their plans to incorporate the other I-D here",
           "createdAt": "2025-01-31T17:42:46Z",
           "updatedAt": "2025-01-31T17:42:46Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Discussed in editor's meeting: \nClosing the send side (without abort) does not support sending an error code in QUIC, and WebTransport does not either.\nOnce the text is written for reliable reset, that should cover the remaining points.",
+          "createdAt": "2025-03-05T00:50:51Z",
+          "updatedAt": "2025-03-05T00:50:51Z"
         }
       ]
     },
@@ -437,11 +451,13 @@
       "state": "OPEN",
       "author": "bemasc",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "ekinnear"
+      ],
       "labels": [],
       "body": "The draft currently says that TLS is mandatory in part because it\n\n> protects the network elements from potential confusion attacks such as the one discussed in Section 10.3 of {{?RFC6455}}.\n\nThis is not correct.  WebSocket masking works because each frame is masked by a separate, fresh masking key that the application cannot predict, as discussed at length in that reference.  TLS (with all existing ciphers) uses a single symmetric key for each session.  This renders the \"masking\" entirely predictable to the attacker, and hence ineffective.  The attacker can easily choose plaintext that, when encrypted, will produce any chosen bytes on the wire, including bytes that will confuse a non-compliant middlebox.\n\nIf a principled defense against this threat model is a goal, we will need something like [Pseudorandom cTLS](https://datatracker.ietf.org/doc/draft-cpbs-pseudorandom-ctls/).  As a practical matter, we should probably just cut this claim from the draft and note our hope that any vulnerable middleboxes have been retired.",
       "createdAt": "2025-02-20T21:34:23Z",
-      "updatedAt": "2025-02-21T15:07:40Z",
+      "updatedAt": "2025-03-05T00:52:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -471,6 +487,13 @@
           "body": "You're right.  AES-CBC in general (and in TLS 1.0) does not protect against this, but the version in TLS 1.2 does achieve protection.",
           "createdAt": "2025-02-21T15:07:38Z",
           "updatedAt": "2025-02-21T15:07:38Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Discussed in editor's meeting: \nRemove the offending claim from the doc",
+          "createdAt": "2025-03-05T00:51:59Z",
+          "updatedAt": "2025-03-05T00:51:59Z"
         }
       ]
     }
@@ -1437,24 +1460,26 @@
       "id": "PR_kwDOD0ymps52BkIC",
       "title": "Add subprotocol negotiation as part of session establishment",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/16",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ekinnear",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Add subprotocol negotiation as part of session establishment.\r\n\r\nVery open to alternate ideas for how to structure this.\r\n\r\nCloses #15",
       "createdAt": "2024-07-21T22:14:56Z",
-      "updatedAt": "2025-02-25T06:35:57Z",
+      "updatedAt": "2025-03-05T00:06:49Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "521d0b532d64d374d77a2292df98eb9906cb9240",
       "headRepository": "ekinnear/draft-ietf-webtrans-overview",
       "headRefName": "ek/subprotocol_negotiation",
       "headRefOid": "e2ff47fc24e17257259277896090dc9f1960cd10",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-03-05T00:06:45Z",
+      "mergedAt": "2025-03-05T00:06:45Z",
+      "mergedBy": "vasilvv",
+      "mergeCommit": {
+        "oid": "52fd9fbef0aaad3f684b1101212357b4f178961d"
+      },
       "comments": [],
       "reviews": [
         {
@@ -1599,6 +1624,48 @@
           "body": "Thanks!",
           "createdAt": "2025-02-25T06:08:30Z",
           "updatedAt": "2025-02-25T06:08:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "PR_kwDOD0ymps6NgOq9",
+      "title": "Small grammar fix",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/22",
+      "state": "MERGED",
+      "author": "anderspitman",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-05T16:55:35Z",
+      "updatedAt": "2025-03-05T19:10:57Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "52fd9fbef0aaad3f684b1101212357b4f178961d",
+      "headRepository": "anderspitman/draft-ietf-webtrans-overview",
+      "headRefName": "patch-1",
+      "headRefOid": "98767ac09fa6693aa4e4e48489468a89e1ac9af9",
+      "closedAt": "2025-03-05T19:10:57Z",
+      "mergedAt": "2025-03-05T19:10:57Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "8827224bcec10c255fd82f1acdb84f6919854e72"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6ern6R",
+          "commit": {
+            "abbreviatedOid": "98767ac"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-05T19:10:35Z",
+          "updatedAt": "2025-03-05T19:10:35Z",
           "comments": []
         }
       ]
