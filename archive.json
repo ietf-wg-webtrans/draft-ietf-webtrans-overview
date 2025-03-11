@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-09T00:50:12.088294+00:00",
+  "timestamp": "2025-03-11T00:57:55.909733+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -200,7 +200,7 @@
       "labels": [],
       "body": "In other parts of the IETF, we've been discussing how WebTransport is attractive because we can use HTTP authentication techniques during the WT session creation. This seems to be an accepted assumption that I haven't seen challenged (but I might just have missed that). Therefore, I was a bit surprised by the statement in the overview security considerations that says \r\n\r\n> WebTransport does not support any traditional means of HTTP-based authentication. It is not necessarily based on HTTP, and hence does not support HTTP cookies or HTTP authentication.\r\n\r\nPerhaps this statement is true for the abstract overview but then the WebTransport over HTTP/X drafts don't speak about authentication at all, which seems to leave the reader in a position where its unclear what could be used in reality. \r\n\r\nIs HTTP authentication really not supported, or is this just a gap that grew in the document family as we developed them?",
       "createdAt": "2023-03-21T06:36:12Z",
-      "updatedAt": "2025-03-05T00:46:12Z",
+      "updatedAt": "2025-03-09T09:24:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -230,6 +230,13 @@
           "body": "- HTTP Basic Auth and Client Certificates are challenging because they show a model view to the user\n- Explicitly set Auth header by the clients should be okay\n- Can we leave this to the W3C and say nothing?",
           "createdAt": "2025-03-05T00:46:10Z",
           "updatedAt": "2025-03-05T00:46:10Z"
+        },
+        {
+          "author": "martenrichter",
+          "authorAssociation": "NONE",
+          "body": "I currently use the first webtransport stream for authentication (in my application https://github.com/fails-components/avsrouter/blob/97844236bf7e5c39151e85a0c27321d2079dccef/src/avsrouter.js#L979) and cut the connection if authentication fails.\nSo it is doable without a header but with more overhead, especially when thinking about a DOS.\nAnother way would be to use the URL and its parameters, which is not nice as auth tokens can be stored in the browser history.\n",
+          "createdAt": "2025-03-09T09:24:32Z",
+          "updatedAt": "2025-03-09T09:24:32Z"
         }
       ]
     },
