@@ -349,7 +349,7 @@ receive a unidirectional stream
   available.
 
 receive a bidirectional stream
-: Removes a stream from the queue of incoming unidirectional streams, if one is
+: Removes a stream from the queue of incoming bidirectional streams, if one is
   available.
 
 Any WebTransport protocol SHALL provide the following operations on an
