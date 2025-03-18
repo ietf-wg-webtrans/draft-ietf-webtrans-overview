@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                            5 March 2025
-Expires: 6 September 2025
+Intended status: Standards Track                           18 March 2025
+Expires: 19 September 2025
 
 
                   The WebTransport Protocol Framework
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 September 2025.
+   This Internet-Draft will expire on 19 September 2025.
 
 Copyright Notice
 
@@ -394,7 +394,7 @@ Table of Contents
       incoming unidirectional streams, if one is available.
 
    receive a bidirectional stream  Removes a stream from the queue of
-      incoming unidirectional streams, if one is available.
+      incoming bidirectional streams, if one is available.
 
    Any WebTransport protocol SHALL provide the following operations on
    an individual stream:
