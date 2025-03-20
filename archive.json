@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T00:58:03.979717+00:00",
+  "timestamp": "2025-03-20T00:57:34.789903+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -503,6 +503,22 @@
           "updatedAt": "2025-03-05T00:51:59Z"
         }
       ]
+    },
+    {
+      "number": 23,
+      "id": "I_kwDOD0ymps6uimiR",
+      "title": "small copy-past issue in \"The WebTransport Protocol Framework\" draft",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/23",
+      "state": "OPEN",
+      "author": "alexpokotilo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "there should be \"...incoming **bidirectional** streams\" in this paragraph\nhttps://datatracker.ietf.org/doc/html/draft-ietf-webtrans-overview-09#section-4.3-7.8.1\n\nI've prepared PR for this https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/24",
+      "createdAt": "2025-03-18T12:13:33Z",
+      "updatedAt": "2025-03-18T12:17:16Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -1673,6 +1689,48 @@
           "body": "",
           "createdAt": "2025-03-05T19:10:35Z",
           "updatedAt": "2025-03-05T19:10:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDOD0ymps6PGFKC",
+      "title": "fix small copy-past issue",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/24",
+      "state": "MERGED",
+      "author": "alexpokotilo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "there should be \"...incoming bidirectional streams\" in this paragraph\r\nhttps://datatracker.ietf.org/doc/html/draft-ietf-webtrans-overview-09#section-4.3-7.8.1",
+      "createdAt": "2025-03-18T12:16:17Z",
+      "updatedAt": "2025-03-18T16:05:55Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "8827224bcec10c255fd82f1acdb84f6919854e72",
+      "headRepository": "alexpokotilo/draft-ietf-webtrans-overview",
+      "headRefName": "patch-1",
+      "headRefOid": "7af323063a5124d1ae713f3802163136c58b1fe8",
+      "closedAt": "2025-03-18T16:05:55Z",
+      "mergedAt": "2025-03-18T16:05:55Z",
+      "mergedBy": "vasilvv",
+      "mergeCommit": {
+        "oid": "2802e1a3f6e7aaca89b158445afa4d58831e8861"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6gnDzA",
+          "commit": {
+            "abbreviatedOid": "7af3230"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-18T13:38:20Z",
+          "updatedAt": "2025-03-18T13:38:20Z",
           "comments": []
         }
       ]
