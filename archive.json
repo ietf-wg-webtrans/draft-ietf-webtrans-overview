@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-20T00:57:34.789903+00:00",
+  "timestamp": "2025-03-23T01:02:33.913369+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -62,7 +62,7 @@
       "labels": [],
       "body": "Currently, the draft has the following text:\r\n\r\n> Every stream within a transport has a unique 64-bit number identifying it. Both unidirectional and bidirectional streams share the number space. The client and the server have to agree on the numbering, so it can be referenced in the application payload. WebTransport does not impose any other specific restrictions on the structure of stream IDs, and they should be treated as opaque 64-bit blobs.\r\n\r\nIn the API draft, we've removed stream IDs (see WICG/web-transport#74).  However, there seems to be some interest from Web developers in bringing those back (WICG/web-transport#124), at least for the purpose of knowing the stream order.\r\n\r\nWe should figure out what approach we actually want.  Some ideas:\r\n1. No stream IDs\r\n1. Stream IDs that do not match on client and server, but that do go in creation order.\r\n1. Stream IDs that match on both client and server.\r\n\r\nNote that as we go down the list, the complexity rises due to:\r\n1. Pooling.\r\n1. Need to support proxies.",
       "createdAt": "2020-07-21T21:16:48Z",
-      "updatedAt": "2022-03-17T16:57:43Z",
+      "updatedAt": "2025-03-20T09:18:29Z",
       "closedAt": "2022-03-17T16:57:43Z",
       "comments": [
         {
@@ -78,6 +78,13 @@
           "body": "I believe all the discussions we had so far (in both W3C and IETF) have concluded with us deciding to not provide user-exposed stream IDs.  Closing this.",
           "createdAt": "2022-03-17T16:57:43Z",
           "updatedAt": "2022-03-17T16:57:43Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Victor also mentioned in the room at IETF 122 that stream IDs wouldn't match once a connection goes through an intermediary, so even if we didn't pool, we still would need a separate stream ID concept to provide this functionality.",
+          "createdAt": "2025-03-20T09:18:27Z",
+          "updatedAt": "2025-03-20T09:18:27Z"
         }
       ]
     },
@@ -509,16 +516,24 @@
       "id": "I_kwDOD0ymps6uimiR",
       "title": "small copy-past issue in \"The WebTransport Protocol Framework\" draft",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/23",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alexpokotilo",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "there should be \"...incoming **bidirectional** streams\" in this paragraph\nhttps://datatracker.ietf.org/doc/html/draft-ietf-webtrans-overview-09#section-4.3-7.8.1\n\nI've prepared PR for this https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/24",
       "createdAt": "2025-03-18T12:13:33Z",
-      "updatedAt": "2025-03-18T12:17:16Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-03-20T04:09:16Z",
+      "closedAt": "2025-03-20T04:09:15Z",
+      "comments": [
+        {
+          "author": "nidhijaju",
+          "authorAssociation": "NONE",
+          "body": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/24 was merged, so closing this.",
+          "createdAt": "2025-03-20T04:09:15Z",
+          "updatedAt": "2025-03-20T04:09:15Z"
+        }
+      ]
     }
   ],
   "pulls": [
