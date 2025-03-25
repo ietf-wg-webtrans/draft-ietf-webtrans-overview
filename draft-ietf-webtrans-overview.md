@@ -229,8 +229,8 @@ WebTransport session establishment is an asynchronous process.  A session is
 considered _ready_ from the client's perspective when the server has confirmed
 that it is willing to accept the session with the provided origin and URI.
 WebTransport protocols MAY allow clients to send data before the session is
-ready; however, they MUST NOT use mechanisms that are unsafe against replay
-attacks without an explicit indication from the client.
+ready; however, they MUST use mechanisms that are safe against replay
+attacks.
 
 ## Application Protocol Negotiation
 
