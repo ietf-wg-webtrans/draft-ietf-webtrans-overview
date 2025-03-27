@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-25T00:59:18.476605+00:00",
+  "timestamp": "2025-03-27T00:58:36.302234+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -534,6 +534,22 @@
           "updatedAt": "2025-03-20T04:09:15Z"
         }
       ]
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOD0ymps6vtBH1",
+      "title": "Is the ability to reset a stream at a particular offset a transport protocol requirement?",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/26",
+      "state": "OPEN",
+      "author": "afrind",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft status this as the requirement for underlying transport protocol resets:\n\n> abort send side: Sends a signal to the peer that the write side of the stream has been aborted. Discards the send buffer; if possible, no currently outstanding data is transmitted or retransmitted. An unsigned 32-bit error code can be supplied as a part of the signal to the peer; if omitted, the error code is presumed to be 0.\n\nShould we add a requirement that the underlying protocol be able to reset the stream after a particular offset (eg: RESET_STREAM_AT), now that this is a forthcoming feature of QUIC.",
+      "createdAt": "2025-03-25T21:30:34Z",
+      "updatedAt": "2025-03-25T21:30:34Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -1749,6 +1765,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOD0ymps6QBs2R",
+      "title": "Update draft-ietf-webtrans-overview.md",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/25",
+      "state": "OPEN",
+      "author": "alexpokotilo",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "current version allows to use send mechanisms affected by replay attack if 'client' explicitly allowed this. 'client' is just javascript app and if standard allows javascript app to enable replay attack this is definitely not what web security model allows",
+      "createdAt": "2025-03-25T11:25:59Z",
+      "updatedAt": "2025-03-25T11:26:00Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
+      "headRepository": "alexpokotilo/draft-ietf-webtrans-overview",
+      "headRefName": "patch-2",
+      "headRefOid": "ac43c0a04b3cf528904cdc5ac9b51ac41d84e355",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
