@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T01:06:29.958833+00:00",
+  "timestamp": "2025-04-24T01:01:23.017666+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -261,7 +261,7 @@
       "labels": [],
       "body": "The W3C spec currently refers to definitions in QUIC (in https://www.w3.org/TR/webtransport/#webtransport-stream) for concepts that should be transport protocol independent. Would it be possible to add these concepts to the overview document, so that we can refer to them without having to specify concepts in terms of QUIC? ",
       "createdAt": "2023-10-26T09:25:36Z",
-      "updatedAt": "2024-09-22T20:06:41Z",
+      "updatedAt": "2025-04-22T08:22:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -298,6 +298,13 @@
           "body": "Chair: briefly discussed in slide at IETF 120. No comments from room.",
           "createdAt": "2024-07-25T23:09:06Z",
           "updatedAt": "2024-07-25T23:09:06Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "`terminate a session` seems to cover CLOSE_WT_SESSION. \n\nAdding `drain a session` to go with it, along with a note about how it's not enforced.",
+          "createdAt": "2025-04-22T08:22:35Z",
+          "updatedAt": "2025-04-22T08:22:35Z"
         }
       ]
     },
@@ -1778,7 +1785,7 @@
       "labels": [],
       "body": "current version allows to use send mechanisms affected by replay attack if 'client' explicitly allowed this. 'client' is just javascript app and if standard allows javascript app to enable replay attack this is definitely not what web security model allows",
       "createdAt": "2025-03-25T11:25:59Z",
-      "updatedAt": "2025-03-25T11:26:00Z",
+      "updatedAt": "2025-04-22T14:10:36Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
@@ -1789,8 +1796,117 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I think there's a distinction between being negatively affected by someone else mounting a replay attack and having javascript be allowed to \"enable\" a replay attack.\r\n\r\nThere's some subtlety there, so it would be good to update the text to be more clear.\r\n\r\nI don't think there's anything that says a user agent should allow a client app to make a replay attack more possible, this more refers to allowing a client to promise that their not-typically-idempotent operation is in fact, for their usage of it, idempotent.",
+          "createdAt": "2025-04-22T05:55:48Z",
+          "updatedAt": "2025-04-22T05:55:48Z"
+        },
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> if standard allows javascript app to enable replay attack this is definitely not what web security model allows\r\n\r\nIf a JavaScript app makes an HTTP request with the method set to `GET`, those are already subject to replay attacks (RFC 8470, Section 4), so I am not sure I agree with that assertion.",
+          "createdAt": "2025-04-22T13:41:50Z",
+          "updatedAt": "2025-04-22T13:41:50Z"
+        },
+        {
+          "author": "alexpokotilo",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "You can cancel this if current version sounds ok, but it confused me while reading",
+          "createdAt": "2025-04-22T14:10:35Z",
+          "updatedAt": "2025-04-22T14:10:35Z"
+        }
+      ],
       "reviews": []
+    },
+    {
+      "number": 27,
+      "id": "PR_kwDOD0ymps6TZlIR",
+      "title": "Add drain session",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/27",
+      "state": "OPEN",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add drain session\r\n\r\nFixes #12",
+      "createdAt": "2025-04-22T08:25:23Z",
+      "updatedAt": "2025-04-23T13:42:37Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/drain_session",
+      "headRefOid": "9253594e41fa87a2dcccf7772b83b6094a7e8471",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6l80Ar",
+          "commit": {
+            "abbreviatedOid": "9253594"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-22T13:46:52Z",
+          "updatedAt": "2025-04-22T13:46:52Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "What does this correspond to?",
+              "createdAt": "2025-04-22T13:46:52Z",
+              "updatedAt": "2025-04-22T13:46:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6mC-gb",
+          "commit": {
+            "abbreviatedOid": "9253594"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-23T02:39:13Z",
+          "updatedAt": "2025-04-23T02:39:13Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Did we have somewhere else tracking GOAWAY? \n\nWe reference it throughout the document using actual HTTP/3 GOAWAY, so wanted to have a way to refer to that operation in transport-independent terms.",
+              "createdAt": "2025-04-23T02:39:13Z",
+              "updatedAt": "2025-04-23T02:39:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6mJAxr",
+          "commit": {
+            "abbreviatedOid": "9253594"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-23T13:42:37Z",
+          "updatedAt": "2025-04-23T13:42:37Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Did we ever decide that HTTP/3 GOAWAY prevents you from opening new WT streams?  I do recall us having that discussion, not sure what we came up with.  I know for sure our implementation special-cases those and allows them through even if GOAWAY happened.",
+              "createdAt": "2025-04-23T13:42:37Z",
+              "updatedAt": "2025-04-23T13:42:37Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
