@@ -266,12 +266,6 @@ terminate a session
   The error code and string are optional; the default values are 0 and "".  The
   delivery of the error code and string MAY be best-effort.
 
-conclude a session
-: Indicate to the peer that a session no longer accepts new streams, but that
-  existing streams are allowed to complete.  The indication includes the
-  identifier of the last stream that is allowed to complete, enabling both
-  endpoints to agree on which stream's application data was processed.
-
 drain a session
 : Indicate to the peer that it expects the session to be gracefully terminated
   as soon as possible.  Either endpoint MAY continue using the session and MAY
@@ -286,12 +280,6 @@ session terminated event
   it any further.  If the session has been terminated as a result of the peer
   performing the "terminate a session" operation above, a corresponding error
   code and an error string can be provided.
-
-session concluded event
-: Indicates that the WebTransport session has been concluded by the other peer
-  and that no new streams are allowed on the session.  Existing streams are
-  allowed to continue.  Information about the last stream to be processed on
-  the session can be provided.
 
 session draining event
 : Indicates that the WebTransport session has been asked to drain as soon as
