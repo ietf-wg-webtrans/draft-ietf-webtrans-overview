@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-24T01:01:23.017666+00:00",
+  "timestamp": "2025-06-05T01:04:00.608999+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -554,9 +554,17 @@
       "labels": [],
       "body": "The draft status this as the requirement for underlying transport protocol resets:\n\n> abort send side: Sends a signal to the peer that the write side of the stream has been aborted. Discards the send buffer; if possible, no currently outstanding data is transmitted or retransmitted. An unsigned 32-bit error code can be supplied as a part of the signal to the peer; if omitted, the error code is presumed to be 0.\n\nShould we add a requirement that the underlying protocol be able to reset the stream after a particular offset (eg: RESET_STREAM_AT), now that this is a forthcoming feature of QUIC.",
       "createdAt": "2025-03-25T21:30:34Z",
-      "updatedAt": "2025-03-25T21:30:34Z",
+      "updatedAt": "2025-06-03T23:51:00Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Editors' meeting: Needs an example use case for why we'd want to make this a part of the supported surface for WebTransport. Perhaps W3C discussion has one?",
+          "createdAt": "2025-06-03T23:50:59Z",
+          "updatedAt": "2025-06-03T23:50:59Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -1778,21 +1786,21 @@
       "id": "PR_kwDOD0ymps6QBs2R",
       "title": "Update draft-ietf-webtrans-overview.md",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/25",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alexpokotilo",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "current version allows to use send mechanisms affected by replay attack if 'client' explicitly allowed this. 'client' is just javascript app and if standard allows javascript app to enable replay attack this is definitely not what web security model allows",
       "createdAt": "2025-03-25T11:25:59Z",
-      "updatedAt": "2025-04-22T14:10:36Z",
+      "updatedAt": "2025-06-03T23:27:08Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
       "headRepository": "alexpokotilo/draft-ietf-webtrans-overview",
       "headRefName": "patch-2",
       "headRefOid": "ac43c0a04b3cf528904cdc5ac9b51ac41d84e355",
-      "closedAt": null,
+      "closedAt": "2025-06-03T23:27:07Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -1817,6 +1825,13 @@
           "body": "You can cancel this if current version sounds ok, but it confused me while reading",
           "createdAt": "2025-04-22T14:10:35Z",
           "updatedAt": "2025-04-22T14:10:35Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Based on discussion, let's close this with no action",
+          "createdAt": "2025-06-03T23:27:07Z",
+          "updatedAt": "2025-06-03T23:27:07Z"
         }
       ],
       "reviews": []
@@ -1833,13 +1848,13 @@
       "labels": [],
       "body": "Add drain session\r\n\r\nFixes #12",
       "createdAt": "2025-04-22T08:25:23Z",
-      "updatedAt": "2025-04-23T13:42:37Z",
+      "updatedAt": "2025-06-03T23:47:29Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
       "headRepository": "ekinnear/draft-ietf-webtrans-overview",
       "headRefName": "ek/drain_session",
-      "headRefOid": "9253594e41fa87a2dcccf7772b83b6094a7e8471",
+      "headRefOid": "eab27d6e01b083eb4cb65be9ae818b6aa90a6baf",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -1903,6 +1918,46 @@
               "body": "Did we ever decide that HTTP/3 GOAWAY prevents you from opening new WT streams?  I do recall us having that discussion, not sure what we came up with.  I know for sure our implementation special-cases those and allows them through even if GOAWAY happened.",
               "createdAt": "2025-04-23T13:42:37Z",
               "updatedAt": "2025-04-23T13:42:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6shQ3a",
+          "commit": {
+            "abbreviatedOid": "9253594"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-03T23:46:12Z",
+          "updatedAt": "2025-06-03T23:46:12Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Discussed in editors' meeting: \r\n- Draining is the sole concept, which W3C spec can reference.\r\n- H3 has two ways to enter the draining state: GOAWAY and WT_DRAIN_SESSION",
+              "createdAt": "2025-06-03T23:46:12Z",
+              "updatedAt": "2025-06-03T23:46:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6shRNn",
+          "commit": {
+            "abbreviatedOid": "eab27d6"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-03T23:47:29Z",
+          "updatedAt": "2025-06-03T23:47:29Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "s/middlebox/intermediary/",
+              "createdAt": "2025-06-03T23:47:29Z",
+              "updatedAt": "2025-06-03T23:47:29Z"
             }
           ]
         }
