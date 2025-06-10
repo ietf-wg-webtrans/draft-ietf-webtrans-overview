@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                           18 March 2025
-Expires: 19 September 2025
+Intended status: Standards Track                            10 June 2025
+Expires: 12 December 2025
 
 
                   The WebTransport Protocol Framework
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 September 2025.
+   This Internet-Draft will expire on 12 December 2025.
 
 Copyright Notice
 
@@ -308,6 +308,12 @@ Table of Contents
       and string are optional; the default values are 0 and "".  The
       delivery of the error code and string MAY be best-effort.
 
+   drain a session  Indicate to the peer that it expects the session to
+      be gracefully terminated as soon as possible.  Either endpoint MAY
+      continue using the session and MAY open new streams.  This signal
+      is intended to allow intermediaries and endpoints to request a
+      session be drained of traffic without enforcement.
+
    Any WebTransport protocol SHALL provide the following events:
 
    session terminated event  Indicates that the WebTransport session has
@@ -316,6 +322,11 @@ Table of Contents
       the session has been terminated as a result of the peer performing
       the "terminate a session" operation above, a corresponding error
       code and an error string can be provided.
+
+   session draining event  Indicates that the WebTransport session has
+      been asked to drain as soon as possible.  Continued use of the
+      session, including opening new streams is discouraged, but
+      allowed.
 
 4.2.  Datagrams
 
@@ -537,7 +548,7 @@ Table of Contents
 
 8.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", March 2025,
+   [CSP]      W3C, "Content Security Policy Level 3", June 2025,
               <https://www.w3.org/TR/CSP/>.
 
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
