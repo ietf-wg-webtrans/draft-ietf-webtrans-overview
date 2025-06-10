@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                        25 February 2025
-Expires: 29 August 2025
+Intended status: Standards Track                            10 June 2025
+Expires: 12 December 2025
 
 
                   The WebTransport Protocol Framework
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2025.
+   This Internet-Draft will expire on 12 December 2025.
 
 Copyright Notice
 
@@ -148,7 +148,7 @@ Table of Contents
    WebTransport avoids all of those issues by letting applications
    create a single transport object that can contain multiple streams
    multiplexed together in a single context (similar to SCTP, HTTP/2,
-   QUIC and others), and can be also used to send unreliable datagrams
+   QUIC and others), and can also be used to send unreliable datagrams
    (similar to UDP).
 
 1.2.  Conventions and Definitions
@@ -210,6 +210,8 @@ Table of Contents
       context, for instance, a JavaScript application running inside a
       browser.
 
+   Endpoint:  An endpoint refers to either a Server or a Client.
+
    User agent:  A WebTransport user agent is a software system that has
       an unrestricted access to the host network stack and can create
       transports on behalf of the client.
@@ -250,6 +252,16 @@ Table of Contents
    location to be described using a URI [RFC3986].  This enables
    integration with various Web platform features that represent
    resources as URIs, such as Content Security Policy [CSP].
+
+   All WebTransport protocols MUST provide a way for the session
+   initiator to negotiate a subprotocol with the peer when establishing
+   a WebTransport session.  The session initiator provides an optional
+   list of subprotocols to the peer.  The peer selects one and responds
+   indicating the selected subprotocol or rejects the session
+   establishment request if none of the subprotocols are supported.
+   Note that the semantics of individual subprotocol token values is
+   determined by the WebTransport resource in question and are not
+   registered in IANA's "ALPN Protocol IDs" registry.
 
 3.  Session Establishment
 
@@ -384,7 +396,7 @@ Table of Contents
       incoming unidirectional streams, if one is available.
 
    receive a bidirectional stream  Removes a stream from the queue of
-      incoming unidirectional streams, if one is available.
+      incoming bidirectional streams, if one is available.
 
    Any WebTransport protocol SHALL provide the following operations on
    an individual stream:
@@ -527,7 +539,7 @@ Table of Contents
 
 8.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", February 2025,
+   [CSP]      W3C, "Content Security Policy Level 3", June 2025,
               <https://www.w3.org/TR/CSP/>.
 
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
