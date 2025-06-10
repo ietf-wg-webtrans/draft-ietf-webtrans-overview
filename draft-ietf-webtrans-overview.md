@@ -442,10 +442,8 @@ comes with risks.  This document mitigates those risks by imposing a set of
 common requirements described in {{common-requirements}}.
 
 WebTransport mandates the use of TLS for all protocols implementing it.  This
-has a dual purpose.  On one hand, it protects the transport from the network,
-including both potential attackers and ossification by middleboxes.  On the
-other hand, it protects the network elements from potential confusion attacks
-such as the one discussed in Section 10.3 of {{?RFC6455}}.
+provides confidentiality and integrity for the transport, protecting it from
+both potential attackers and ossification by intermediaries in the network.
 
 One potential concern is that even when a transport cannot be created, the
 connection error would reveal enough information to allow an attacker to scan
