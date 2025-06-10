@@ -1703,10 +1703,8 @@ thus share a congestion controller and other contexts.<a href="#section-5-4" cla
 comes with risks.  This document mitigates those risks by imposing a set of
 common requirements described in <a href="#common-requirements" class="auto internal xref">Section 2</a>.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">WebTransport mandates the use of TLS for all protocols implementing it.  This
-has a dual purpose.  On one hand, it protects the transport from the network,
-including both potential attackers and ossification by middleboxes.  On the
-other hand, it protects the network elements from potential confusion attacks
-such as the one discussed in Section 10.3 of <span>[<a href="#RFC6455" class="cite xref">RFC6455</a>]</span>.<a href="#section-6-2" class="pilcrow">¶</a></p>
+provides confidentiality and integrity for the transport, protecting it from
+both potential attackers and ossification by intermediaries in the network.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <p id="section-6-3">One potential concern is that even when a transport cannot be created, the
 connection error would reveal enough information to allow an attacker to scan
 the network addresses that would normally be inaccessible.  Because of that, the
