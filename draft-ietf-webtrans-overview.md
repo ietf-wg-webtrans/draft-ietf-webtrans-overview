@@ -173,6 +173,10 @@ Client:
   session and may be running in a constrained security context, for instance,
   a JavaScript application running inside a browser.
 
+Endpoint:
+
+: An endpoint refers to either a Server or a Client.
+
 User agent:
 
 : A WebTransport user agent is a software system that has an unrestricted
