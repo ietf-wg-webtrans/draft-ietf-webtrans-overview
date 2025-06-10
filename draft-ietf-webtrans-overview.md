@@ -269,7 +269,7 @@ terminate a session
 drain a session
 : Indicate to the peer that it expects the session to be gracefully terminated
   as soon as possible.  Either endpoint MAY continue using the session and MAY
-  open new streams.  This signal is intended to allow middleboxes and endpoints
+  open new streams.  This signal is intended to allow intermediaries and endpoints
   to request a session be drained of traffic without enforcement.
 
 Any WebTransport protocol SHALL provide the following events:
