@@ -266,6 +266,12 @@ terminate a session
   The error code and string are optional; the default values are 0 and "".  The
   delivery of the error code and string MAY be best-effort.
 
+drain a session
+: Indicate to the peer that it expects the session to be gracefully terminated
+  as soon as possible.  Either endpoint MAY continue using the session and MAY
+  open new streams.  This signal is intended to allow intermediaries and endpoints
+  to request a session be drained of traffic without enforcement.
+
 Any WebTransport protocol SHALL provide the following events:
 
 session terminated event
@@ -274,6 +280,11 @@ session terminated event
   it any further.  If the session has been terminated as a result of the peer
   performing the "terminate a session" operation above, a corresponding error
   code and an error string can be provided.
+
+session draining event
+: Indicates that the WebTransport session has been asked to drain as soon as
+  possible.  Continued use of the session, including opening new streams is
+  discouraged, but allowed.
 
 ## Datagrams  {#features-datagrams}
 
