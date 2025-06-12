@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-05T01:04:00.608999+00:00",
+  "timestamp": "2025-06-12T01:04:34.402280+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -203,11 +203,13 @@
       "state": "OPEN",
       "author": "LPardue",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "ekinnear"
+      ],
       "labels": [],
       "body": "In other parts of the IETF, we've been discussing how WebTransport is attractive because we can use HTTP authentication techniques during the WT session creation. This seems to be an accepted assumption that I haven't seen challenged (but I might just have missed that). Therefore, I was a bit surprised by the statement in the overview security considerations that says \r\n\r\n> WebTransport does not support any traditional means of HTTP-based authentication. It is not necessarily based on HTTP, and hence does not support HTTP cookies or HTTP authentication.\r\n\r\nPerhaps this statement is true for the abstract overview but then the WebTransport over HTTP/X drafts don't speak about authentication at all, which seems to leave the reader in a position where its unclear what could be used in reality. \r\n\r\nIs HTTP authentication really not supported, or is this just a gap that grew in the document family as we developed them?",
       "createdAt": "2023-03-21T06:36:12Z",
-      "updatedAt": "2025-03-09T09:24:33Z",
+      "updatedAt": "2025-06-11T00:13:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -244,6 +246,13 @@
           "body": "I currently use the first webtransport stream for authentication (in my application https://github.com/fails-components/avsrouter/blob/97844236bf7e5c39151e85a0c27321d2079dccef/src/avsrouter.js#L979) and cut the connection if authentication fails.\nSo it is doable without a header but with more overhead, especially when thinking about a DOS.\nAnother way would be to use the URL and its parameters, which is not nice as auth tokens can be stored in the browser history.\n",
           "createdAt": "2025-03-09T09:24:32Z",
           "updatedAt": "2025-03-09T09:24:32Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Editor's meeting: Remove auth text",
+          "createdAt": "2025-06-11T00:13:53Z",
+          "updatedAt": "2025-06-11T00:13:53Z"
         }
       ]
     },
@@ -252,7 +261,7 @@
       "id": "I_kwDOD0ymps51Alv8",
       "title": "WebTransport stream capabilities and signals",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/12",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "nidhijaju",
       "authorAssociation": "NONE",
       "assignees": [
@@ -261,8 +270,8 @@
       "labels": [],
       "body": "The W3C spec currently refers to definitions in QUIC (in https://www.w3.org/TR/webtransport/#webtransport-stream) for concepts that should be transport protocol independent. Would it be possible to add these concepts to the overview document, so that we can refer to them without having to specify concepts in terms of QUIC? ",
       "createdAt": "2023-10-26T09:25:36Z",
-      "updatedAt": "2025-04-22T08:22:36Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-10T23:22:32Z",
+      "closedAt": "2025-06-10T23:22:32Z",
       "comments": [
         {
           "author": "vasilvv",
@@ -427,11 +436,13 @@
       "state": "OPEN",
       "author": "bemasc",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "afrind"
+      ],
       "labels": [],
       "body": "The current text says:\n\n>    abort send side  Sends a signal to the peer that the write side of\n>       the stream has been aborted.  Discards the send buffer; if\n>       possible, no currently outstanding data is transmitted or\n>       retransmitted.\n\nI believe this means there is no safe way to close a stream, unless the application has some other way to confirm that all previous writes have been acknowledged by the server.\n\nIn contrast, the W3C streams API distinguishes between close() (clean shutdown) and abort() (may lose data).\n\nWe should add a \"close send side\" operation, identical to \"abort send side\" but blocking until the send buffer has been delivered.",
       "createdAt": "2025-01-31T17:00:22Z",
-      "updatedAt": "2025-03-05T00:50:52Z",
+      "updatedAt": "2025-06-11T00:13:21Z",
       "closedAt": null,
       "comments": [
         {
@@ -469,7 +480,7 @@
       "id": "I_kwDOD0ymps6q59pw",
       "title": "TLS doesn't protect against middlebox confusion",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/21",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bemasc",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -478,8 +489,8 @@
       "labels": [],
       "body": "The draft currently says that TLS is mandatory in part because it\n\n> protects the network elements from potential confusion attacks such as the one discussed in Section 10.3 of {{?RFC6455}}.\n\nThis is not correct.  WebSocket masking works because each frame is masked by a separate, fresh masking key that the application cannot predict, as discussed at length in that reference.  TLS (with all existing ciphers) uses a single symmetric key for each session.  This renders the \"masking\" entirely predictable to the attacker, and hence ineffective.  The attacker can easily choose plaintext that, when encrypted, will produce any chosen bytes on the wire, including bytes that will confuse a non-compliant middlebox.\n\nIf a principled defense against this threat model is a goal, we will need something like [Pseudorandom cTLS](https://datatracker.ietf.org/doc/draft-cpbs-pseudorandom-ctls/).  As a practical matter, we should probably just cut this claim from the draft and note our hope that any vulnerable middleboxes have been retired.",
       "createdAt": "2025-02-20T21:34:23Z",
-      "updatedAt": "2025-03-05T00:52:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-10T23:23:03Z",
+      "closedAt": "2025-06-10T23:23:03Z",
       "comments": [
         {
           "author": "DavidSchinazi",
@@ -549,12 +560,14 @@
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/26",
       "state": "OPEN",
       "author": "afrind",
-      "authorAssociation": "NONE",
-      "assignees": [],
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "afrind"
+      ],
       "labels": [],
       "body": "The draft status this as the requirement for underlying transport protocol resets:\n\n> abort send side: Sends a signal to the peer that the write side of the stream has been aborted. Discards the send buffer; if possible, no currently outstanding data is transmitted or retransmitted. An unsigned 32-bit error code can be supplied as a part of the signal to the peer; if omitted, the error code is presumed to be 0.\n\nShould we add a requirement that the underlying protocol be able to reset the stream after a particular offset (eg: RESET_STREAM_AT), now that this is a forthcoming feature of QUIC.",
       "createdAt": "2025-03-25T21:30:34Z",
-      "updatedAt": "2025-06-03T23:51:00Z",
+      "updatedAt": "2025-06-11T00:13:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -1841,24 +1854,26 @@
       "id": "PR_kwDOD0ymps6TZlIR",
       "title": "Add drain session",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/27",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ekinnear",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Add drain session\r\n\r\nFixes #12",
       "createdAt": "2025-04-22T08:25:23Z",
-      "updatedAt": "2025-06-03T23:47:29Z",
+      "updatedAt": "2025-06-10T23:22:31Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
       "headRepository": "ekinnear/draft-ietf-webtrans-overview",
       "headRefName": "ek/drain_session",
-      "headRefOid": "eab27d6e01b083eb4cb65be9ae818b6aa90a6baf",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "918de8392daa3df3a1547bca9f49fb87d58c3eda",
+      "closedAt": "2025-06-10T23:22:31Z",
+      "mergedAt": "2025-06-10T23:22:31Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "cc81e556321a98322e545b5b66328b4d0da43689"
+      },
       "comments": [],
       "reviews": [
         {
@@ -1960,6 +1975,201 @@
               "updatedAt": "2025-06-03T23:47:29Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6tvNBH",
+          "commit": {
+            "abbreviatedOid": "918de83"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-10T19:33:33Z",
+          "updatedAt": "2025-06-10T19:33:56Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Updated in 918de8392daa3df3a1547bca9f49fb87d58c3eda",
+              "createdAt": "2025-06-10T19:33:34Z",
+              "updatedAt": "2025-06-10T19:33:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6twykN",
+          "commit": {
+            "abbreviatedOid": "918de83"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:22:04Z",
+          "updatedAt": "2025-06-10T23:22:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6twyk-",
+          "commit": {
+            "abbreviatedOid": "918de83"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:22:06Z",
+          "updatedAt": "2025-06-10T23:22:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6twyoz",
+          "commit": {
+            "abbreviatedOid": "918de83"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:22:20Z",
+          "updatedAt": "2025-06-10T23:22:20Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "PR_kwDOD0ymps6Z6zgo",
+      "title": "Remove the claim that TLS protects against middlebox confusion",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/28",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Remove the claim that TLS protects against middlebox confusion.\n\nFixes #21",
+      "createdAt": "2025-06-10T19:40:33Z",
+      "updatedAt": "2025-06-10T23:23:02Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ekinnear/issue21",
+      "headRefOid": "1ce38b3bd19ea4661ff4f1d97751fa620d6f98f6",
+      "closedAt": "2025-06-10T23:23:02Z",
+      "mergedAt": "2025-06-10T23:23:02Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "2b50ce9d400f0d77638b8d0c258983a5b512f570"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6twyxU",
+          "commit": {
+            "abbreviatedOid": "1ce38b3"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:22:49Z",
+          "updatedAt": "2025-06-10T23:22:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6twyx_",
+          "commit": {
+            "abbreviatedOid": "1ce38b3"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:22:51Z",
+          "updatedAt": "2025-06-10T23:22:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6twyyP",
+          "commit": {
+            "abbreviatedOid": "1ce38b3"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:22:52Z",
+          "updatedAt": "2025-06-10T23:22:52Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOD0ymps6Z7GOm",
+      "title": "Define endpoint",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/29",
+      "state": "MERGED",
+      "author": "afrind",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is used throughout but never defined.  HTTP/3 also uses endpoint in some places",
+      "createdAt": "2025-06-10T20:20:17Z",
+      "updatedAt": "2025-06-10T23:24:33Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "2802e1a3f6e7aaca89b158445afa4d58831e8861",
+      "headRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "headRefName": "afrind-endpoint",
+      "headRefOid": "173118e98ab81b4945f1b5e088c35f4df1239128",
+      "closedAt": "2025-06-10T23:24:32Z",
+      "mergedAt": "2025-06-10T23:24:32Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "2228ae4f44f7a0ac6a7d361099ba625b834fe9f1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6twy1j",
+          "commit": {
+            "abbreviatedOid": "173118e"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:23:04Z",
+          "updatedAt": "2025-06-10T23:23:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6twy6T",
+          "commit": {
+            "abbreviatedOid": "173118e"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:23:20Z",
+          "updatedAt": "2025-06-10T23:23:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6twy9p",
+          "commit": {
+            "abbreviatedOid": "173118e"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-10T23:23:32Z",
+          "updatedAt": "2025-06-10T23:23:32Z",
+          "comments": []
         }
       ]
     }
