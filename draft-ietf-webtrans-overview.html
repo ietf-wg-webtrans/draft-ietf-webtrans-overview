@@ -1339,33 +1339,42 @@ this distinction is important to highlight since some of the similar protocols
 and APIs (notably WebSocket <span>[<a href="#RFC6455" class="cite xref">RFC6455</a>]</span>) use messages as a core abstraction.<a href="#section-1.2-3.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-3.11">Server:</dt>
+<dt id="section-1.2-3.11">Application:</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-3.12">
-            <p id="section-1.2-3.12.1">A WebTransport server is an application that accepts incoming WebTransport
+            <p id="section-1.2-3.12.1">A WebTransport application refers to executable code that is provided by a
+developer to perform some, often user-visible, function, such as sending and
+receiving data. For example, a JavaScript application using WebTransport that
+is running inside a browser or code running within an executable that makes
+outgoing or accepts incoming WebTransport sessions.<a href="#section-1.2-3.12.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-3.13">Server:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.14">
+            <p id="section-1.2-3.14.1">A WebTransport server is an application that accepts incoming WebTransport
 sessions.  In cases when WebTransport is served over a multiplexed protocol
 (such as HTTP/2 or HTTP/3), "WebTransport server" refers to a handler for a
 specific multiplexed endpoint (e.g. an application handling specific HTTP
 resource), rather than the application listening on a given TCP or UDP
-socket.<a href="#section-1.2-3.12.1" class="pilcrow">¶</a></p>
+socket.<a href="#section-1.2-3.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-3.13">Client:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.2-3.14">
-            <p id="section-1.2-3.14.1">A WebTransport client is an application that initiates the transport
-session and may be running in a constrained security context, for instance,
-a JavaScript application running inside a browser.<a href="#section-1.2-3.14.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-1.2-3.15">Endpoint:</dt>
+<dt id="section-1.2-3.15">Client:</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-3.16">
-            <p id="section-1.2-3.16.1">An endpoint refers to either a Server or a Client.<a href="#section-1.2-3.16.1" class="pilcrow">¶</a></p>
+            <p id="section-1.2-3.16.1">A WebTransport client is an application that initiates the transport
+session and may be running in a constrained security context, for instance,
+a JavaScript application running inside a browser.<a href="#section-1.2-3.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.2-3.17">User agent:</dt>
+<dt id="section-1.2-3.17">Endpoint:</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-3.18">
-            <p id="section-1.2-3.18.1">A WebTransport user agent is a software system that has an unrestricted
+            <p id="section-1.2-3.18.1">An endpoint refers to either a Server or a Client.<a href="#section-1.2-3.18.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-3.19">User agent:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-3.20">
+            <p id="section-1.2-3.20.1">A WebTransport user agent is a software system that has an unrestricted
 access to the host network stack and can create transports on behalf
-of the client.<a href="#section-1.2-3.18.1" class="pilcrow">¶</a></p>
+of the client.<a href="#section-1.2-3.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
