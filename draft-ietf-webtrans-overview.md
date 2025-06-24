@@ -158,6 +158,14 @@ Message:
   this distinction is important to highlight since some of the similar protocols
   and APIs (notably WebSocket {{?RFC6455}}) use messages as a core abstraction.
 
+Application:
+
+: A WebTransport application refers to executable code that is provided by a
+  developer to perform some, often user-visible, function, such as sending and
+  receiving data. For example, a JavaScript application using WebTransport that
+  is running inside a browser or code running within an executable that makes
+  outgoing or accepts incoming WebTransport sessions.
+
 Server:
 
 : A WebTransport server is an application that accepts incoming WebTransport
