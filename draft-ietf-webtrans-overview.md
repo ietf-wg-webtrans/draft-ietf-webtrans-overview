@@ -443,11 +443,8 @@ For example, the client must not be able to distinguish between a network
 address that is unreachable and one that is reachable but is not a WebTransport
 server.
 
-WebTransport does not support any traditional means of HTTP-based
-authentication.  It is not necessarily based on HTTP, and hence does not support
-HTTP cookies or HTTP authentication.  Since it requires TLS, individual
-transport protocols MAY expose TLS-based authentication capabilities such as
-client certificates.
+Since WebTransport requires TLS, individual transport protocols MAY expose
+TLS-based authentication capabilities such as client certificates.
 
 # IANA Considerations
 
