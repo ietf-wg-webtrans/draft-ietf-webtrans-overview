@@ -160,10 +160,10 @@ Message:
 
 Application:
 
-: A WebTransport application refers to executible code that is provided by a
+: A WebTransport application refers to executable code that is provided by a
   developer to perform some, often user-visible, function. For example, a
   JavaScript application using WebTransport that is running inside a browser or
-  code running within an executible that makes outgoing or accepts incoming
+  code running within an executable that makes outgoing or accepts incoming
   WebTransport sessions.
 
 Server:
