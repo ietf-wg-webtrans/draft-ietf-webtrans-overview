@@ -4,8 +4,8 @@
 
 WEBTRANS                                                     V. Vasiliev
 Internet-Draft                                                    Google
-Intended status: Standards Track                            10 June 2025
-Expires: 12 December 2025
+Intended status: Standards Track                            24 June 2025
+Expires: 26 December 2025
 
 
                   The WebTransport Protocol Framework
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 December 2025.
+   This Internet-Draft will expire on 26 December 2025.
 
 Copyright Notice
 
@@ -505,11 +505,9 @@ Table of Contents
    address that is unreachable and one that is reachable but is not a
    WebTransport server.
 
-   WebTransport does not support any traditional means of HTTP-based
-   authentication.  It is not necessarily based on HTTP, and hence does
-   not support HTTP cookies or HTTP authentication.  Since it requires
-   TLS, individual transport protocols MAY expose TLS-based
-   authentication capabilities such as client certificates.
+   Since WebTransport requires TLS, individual transport protocols MAY
+   expose TLS-based authentication capabilities such as client
+   certificates.
 
 7.  IANA Considerations
 
