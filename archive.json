@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-12T01:04:34.402280+00:00",
+  "timestamp": "2025-06-26T01:05:39.426167+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -200,7 +200,7 @@
       "id": "I_kwDOD0ymps5hWlRv",
       "title": "WebTransport can't use HTTP authentication?",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/10",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "LPardue",
       "authorAssociation": "NONE",
       "assignees": [
@@ -209,8 +209,8 @@
       "labels": [],
       "body": "In other parts of the IETF, we've been discussing how WebTransport is attractive because we can use HTTP authentication techniques during the WT session creation. This seems to be an accepted assumption that I haven't seen challenged (but I might just have missed that). Therefore, I was a bit surprised by the statement in the overview security considerations that says \r\n\r\n> WebTransport does not support any traditional means of HTTP-based authentication. It is not necessarily based on HTTP, and hence does not support HTTP cookies or HTTP authentication.\r\n\r\nPerhaps this statement is true for the abstract overview but then the WebTransport over HTTP/X drafts don't speak about authentication at all, which seems to leave the reader in a position where its unclear what could be used in reality. \r\n\r\nIs HTTP authentication really not supported, or is this just a gap that grew in the document family as we developed them?",
       "createdAt": "2023-03-21T06:36:12Z",
-      "updatedAt": "2025-06-11T00:13:53Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-24T23:23:30Z",
+      "closedAt": "2025-06-24T23:23:30Z",
       "comments": [
         {
           "author": "vasilvv",
@@ -576,6 +576,46 @@
           "body": "Editors' meeting: Needs an example use case for why we'd want to make this a part of the supported surface for WebTransport. Perhaps W3C discussion has one?",
           "createdAt": "2025-06-03T23:50:59Z",
           "updatedAt": "2025-06-03T23:50:59Z"
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "id": "I_kwDOD0ymps69Hry9",
+      "title": "Should we define \"application\"?",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/31",
+      "state": "CLOSED",
+      "author": "afrind",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "ekinnear"
+      ],
+      "labels": [],
+      "body": "WebTransport overview defines Client and Server to be \"Applications\", but I think WT/H3 talks about clients/servers more like transport roles, and \"the application\" as something else.  This caused some confusion noted in [167](https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/issues/167#issuecomment-2253635443)",
+      "createdAt": "2025-06-10T20:24:45Z",
+      "updatedAt": "2025-06-24T23:29:27Z",
+      "closedAt": "2025-06-24T23:29:27Z",
+      "comments": [
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "May need to update overview too, in that case",
+          "createdAt": "2025-06-10T23:27:49Z",
+          "updatedAt": "2025-06-10T23:27:49Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "See also https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/issues/191",
+          "createdAt": "2025-06-10T23:55:42Z",
+          "updatedAt": "2025-06-10T23:55:42Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Did a pass through HTTP/3 for all uses of application as well",
+          "createdAt": "2025-06-24T19:20:25Z",
+          "updatedAt": "2025-06-24T19:20:25Z"
         }
       ]
     }
@@ -2170,6 +2210,117 @@
           "createdAt": "2025-06-10T23:23:32Z",
           "updatedAt": "2025-06-10T23:23:32Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOD0ymps6b6XhY",
+      "title": "Remove mention of HTTP authentication",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/30",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Remove mention of HTTP authentication\n\nFixes #10",
+      "createdAt": "2025-06-24T17:58:29Z",
+      "updatedAt": "2025-06-24T23:23:29Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "2228ae4f44f7a0ac6a7d361099ba625b834fe9f1",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ekinnear/issue10",
+      "headRefOid": "7fa8da217e3ab8976340709dfd1363748b450866",
+      "closedAt": "2025-06-24T23:23:29Z",
+      "mergedAt": "2025-06-24T23:23:29Z",
+      "mergedBy": "nidhijaju",
+      "mergeCommit": {
+        "oid": "3f7ebc34bc682f25b4d01bf1fdb964b38463fd2d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6wLDSC",
+          "commit": {
+            "abbreviatedOid": "7fa8da2"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-24T23:23:22Z",
+          "updatedAt": "2025-06-24T23:23:22Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOD0ymps6b6n5a",
+      "title": "Add definition for application",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/32",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add definition for application\r\n\r\nFixes #31",
+      "createdAt": "2025-06-24T18:26:27Z",
+      "updatedAt": "2025-06-24T23:29:26Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "2228ae4f44f7a0ac6a7d361099ba625b834fe9f1",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/define_application",
+      "headRefOid": "d51e67589c290e420d45bed2e6993450eaeb5769",
+      "closedAt": "2025-06-24T23:29:26Z",
+      "mergedAt": "2025-06-24T23:29:26Z",
+      "mergedBy": "nidhijaju",
+      "mergeCommit": {
+        "oid": "0e4ab2df06d6062b5bba407d4e7c28107b4d01c8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6wLDtr",
+          "commit": {
+            "abbreviatedOid": "23f4efd"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-24T23:24:21Z",
+          "updatedAt": "2025-06-24T23:24:21Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\n  code running within an executable that makes outgoing or accepts incoming\r\n```",
+              "createdAt": "2025-06-24T23:24:21Z",
+              "updatedAt": "2025-06-24T23:24:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps6wLDxp",
+          "commit": {
+            "abbreviatedOid": "23f4efd"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-24T23:24:31Z",
+          "updatedAt": "2025-06-24T23:24:31Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\n: A WebTransport application refers to executable code that is provided by a\r\n```",
+              "createdAt": "2025-06-24T23:24:31Z",
+              "updatedAt": "2025-06-24T23:24:31Z"
+            }
+          ]
         }
       ]
     }
