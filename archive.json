@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-26T01:05:39.426167+00:00",
+  "timestamp": "2025-07-03T01:05:51.877008+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -618,6 +618,22 @@
           "updatedAt": "2025-06-24T19:20:25Z"
         }
       ]
+    },
+    {
+      "number": 33,
+      "id": "I_kwDOD0ymps6-TneH",
+      "title": "The term \"event\" is not defined in the document.",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/33",
+      "state": "OPEN",
+      "author": "alvestrand",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Spinning out of a discussion in W3C WebTransport:\n\nThe document uses terminology (\"event\" and \"operation\") that does not map directly to protocol elements. It seems that the model used by the document is roughly:\n\nApplication  <--(1)-->  Protocol engine <--(2)--> Wire protocol\n\nwhere \"event\" is something that goes from the protocol engine to the application, and \"operation\" goes from the application to the protocol engine, and the protocol engine translates this appropriately to the underlying protocol.\n\nI think the \"protocol engine\" above may be the same component as the \"User agent\" in the definitions page. I'm not sure a similar component is ever named on the server side.\n\nSuggestion:\n\nAdd definitions to the terminology section saying that an \"operation\" is a message from the application to the user agent, and that an \"event\" is a message from the user agent to the application. (Spice as appropriate.)\n\n\n   ",
+      "createdAt": "2025-07-01T14:51:19Z",
+      "updatedAt": "2025-07-01T14:51:19Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
