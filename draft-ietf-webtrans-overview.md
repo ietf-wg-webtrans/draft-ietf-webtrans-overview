@@ -14,6 +14,12 @@ pi: [toc, sortrefs, symrefs]
 
 author:
  -
+    ins: E. Kinnear
+    name: Eric Kinnear
+    org: Apple Inc.
+    email: ekinnear@apple.com
+
+ -
     ins: V. Vasiliev
     name: Victor Vasiliev
     organization: Google
