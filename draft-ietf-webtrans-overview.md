@@ -344,9 +344,9 @@ machine of QUIC streams ({{?RFC9000}}, Sections 2 and 3).
 TODO: describe the stream state machine explicitly.
 
 A WebTransport stream can be reset, indicating that the endpoint is not
-interested in either sending or receiving any data related to the stream.  In
-that case, the sender is expected to not retransmit any data that was already
-sent on that stream.
+interested in either sending or receiving any data related to the stream. The
+sender of a stream can indicate an offset in the stream (possibly zero) after
+which data that was already sent will not be retransmitted.
 
 Streams SHOULD be sufficiently lightweight that they can be used as messages.
 
