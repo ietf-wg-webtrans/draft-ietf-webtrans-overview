@@ -191,6 +191,12 @@ User agent:
   access to the host network stack and can create transports on behalf
   of the client.
 
+Event:
+
+: An event is a notification, callback, or signal that a WebTransport endpoint
+  can provide to a WebTransport application to notify it that some change of
+  interest to the application has occurred.
+
 # Common Transport Requirements  {#common-requirements}
 
 Since clients are not necessarily trusted and have to be constrained by the
