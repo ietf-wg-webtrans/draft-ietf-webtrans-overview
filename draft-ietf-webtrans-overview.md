@@ -16,14 +16,15 @@ venue:
   arch: "https://mailarchive.ietf.org/arch/browse/webtransport/"
   github: "ietf-wg-webtrans/draft-ietf-webtrans-overview"
   latest: "https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.html"
+keyword:
+  - webtransport
 author:
- -
+  -
     ins: E. Kinnear
     name: Eric Kinnear
     org: Apple Inc.
     email: ekinnear@apple.com
-
- -
+  -
     ins: V. Vasiliev
     name: Victor Vasiliev
     organization: Google
