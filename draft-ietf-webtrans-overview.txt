@@ -2,10 +2,11 @@
 
 
 
-WEBTRANS                                                     V. Vasiliev
-Internet-Draft                                                    Google
-Intended status: Standards Track                             7 July 2025
-Expires: 8 January 2026
+WEBTRANS                                                      E. Kinnear
+Internet-Draft                                                Apple Inc.
+Intended status: Standards Track                             V. Vasiliev
+Expires: 8 January 2026                                           Google
+                                                             7 July 2025
 
 
                   The WebTransport Protocol Framework
@@ -83,7 +84,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -607,7 +608,12 @@ Table of Contents
               DOI 10.17487/RFC9221, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9221>.
 
-Author's Address
+Authors' Addresses
+
+   Eric Kinnear
+   Apple Inc.
+   Email: ekinnear@apple.com
+
 
    Victor Vasiliev
    Google
