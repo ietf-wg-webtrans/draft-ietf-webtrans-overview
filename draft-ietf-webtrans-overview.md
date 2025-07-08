@@ -2,24 +2,29 @@
 title: The WebTransport Protocol Framework
 abbrev: WebTransport
 docname: draft-ietf-webtrans-overview-latest
-date: {DATE}
+number:
+date:
+consensus: true
+v: 3
 category: std
-workgroup: WEBTRANS
-
-ipr: trust200902
-area: Applications and Real-Time
-
-stand_alone: yes
-pi: [toc, sortrefs, symrefs]
-
+area: "Web and Internet Transport"
+wg: WEBTRANS
+venue:
+  group: "WebTransport"
+  type: "Working Group"
+  mail: "webtransport@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/webtransport/"
+  github: "ietf-wg-webtrans/draft-ietf-webtrans-overview"
+  latest: "https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/draft-ietf-webtrans-overview.html"
+keyword:
+  - webtransport
 author:
- -
+  -
     ins: E. Kinnear
     name: Eric Kinnear
     org: Apple Inc.
     email: ekinnear@apple.com
-
- -
+  -
     ins: V. Vasiliev
     name: Victor Vasiliev
     organization: Google
@@ -44,17 +49,6 @@ to be used interchangeably.
 This document defines the overall requirements on the protocols used in
 WebTransport, as well as the common features of the protocols, support for some
 of which may be optional.
-
---- note_Note_to_Readers
-
-Discussion of this draft takes place on the WebTransport mailing list
-(webtransport@ietf.org), which is archived at
-\<https://mailarchive.ietf.org/arch/search/?email_list=webtransport\>.
-
-The repository tracking the issues for this draft can be found at
-\<https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues\>.
-The web API draft corresponding to this document can be found at
-\<https://wicg.github.io/web-transport/\>.
 
 --- middle
 
