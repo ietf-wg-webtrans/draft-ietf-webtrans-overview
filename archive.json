@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-03T01:05:51.877008+00:00",
+  "timestamp": "2025-07-08T01:06:27.794918+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -433,7 +433,7 @@
       "id": "I_kwDOD0ymps6oUr5E",
       "title": "No safe way to close a stream with an error code",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/19",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bemasc",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -442,8 +442,8 @@
       "labels": [],
       "body": "The current text says:\n\n>    abort send side  Sends a signal to the peer that the write side of\n>       the stream has been aborted.  Discards the send buffer; if\n>       possible, no currently outstanding data is transmitted or\n>       retransmitted.\n\nI believe this means there is no safe way to close a stream, unless the application has some other way to confirm that all previous writes have been acknowledged by the server.\n\nIn contrast, the W3C streams API distinguishes between close() (clean shutdown) and abort() (may lose data).\n\nWe should add a \"close send side\" operation, identical to \"abort send side\" but blocking until the send buffer has been delivered.",
       "createdAt": "2025-01-31T17:00:22Z",
-      "updatedAt": "2025-06-11T00:13:21Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-07T22:43:26Z",
+      "closedAt": "2025-07-07T22:43:25Z",
       "comments": [
         {
           "author": "LPardue",
@@ -558,7 +558,7 @@
       "id": "I_kwDOD0ymps6vtBH1",
       "title": "Is the ability to reset a stream at a particular offset a transport protocol requirement?",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/26",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "afrind",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -567,8 +567,8 @@
       "labels": [],
       "body": "The draft status this as the requirement for underlying transport protocol resets:\n\n> abort send side: Sends a signal to the peer that the write side of the stream has been aborted. Discards the send buffer; if possible, no currently outstanding data is transmitted or retransmitted. An unsigned 32-bit error code can be supplied as a part of the signal to the peer; if omitted, the error code is presumed to be 0.\n\nShould we add a requirement that the underlying protocol be able to reset the stream after a particular offset (eg: RESET_STREAM_AT), now that this is a forthcoming feature of QUIC.",
       "createdAt": "2025-03-25T21:30:34Z",
-      "updatedAt": "2025-06-11T00:13:17Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-07T22:43:25Z",
+      "closedAt": "2025-07-07T22:43:25Z",
       "comments": [
         {
           "author": "ekinnear",
@@ -624,16 +624,26 @@
       "id": "I_kwDOD0ymps6-TneH",
       "title": "The term \"event\" is not defined in the document.",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/33",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alvestrand",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "ekinnear"
+      ],
       "labels": [],
       "body": "Spinning out of a discussion in W3C WebTransport:\n\nThe document uses terminology (\"event\" and \"operation\") that does not map directly to protocol elements. It seems that the model used by the document is roughly:\n\nApplication  <--(1)-->  Protocol engine <--(2)--> Wire protocol\n\nwhere \"event\" is something that goes from the protocol engine to the application, and \"operation\" goes from the application to the protocol engine, and the protocol engine translates this appropriately to the underlying protocol.\n\nI think the \"protocol engine\" above may be the same component as the \"User agent\" in the definitions page. I'm not sure a similar component is ever named on the server side.\n\nSuggestion:\n\nAdd definitions to the terminology section saying that an \"operation\" is a message from the application to the user agent, and that an \"event\" is a message from the user agent to the application. (Spice as appropriate.)\n\n\n   ",
       "createdAt": "2025-07-01T14:51:19Z",
-      "updatedAt": "2025-07-01T14:51:19Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-07-07T22:54:37Z",
+      "closedAt": "2025-07-07T22:54:37Z",
+      "comments": [
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "For context, we talk about these in terms of: \n```\nAny WebTransport protocol SHALL provide the following events:\n\nsession terminated event\n: Indicates that the WebTransport session has been terminated, either by the\n  peer or by the local networking stack, and no user data can be exchanged on\n  it any further.  If the session has been terminated as a result of the peer\n  performing the \"terminate a session\" operation above, a corresponding error\n  code and an error string can be provided.\n\nsession draining event\n: Indicates that the WebTransport session has been asked to drain as soon as\n  possible.  Continued use of the session, including opening new streams is\n  discouraged, but allowed.\n```\n\nAnd\n```\nAny WebTransport protocol SHALL provide the following events for an individual\nstream:\n\nsend side aborted\n: Indicates that the peer has aborted the corresponding receive side of the\n  stream.  An unsigned 32-bit error code from the peer may be available.\n...\n```\n\nWe recently did a few updates on definitions: \nhttps://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/issues/191#issuecomment-3002172827\n\nDefining event in these terms seems reasonable.",
+          "createdAt": "2025-07-07T22:46:47Z",
+          "updatedAt": "2025-07-07T22:46:47Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2337,6 +2347,185 @@
               "updatedAt": "2025-06-24T23:24:31Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOD0ymps6dzQyB",
+      "title": "Add reliable offset to reset API",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/34",
+      "state": "MERGED",
+      "author": "afrind",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes: #26 \r\nFixes: #19 ",
+      "createdAt": "2025-07-07T17:30:37Z",
+      "updatedAt": "2025-07-07T22:43:28Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "0e4ab2df06d6062b5bba407d4e7c28107b4d01c8",
+      "headRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "headRefName": "afrind-reliable-offset",
+      "headRefOid": "5ac1c9308c158d0643fbc341b72bdf75d495a451",
+      "closedAt": "2025-07-07T22:43:24Z",
+      "mergedAt": "2025-07-07T22:43:24Z",
+      "mergedBy": "ekinnear",
+      "mergeCommit": {
+        "oid": "d5839ae162bc39fa52fbd456d1671d0824418c68"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6ygSBe",
+          "commit": {
+            "abbreviatedOid": "5ac1c93"
+          },
+          "author": "marten-seemann",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T17:40:26Z",
+          "updatedAt": "2025-07-07T17:40:26Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps6yiuVJ",
+          "commit": {
+            "abbreviatedOid": "5ac1c93"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T22:43:10Z",
+          "updatedAt": "2025-07-07T22:43:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 35,
+      "id": "PR_kwDOD0ymps6d1g48",
+      "title": "Define event",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/35",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Define event\r\n\r\nFixes #33",
+      "createdAt": "2025-07-07T22:51:22Z",
+      "updatedAt": "2025-07-07T22:54:39Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "d5839ae162bc39fa52fbd456d1671d0824418c68",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/event",
+      "headRefOid": "0fdeb6a707f915e026eb51afb824e7f4b7f40ebc",
+      "closedAt": "2025-07-07T22:54:36Z",
+      "mergedAt": "2025-07-07T22:54:36Z",
+      "mergedBy": "ekinnear",
+      "mergeCommit": {
+        "oid": "8eab6980af8bf8f0c3ba6f6c94aea22ee1b66346"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6yiz4r",
+          "commit": {
+            "abbreviatedOid": "0fdeb6a"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T22:52:56Z",
+          "updatedAt": "2025-07-07T22:52:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "PR_kwDOD0ymps6d1qoS",
+      "title": "Update authors",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/36",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update authors",
+      "createdAt": "2025-07-07T23:15:42Z",
+      "updatedAt": "2025-07-07T23:32:17Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "8eab6980af8bf8f0c3ba6f6c94aea22ee1b66346",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/authors",
+      "headRefOid": "ce87fbd2387036c92b750e639901bd83d4dec1e2",
+      "closedAt": "2025-07-07T23:30:41Z",
+      "mergedAt": "2025-07-07T23:30:41Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "a8b9439ea497dfe1ef196923397cbb25f70ad68a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6yjFDQ",
+          "commit": {
+            "abbreviatedOid": "ce87fbd"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T23:30:36Z",
+          "updatedAt": "2025-07-07T23:30:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "id": "PR_kwDOD0ymps6d13fd",
+      "title": "Fix metadata",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/37",
+      "state": "OPEN",
+      "author": "DavidSchinazi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-07T23:51:47Z",
+      "updatedAt": "2025-07-08T00:32:57Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "a8b9439ea497dfe1ef196923397cbb25f70ad68a",
+      "headRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "headRefName": "fix_note_to_readers",
+      "headRefOid": "a1ad140575d93c207e81ca23fc66f9c484b4444a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps6yjcIu",
+          "commit": {
+            "abbreviatedOid": "a1ad140"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-08T00:32:57Z",
+          "updatedAt": "2025-07-08T00:32:57Z",
+          "comments": []
         }
       ]
     }
