@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-08T01:06:27.794918+00:00",
+  "timestamp": "2025-07-10T01:07:23.387080+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -2494,24 +2494,26 @@
       "id": "PR_kwDOD0ymps6d13fd",
       "title": "Fix metadata",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/37",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "DavidSchinazi",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-07-07T23:51:47Z",
-      "updatedAt": "2025-07-08T00:32:57Z",
+      "updatedAt": "2025-07-08T01:53:14Z",
       "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "baseRefName": "main",
       "baseRefOid": "a8b9439ea497dfe1ef196923397cbb25f70ad68a",
       "headRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
       "headRefName": "fix_note_to_readers",
       "headRefOid": "a1ad140575d93c207e81ca23fc66f9c484b4444a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-08T01:53:04Z",
+      "mergedAt": "2025-07-08T01:53:04Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "08aea73142ec694bfc857dcdaac94def6fc075fa"
+      },
       "comments": [],
       "reviews": [
         {
