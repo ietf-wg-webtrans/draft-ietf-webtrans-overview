@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-10T01:07:23.387080+00:00",
+  "timestamp": "2025-07-24T01:09:50.964513+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -642,6 +642,84 @@
           "body": "For context, we talk about these in terms of: \n```\nAny WebTransport protocol SHALL provide the following events:\n\nsession terminated event\n: Indicates that the WebTransport session has been terminated, either by the\n  peer or by the local networking stack, and no user data can be exchanged on\n  it any further.  If the session has been terminated as a result of the peer\n  performing the \"terminate a session\" operation above, a corresponding error\n  code and an error string can be provided.\n\nsession draining event\n: Indicates that the WebTransport session has been asked to drain as soon as\n  possible.  Continued use of the session, including opening new streams is\n  discouraged, but allowed.\n```\n\nAnd\n```\nAny WebTransport protocol SHALL provide the following events for an individual\nstream:\n\nsend side aborted\n: Indicates that the peer has aborted the corresponding receive side of the\n  stream.  An unsigned 32-bit error code from the peer may be available.\n...\n```\n\nWe recently did a few updates on definitions: \nhttps://github.com/ietf-wg-webtrans/draft-ietf-webtrans-http3/issues/191#issuecomment-3002172827\n\nDefining event in these terms seems reasonable.",
           "createdAt": "2025-07-07T22:46:47Z",
           "updatedAt": "2025-07-07T22:46:47Z"
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "I_kwDOD0ymps7CDcJg",
+      "title": "Add a commit() method?",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/38",
+      "state": "OPEN",
+      "author": "bemasc",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "W3C WebTransport now has [a commit() method](https://www.w3.org/TR/webtransport/#dom-webtransportwriter-commit), which is defined as being implemented by direct reference to QUIC \"reliable reset\".  This seems like a layering violation.  We can probably fix this by adding a similar method to the abstract API.\n\n",
+      "createdAt": "2025-07-23T09:45:03Z",
+      "updatedAt": "2025-07-23T09:55:57Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think `commit()` is a specific materialization of feature added in #34.",
+          "createdAt": "2025-07-23T09:46:40Z",
+          "updatedAt": "2025-07-23T09:46:40Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Perhaps we need a PR to explicitly define the term \"commit\" in terms of the feature added in #34",
+          "createdAt": "2025-07-23T09:52:29Z",
+          "updatedAt": "2025-07-23T09:52:29Z"
+        },
+        {
+          "author": "bemasc",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It seems like these sections have non-normative descriptions (updated in #34) and a normative list of \"operations\" (not updated).  Maybe it would be clearer if those operations were updated to add \"commit\" or extend the \"abort\" operation with an optional commitment offset argument.  Or maybe this is going to be covered as part of the \"TODO: describe the stream state machine explicitly\".",
+          "createdAt": "2025-07-23T09:55:57Z",
+          "updatedAt": "2025-07-23T09:55:57Z"
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "id": "I_kwDOD0ymps7CEF4d",
+      "title": "Does WebTrans/http3 support fingerprint authentication?",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/39",
+      "state": "OPEN",
+      "author": "alvestrand",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [
+        "question"
+      ],
+      "body": "From https://www.w3.org/TR/webtransport/#certificate-hashes it seems that W3 is requiring fingerprint authentication support.\nHowever, I can't find in this document a description of how this support is carried into QUIC.\nIs there something missing here, or is there something that's so obvious that no description is needed?\n",
+      "createdAt": "2025-07-23T09:22:47Z",
+      "updatedAt": "2025-07-23T10:43:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The linked mechanism overrides the TLS certificate check for the server, so in some sense, it is a layer above (below? horizontal to?) QUIC.",
+          "createdAt": "2025-07-23T09:27:43Z",
+          "updatedAt": "2025-07-23T09:27:43Z"
+        },
+        {
+          "author": "alvestrand",
+          "authorAssociation": "NONE",
+          "body": "I think it's fairly easy to code it, for any given JS API / QUIC implementation combo, but spec-wise, it feels like a weird hack to specify it in the W3C API and not specify it in the API of the IETF abstract protocol machine.\n",
+          "createdAt": "2025-07-23T10:34:19Z",
+          "updatedAt": "2025-07-23T10:34:19Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Chair: consensus in the room is to write an editorial PR on the overview document that mentions certificate hashes and references RFC 8446",
+          "createdAt": "2025-07-23T10:43:27Z",
+          "updatedAt": "2025-07-23T10:43:27Z"
         }
       ]
     }
