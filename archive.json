@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-24T01:09:50.964513+00:00",
+  "timestamp": "2025-07-31T01:10:52.890207+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -722,6 +722,22 @@
           "updatedAt": "2025-07-23T10:43:27Z"
         }
       ]
+    },
+    {
+      "number": 40,
+      "id": "I_kwDOD0ymps7DWSth",
+      "title": "Keying Exporters concept not referenced in overview doc",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/40",
+      "state": "OPEN",
+      "author": "wilaw",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The keying Exporters are referenced independently for HTTP/2 and HTTP/3\n\nHTTP/2 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http2/draft-ietf-webtrans-http2.html#name-use-of-keying-material-expo\n\nHTTP/3 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http3/draft-ietf-webtrans-http3.html#name-use-of-keying-material-expo\n\nThe W3C API would prefer to reference a single concept in the overview document. ",
+      "createdAt": "2025-07-30T14:47:30Z",
+      "updatedAt": "2025-07-30T14:47:30Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
