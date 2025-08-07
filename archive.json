@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-31T01:10:52.890207+00:00",
+  "timestamp": "2025-08-07T01:11:53.309977+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "editorial",
+      "description": "",
+      "color": "59FB7E"
     }
   ],
   "issues": [
@@ -653,11 +658,13 @@
       "state": "OPEN",
       "author": "bemasc",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "ekinnear"
+      ],
       "labels": [],
       "body": "W3C WebTransport now has [a commit() method](https://www.w3.org/TR/webtransport/#dom-webtransportwriter-commit), which is defined as being implemented by direct reference to QUIC \"reliable reset\".  This seems like a layering violation.  We can probably fix this by adding a similar method to the abstract API.\n\n",
       "createdAt": "2025-07-23T09:45:03Z",
-      "updatedAt": "2025-07-23T09:55:57Z",
+      "updatedAt": "2025-08-05T23:54:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -691,13 +698,15 @@
       "state": "OPEN",
       "author": "alvestrand",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "ekinnear"
+      ],
       "labels": [
-        "question"
+        "editorial"
       ],
       "body": "From https://www.w3.org/TR/webtransport/#certificate-hashes it seems that W3 is requiring fingerprint authentication support.\nHowever, I can't find in this document a description of how this support is carried into QUIC.\nIs there something missing here, or is there something that's so obvious that no description is needed?\n",
       "createdAt": "2025-07-23T09:22:47Z",
-      "updatedAt": "2025-07-23T10:43:27Z",
+      "updatedAt": "2025-08-06T00:00:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -731,11 +740,13 @@
       "state": "OPEN",
       "author": "wilaw",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "ekinnear"
+      ],
       "labels": [],
       "body": "The keying Exporters are referenced independently for HTTP/2 and HTTP/3\n\nHTTP/2 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http2/draft-ietf-webtrans-http2.html#name-use-of-keying-material-expo\n\nHTTP/3 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http3/draft-ietf-webtrans-http3.html#name-use-of-keying-material-expo\n\nThe W3C API would prefer to reference a single concept in the overview document. ",
       "createdAt": "2025-07-30T14:47:30Z",
-      "updatedAt": "2025-07-30T14:47:30Z",
+      "updatedAt": "2025-08-05T23:54:40Z",
       "closedAt": null,
       "comments": []
     }
