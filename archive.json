@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-07T01:11:53.309977+00:00",
+  "timestamp": "2025-08-28T00:59:45.544773+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -664,7 +664,7 @@
       "labels": [],
       "body": "W3C WebTransport now has [a commit() method](https://www.w3.org/TR/webtransport/#dom-webtransportwriter-commit), which is defined as being implemented by direct reference to QUIC \"reliable reset\".  This seems like a layering violation.  We can probably fix this by adding a similar method to the abstract API.\n\n",
       "createdAt": "2025-07-23T09:45:03Z",
-      "updatedAt": "2025-08-05T23:54:19Z",
+      "updatedAt": "2025-08-27T00:01:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -687,6 +687,20 @@
           "body": "It seems like these sections have non-normative descriptions (updated in #34) and a normative list of \"operations\" (not updated).  Maybe it would be clearer if those operations were updated to add \"commit\" or extend the \"abort\" operation with an optional commitment offset argument.  Or maybe this is going to be covered as part of the \"TODO: describe the stream state machine explicitly\".",
           "createdAt": "2025-07-23T09:55:57Z",
           "updatedAt": "2025-07-23T09:55:57Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It's sounding like we need to decide if we want to use reliable reset as an implementation detail that's necessary to implement WebTransport, or if we want to expose it to applications. \n\nOne way to do that is via a `commit()`, another is to make `abort()` take an offset. Let's choose one and we can then add it to the overview.",
+          "createdAt": "2025-08-26T06:31:38Z",
+          "updatedAt": "2025-08-26T06:31:38Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Editor's meeting: \n- Offer the offset on `abort()`, W3C can offer `commit()` if desired, and can store the offset and pass it to `abort()` when needed.",
+          "createdAt": "2025-08-27T00:01:39Z",
+          "updatedAt": "2025-08-27T00:01:39Z"
         }
       ]
     },
