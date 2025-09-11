@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T00:59:45.544773+00:00",
+  "timestamp": "2025-09-11T00:59:10.441992+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -760,9 +760,17 @@
       "labels": [],
       "body": "The keying Exporters are referenced independently for HTTP/2 and HTTP/3\n\nHTTP/2 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http2/draft-ietf-webtrans-http2.html#name-use-of-keying-material-expo\n\nHTTP/3 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http3/draft-ietf-webtrans-http3.html#name-use-of-keying-material-expo\n\nThe W3C API would prefer to reference a single concept in the overview document. ",
       "createdAt": "2025-07-30T14:47:30Z",
-      "updatedAt": "2025-08-05T23:54:40Z",
+      "updatedAt": "2025-09-10T17:16:04Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "wilaw",
+          "authorAssociation": "NONE",
+          "body": "@ekinnear  - any update on when there might be an opportunity to get this addressed? We are blocked on https://github.com/w3c/webtransport/pull/688 ",
+          "createdAt": "2025-09-10T17:16:04Z",
+          "updatedAt": "2025-09-10T17:16:04Z"
+        }
+      ]
     }
   ],
   "pulls": [
