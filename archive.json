@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-11T00:59:10.441992+00:00",
+  "timestamp": "2025-10-16T01:00:18.462560+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -769,6 +769,51 @@
           "body": "@ekinnear  - any update on when there might be an opportunity to get this addressed? We are blocked on https://github.com/w3c/webtransport/pull/688 ",
           "createdAt": "2025-09-10T17:16:04Z",
           "updatedAt": "2025-09-10T17:16:04Z"
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "id": "I_kwDOD0ymps7RWmJf",
+      "title": "Opening unidirectional *receive-only* streams rather than just send-only?",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/41",
+      "state": "OPEN",
+      "author": "joshtriplett",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "(Happy to contribute text, but opening an issue first for discussion to find out if this would make sense.)\n\nI have an application for WebTransport where I'd like the server to be able to initiate a unidirectional *receive-only* stream. Currently, the only way I can see to do that is to open a bidirectional stream and immediately close the sending side of the stream, which seems like unnecessary additional complexity and overhead. Would it make sense for endpoints to have a semantic operation to initiate receive-only streams, in addition to send-only and bidirectional streams?\n\nThis does not inherently mean that every embedding of WebTransport (e.g. in HTTP/3 or HTTP/2) must have a dedicated separate mechanism to establish a receive-only stream; rather, it means that the embedding has the additional semantic information from the software invoking it, to know that the stream is receive-only. An embedding that can gain efficiency from knowing that a stream is unidirectional receive-only could define the mapping of that semantic operation to its embedding as using a dedicated mechanism to establish such a stream. An embedding in which it isn't any more efficient to do so than to establish a bidirectional stream and close one end *could* explicitly say that that embedding maps receive-only streams to the initiation of a bidirectional stream immediately followed by the closing of the send direction of that stream.\n\nDoes this seem like a potentially worthwhile addition, to give embeddings and their implementations more semantic information about a type of stream than they would otherwise get from an \"open bidirectional stream\" semantic operation immediately followed by a \"close sending side\" semantic operation?",
+      "createdAt": "2025-10-14T05:00:24Z",
+      "updatedAt": "2025-10-14T07:21:40Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "body": "QUIC as a transport protocol does not actually have an \"open streams\" operation; streams are opened by writing data on them, which is not possible for a receive-only stream.\n\nI am not entirely sure what you mean by \"embeddings\" here, or what kind of API are you envisioning here.",
+          "createdAt": "2025-10-14T05:56:14Z",
+          "updatedAt": "2025-10-14T05:56:14Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "Yeah I'm with Victor here, not really sure what's being asked for so hard to understand what an API would offer. This sort of thing sounds like it would require a fair amount of spec text and could potentially confuse the reader.\n\n",
+          "createdAt": "2025-10-14T06:45:32Z",
+          "updatedAt": "2025-10-14T06:45:32Z"
+        },
+        {
+          "author": "joshtriplett",
+          "authorAssociation": "NONE",
+          "body": "By \"embeddings\" I was referring to the way the WebTransport spec is written as an overview spec and a spec for WebTransport-over-http3 and a spec for WebTransport-over-http2. (Is there a better term for that?)\n\nI was suggesting that the overview spec could present this as a semantic operation (the way it currently presents unidirectional-send-only and bidirectional streams as semantic operations), and then it would be up to the specs for WebTransport-over-http3 and WebTransport-over-http2 and future such specs to specify how that semantic operation translated.\n\nI would expect the textual change to the overview spec to be a minimal expansion of the discussion of unidirectional streams to distinguish them as unidirectional-send-only streams, and add some text about an operation to open unidirectional-receive-only streams.\n\nThat's separate from how it would be presented in the http/3 version of the spec, but I wouldn't expect that to be excessively complex either. It *could* be done as a new frame type to indicate this up front, or it could be done by specifying it as opening a bidirectional stream type and immediately closing one direction of it.",
+          "createdAt": "2025-10-14T06:57:38Z",
+          "updatedAt": "2025-10-14T06:57:38Z"
+        },
+        {
+          "author": "LPardue",
+          "authorAssociation": "NONE",
+          "body": "To my mind, that sounds a lot harder to articulate and deliver on (i.e. write text that is conceptually consitent with current features and capabilities) than the current text which effectively states a similar interaxtion as:\n\n1) let your peer open a unidirectional stream if you only want to receive things, or\n2) open a bidirectional stream and close it after sending as much application data as required to initiate your peer sending you things you'd like to receive\n\n(2) is a common interaction already, just that the amount of application data tends to be greater than 0 e.g. HTTP/3 request/response, DNS request/response. Its realized by calling some form of stream send and then indicating stream FIN.\n\n",
+          "createdAt": "2025-10-14T07:21:40Z",
+          "updatedAt": "2025-10-14T07:21:40Z"
         }
       ]
     }
