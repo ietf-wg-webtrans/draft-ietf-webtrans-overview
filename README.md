@@ -1,6 +1,8 @@
+<!-- regenerate: on (set to off if you edit this file) -->
+
 # The WebTransport Protocol Framework
 
-This is the working area for the IETF [WEBTRANS Working Group](https://datatracker.ietf.org/wg/webtrans/documents/) Internet-Draft, "The WebTransport Protocol Framework".
+This is the working area for the IETF [WEBTRANS Working Group](https://datatracker.ietf.org/group/webtrans/documents/) Internet-Draft, "The WebTransport Protocol Framework".
 
 * [Editor's Copy](https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-overview/#go.draft-ietf-webtrans-overview.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-webtrans-overview)
@@ -13,9 +15,8 @@ This is the working area for the IETF [WEBTRANS Working Group](https://datatrack
 See the
 [guidelines for contributions](https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/blob/main/CONTRIBUTING.md).
 
-Contributions can be made by creating pull requests.
-The GitHub interface supports creating pull requests using the Edit (✏) button.
-
+The contributing file also has tips on how to make contributions, if you
+don't already know how to do that.
 
 ## Command Line Usage
 
