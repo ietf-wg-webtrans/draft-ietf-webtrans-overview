@@ -394,12 +394,12 @@ receive bytes
 
 abort send side
 : Sends a signal to the peer that the write side of the stream
-  has been aborted, optionally at a particular send offset in the stream.
-  Discards the send buffer; if possible, no currently outstanding data after the
-  provided send offset is transmitted or retransmitted.  If omitted, the send
-  offset is presumed to be 0.  An unsigned 32-bit error code can be supplied as
-  a part of the signal to the peer; if omitted, the error code is presumed to be
-  0.
+  has been aborted, including an offset in the stream that is reliably
+  delivered.  Discards the send buffer after that offset; if possible, no
+  currently outstanding data after the provided send offset is transmitted or
+  retransmitted.  If omitted, the offset is presumed to be 0.  An unsigned
+  32-bit error code can be supplied as a part of the signal to the peer; if
+  omitted, the error code is presumed to be 0.
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
