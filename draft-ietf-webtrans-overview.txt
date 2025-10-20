@@ -335,6 +335,10 @@ Table of Contents
       is intended to allow intermediaries and endpoints to request a
       session be drained of traffic without enforcement.
 
+   export keying material  Derive a TLS keying material exporter
+      (Section 7.5 of [RFC8446]) to provide keying material specific to
+      the WebTransport session.
+
    Any WebTransport protocol SHALL provide the following events:
 
    session terminated event  Indicates that the WebTransport session has
