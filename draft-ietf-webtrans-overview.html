@@ -1579,8 +1579,7 @@ initiator is the only endpoint that can send data.  A bidirectional stream
 allows both endpoints to send data and can be conceptually represented as a pair
 of unidirectional streams.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <p id="section-4.3-2">The streams are in general expected to follow the semantics and the state
-machine of QUIC streams (<span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, Sections 2 and 3).
-TODO: describe the stream state machine explicitly.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+machine of QUIC streams (<span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, Sections 2 and 3).<a href="#section-4.3-2" class="pilcrow">¶</a></p>
 <p id="section-4.3-3">A WebTransport stream can be reset, indicating that the endpoint is not
 interested in either sending or receiving any data related to the stream. The
 sender of a stream can indicate an offset in the stream (possibly zero) after
@@ -1637,11 +1636,13 @@ with the stream data.  Not applicable for outgoing unidirectional streams.<a hre
           <dd class="break"></dd>
 <dt id="section-4.3-9.5">abort send side</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-9.6">
-            <p id="section-4.3-9.6.1">Sends a signal to the peer that the write side of the stream has been aborted.
-Discards the send buffer; if possible, no currently outstanding data is
-transmitted or retransmitted.  An unsigned 32-bit error code can be supplied
-as a part of the signal to the peer; if omitted, the error code is presumed
-to be 0.<a href="#section-4.3-9.6.1" class="pilcrow">¶</a></p>
+            <p id="section-4.3-9.6.1">Sends a signal to the peer that the write side of the stream
+has been aborted, including an offset in the stream that is reliably
+delivered.  Discards the send buffer after that offset; if possible, no
+currently outstanding data after the provided send offset is transmitted or
+retransmitted.  If omitted, the offset is presumed to be 0.  An unsigned
+32-bit error code can be supplied as a part of the signal to the peer; if
+omitted, the error code is presumed to be 0.<a href="#section-4.3-9.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-4.3-9.7">abort receive side</dt>
