@@ -527,7 +527,8 @@ Table of Contents
 
    Since WebTransport requires TLS, individual transport protocols MAY
    expose TLS-based authentication capabilities such as client
-   certificates.
+   certificates and custom validation of server certificates, including
+   validation using a client-specified set of server certificate hashes.
 
 7.  IANA Considerations
 
