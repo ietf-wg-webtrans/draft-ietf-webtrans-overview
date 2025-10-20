@@ -5,8 +5,8 @@
 WEBTRANS                                                      E. Kinnear
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                             V. Vasiliev
-Expires: 9 January 2026                                           Google
-                                                             8 July 2025
+Expires: 23 April 2026                                            Google
+                                                         20 October 2025
 
 
                   The WebTransport Protocol Framework
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 January 2026.
+   This Internet-Draft will expire on 23 April 2026.
 
 Copyright Notice
 
@@ -566,7 +566,7 @@ Table of Contents
 
 8.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", July 2025,
+   [CSP]      W3C, "Content Security Policy Level 3", October 2025,
               <https://www.w3.org/TR/CSP/>.
 
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
