@@ -347,7 +347,6 @@ of unidirectional streams.
 
 The streams are in general expected to follow the semantics and the state
 machine of QUIC streams ({{?RFC9000}}, Sections 2 and 3).
-TODO: describe the stream state machine explicitly.
 
 A WebTransport stream can be reset, indicating that the endpoint is not
 interested in either sending or receiving any data related to the stream. The
@@ -394,11 +393,13 @@ receive bytes
   with the stream data.  Not applicable for outgoing unidirectional streams.
 
 abort send side
-: Sends a signal to the peer that the write side of the stream has been aborted.
-  Discards the send buffer; if possible, no currently outstanding data is
-  transmitted or retransmitted.  An unsigned 32-bit error code can be supplied
-  as a part of the signal to the peer; if omitted, the error code is presumed
-  to be 0.
+: Sends a signal to the peer that the write side of the stream
+  has been aborted, optionally at a particular send offset in the stream.
+  Discards the send buffer; if possible, no currently outstanding data after the
+  provided send offset is transmitted or retransmitted.  If omitted, the send
+  offset is presumed to be 0.  An unsigned 32-bit error code can be supplied as
+  a part of the signal to the peer; if omitted, the error code is presumed to be
+  0.
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
