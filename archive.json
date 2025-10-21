@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-16T01:00:18.462560+00:00",
+  "timestamp": "2025-10-21T01:01:59.463199+00:00",
   "repo": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
   "labels": [
     {
@@ -655,7 +655,7 @@
       "id": "I_kwDOD0ymps7CDcJg",
       "title": "Add a commit() method?",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/38",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bemasc",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -664,8 +664,8 @@
       "labels": [],
       "body": "W3C WebTransport now has [a commit() method](https://www.w3.org/TR/webtransport/#dom-webtransportwriter-commit), which is defined as being implemented by direct reference to QUIC \"reliable reset\".  This seems like a layering violation.  We can probably fix this by adding a similar method to the abstract API.\n\n",
       "createdAt": "2025-07-23T09:45:03Z",
-      "updatedAt": "2025-08-27T00:01:39Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-20T23:22:50Z",
+      "closedAt": "2025-10-20T23:22:50Z",
       "comments": [
         {
           "author": "vasilvv",
@@ -709,7 +709,7 @@
       "id": "I_kwDOD0ymps7CEF4d",
       "title": "Does WebTrans/http3 support fingerprint authentication?",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/39",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alvestrand",
       "authorAssociation": "NONE",
       "assignees": [
@@ -720,8 +720,8 @@
       ],
       "body": "From https://www.w3.org/TR/webtransport/#certificate-hashes it seems that W3 is requiring fingerprint authentication support.\nHowever, I can't find in this document a description of how this support is carried into QUIC.\nIs there something missing here, or is there something that's so obvious that no description is needed?\n",
       "createdAt": "2025-07-23T09:22:47Z",
-      "updatedAt": "2025-08-06T00:00:03Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-20T22:22:57Z",
+      "closedAt": "2025-10-20T22:22:57Z",
       "comments": [
         {
           "author": "vasilvv",
@@ -751,7 +751,7 @@
       "id": "I_kwDOD0ymps7DWSth",
       "title": "Keying Exporters concept not referenced in overview doc",
       "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/issues/40",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "wilaw",
       "authorAssociation": "NONE",
       "assignees": [
@@ -760,8 +760,8 @@
       "labels": [],
       "body": "The keying Exporters are referenced independently for HTTP/2 and HTTP/3\n\nHTTP/2 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http2/draft-ietf-webtrans-http2.html#name-use-of-keying-material-expo\n\nHTTP/3 references https://ietf-wg-webtrans.github.io/draft-ietf-webtrans-http3/draft-ietf-webtrans-http3.html#name-use-of-keying-material-expo\n\nThe W3C API would prefer to reference a single concept in the overview document. ",
       "createdAt": "2025-07-30T14:47:30Z",
-      "updatedAt": "2025-09-10T17:16:04Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-20T23:28:18Z",
+      "closedAt": "2025-10-20T23:23:05Z",
       "comments": [
         {
           "author": "wilaw",
@@ -769,6 +769,13 @@
           "body": "@ekinnear  - any update on when there might be an opportunity to get this addressed? We are blocked on https://github.com/w3c/webtransport/pull/688 ",
           "createdAt": "2025-09-10T17:16:04Z",
           "updatedAt": "2025-09-10T17:16:04Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Published in `draft-ietf-webtrans-overview-11`",
+          "createdAt": "2025-10-20T23:28:18Z",
+          "updatedAt": "2025-10-20T23:28:18Z"
         }
       ]
     },
@@ -781,10 +788,12 @@
       "author": "joshtriplett",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "enhancement"
+      ],
       "body": "(Happy to contribute text, but opening an issue first for discussion to find out if this would make sense.)\n\nI have an application for WebTransport where I'd like the server to be able to initiate a unidirectional *receive-only* stream. Currently, the only way I can see to do that is to open a bidirectional stream and immediately close the sending side of the stream, which seems like unnecessary additional complexity and overhead. Would it make sense for endpoints to have a semantic operation to initiate receive-only streams, in addition to send-only and bidirectional streams?\n\nThis does not inherently mean that every embedding of WebTransport (e.g. in HTTP/3 or HTTP/2) must have a dedicated separate mechanism to establish a receive-only stream; rather, it means that the embedding has the additional semantic information from the software invoking it, to know that the stream is receive-only. An embedding that can gain efficiency from knowing that a stream is unidirectional receive-only could define the mapping of that semantic operation to its embedding as using a dedicated mechanism to establish such a stream. An embedding in which it isn't any more efficient to do so than to establish a bidirectional stream and close one end *could* explicitly say that that embedding maps receive-only streams to the initiation of a bidirectional stream immediately followed by the closing of the send direction of that stream.\n\nDoes this seem like a potentially worthwhile addition, to give embeddings and their implementations more semantic information about a type of stream than they would otherwise get from an \"open bidirectional stream\" semantic operation immediately followed by a \"close sending side\" semantic operation?",
       "createdAt": "2025-10-14T05:00:24Z",
-      "updatedAt": "2025-10-14T07:21:40Z",
+      "updatedAt": "2025-10-20T23:23:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -814,6 +823,13 @@
           "body": "To my mind, that sounds a lot harder to articulate and deliver on (i.e. write text that is conceptually consitent with current features and capabilities) than the current text which effectively states a similar interaxtion as:\n\n1) let your peer open a unidirectional stream if you only want to receive things, or\n2) open a bidirectional stream and close it after sending as much application data as required to initiate your peer sending you things you'd like to receive\n\n(2) is a common interaction already, just that the amount of application data tends to be greater than 0 e.g. HTTP/3 request/response, DNS request/response. Its realized by calling some form of stream send and then indicating stream FIN.\n\n",
           "createdAt": "2025-10-14T07:21:40Z",
           "updatedAt": "2025-10-14T07:21:40Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "If I were to implement this on top of existing QUIC interfaces, I'd need to either: \n1. Ask the peer to open a unidirectional stream to me, via a separate bidirectional or unidirectional stream\n2. Open a bidirectional stream and immediately write-close it (as noted above)\n\nGiven that one way to accomplish (1) looks an awful lot like (2), it seems that something in that space is probably the way to approach this. \n\nThe question I think we're grappling with in this issue isn't whether or not this is _useful_ or _worthwhile_; it's definitely possible, and I can imagine situations where it'd be helpful. \nThe question is whether or not it's necessary to add a description of this operation at the top level as its own primitive. \n\nSeeing as it's pretty straightforward to compose the other primitives to achieve this behavior in a fairly efficient way (you are always going to need to do _something_ to tell the peer that you wanted this stream and make sure you agree on its ID), is that sufficient?\n\n(Would also be interested to hear more about your application and use-case in general, more folks using WebTransport is awesome, and if you run into questions or confusing parts of the specs, now is a fantastic time to raise those issues!)",
+          "createdAt": "2025-10-20T11:25:29Z",
+          "updatedAt": "2025-10-20T11:25:29Z"
         }
       ]
     }
@@ -2699,6 +2715,185 @@
           "body": "",
           "createdAt": "2025-07-08T00:32:57Z",
           "updatedAt": "2025-07-08T00:32:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "id": "PR_kwDOD0ymps6unAal",
+      "title": "Mention server certificate hashes",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/42",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Mention server certificate hashes\r\n\r\nCloses #39\r\n",
+      "createdAt": "2025-10-20T11:03:01Z",
+      "updatedAt": "2025-10-20T22:23:00Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "1ad702e8282627190b4943362cef214be0d21de9",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/server_certificate_hashes",
+      "headRefOid": "ab1ef3ef1e0236a599a88b61be1e1831789723c3",
+      "closedAt": "2025-10-20T22:22:56Z",
+      "mergedAt": "2025-10-20T22:22:56Z",
+      "mergedBy": "ekinnear",
+      "mergeCommit": {
+        "oid": "05dcca0b7052397035ac38f4bf7067e3606ec78b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps7IJYbq",
+          "commit": {
+            "abbreviatedOid": "00d4bcd"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-20T20:55:23Z",
+          "updatedAt": "2025-10-20T20:55:23Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOD0ymps6unEIG",
+      "title": "Add optional offset to abort operation",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/43",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add optional offset to abort operation\r\n\r\nCloses #38 ",
+      "createdAt": "2025-10-20T11:08:51Z",
+      "updatedAt": "2025-10-20T23:22:52Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "1ad702e8282627190b4943362cef214be0d21de9",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/add_abort",
+      "headRefOid": "a2fccc9d5a8086223343e16646b92bd8f09a9e9d",
+      "closedAt": "2025-10-20T23:22:50Z",
+      "mergedAt": "2025-10-20T23:22:49Z",
+      "mergedBy": "ekinnear",
+      "mergeCommit": {
+        "oid": "3ef0eee003b09a2287889b424b34a97b41859f49"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps7IJZrq",
+          "commit": {
+            "abbreviatedOid": "39efc4e"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "We can simplify the offset thing.",
+          "createdAt": "2025-10-20T20:57:02Z",
+          "updatedAt": "2025-10-20T20:57:18Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\r\n: Sends a signal to the peer that the write side of the stream\r\n  has been aborted, including an offset in the stream that is reliably delivered.\r\n  Discards the send buffer after that offset; if possible, no currently\r\n  outstanding data after the provided send offset is transmitted or\r\n  retransmitted.  An unsigned 32-bit error code can be supplied as\r\n  a part of the signal to the peer; if omitted, the error code is presumed to be\r\n  0.\r\n```",
+              "createdAt": "2025-10-20T20:57:02Z",
+              "updatedAt": "2025-10-20T20:57:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps7IKNFq",
+          "commit": {
+            "abbreviatedOid": "39efc4e"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-20T22:25:59Z",
+          "updatedAt": "2025-10-20T22:25:59Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Thank you! Updated in [a2fccc9](https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/43/commits/a2fccc9d5a8086223343e16646b92bd8f09a9e9d), also included default of 0 for the offset if omitted.",
+              "createdAt": "2025-10-20T22:25:59Z",
+              "updatedAt": "2025-10-20T22:26:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOD0ymps7IKfDk",
+          "commit": {
+            "abbreviatedOid": "a2fccc9"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-20T23:13:10Z",
+          "updatedAt": "2025-10-20T23:13:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "id": "PR_kwDOD0ymps6unINp",
+      "title": "Add export keying material session-wide operation",
+      "url": "https://github.com/ietf-wg-webtrans/draft-ietf-webtrans-overview/pull/44",
+      "state": "MERGED",
+      "author": "ekinnear",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add export keying material session-wide operation\r\n\r\nCloses #40 ",
+      "createdAt": "2025-10-20T11:15:03Z",
+      "updatedAt": "2025-10-20T23:23:07Z",
+      "baseRepository": "ietf-wg-webtrans/draft-ietf-webtrans-overview",
+      "baseRefName": "main",
+      "baseRefOid": "1ad702e8282627190b4943362cef214be0d21de9",
+      "headRepository": "ekinnear/draft-ietf-webtrans-overview",
+      "headRefName": "ek/key_exporters",
+      "headRefOid": "bf5607c8d3d24f7aff3ef59f929ae42480d7a97b",
+      "closedAt": "2025-10-20T23:23:04Z",
+      "mergedAt": "2025-10-20T23:23:04Z",
+      "mergedBy": "ekinnear",
+      "mergeCommit": {
+        "oid": "b844a82cf6ea62ba2fdf8b5a123d8c85ce83a279"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOD0ymps7IHqOv",
+          "commit": {
+            "abbreviatedOid": "bf5607c"
+          },
+          "author": "vasilvv",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-20T18:09:38Z",
+          "updatedAt": "2025-10-20T18:09:38Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOD0ymps7IKfPf",
+          "commit": {
+            "abbreviatedOid": "bf5607c"
+          },
+          "author": "nidhijaju",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-20T23:13:28Z",
+          "updatedAt": "2025-10-20T23:13:28Z",
           "comments": []
         }
       ]
