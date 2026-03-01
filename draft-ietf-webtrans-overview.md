@@ -43,8 +43,8 @@ informative:
 The WebTransport Protocol Framework enables clients constrained by the Web
 security model to communicate with a remote server using a secure multiplexed
 transport.  It consists of a set of individual protocols that are safe to expose
-to untrusted applications, combined with an abstract model that allows them
-to be used interchangeably.
+to untrusted applications, combined with an abstract model that allows them to
+be used interchangeably.
 
 This document defines the overall requirements on the protocols used in
 WebTransport, as well as the common features of the protocols, support for some
@@ -57,8 +57,8 @@ of which may be optional.
 The WebTransport Protocol Framework enables clients constrained by the Web
 security model to communicate with a remote server using a secure multiplexed
 transport.  It consists of a set of individual protocols that are safe to expose
-to untrusted applications, combined with an abstract model that allows them
-to be used interchangeably.
+to untrusted applications, combined with an abstract model that allows them to
+be used interchangeably.
 
 This document defines the overall requirements on the protocols used in
 WebTransport, as well as the common features of the protocols, support for some
@@ -68,22 +68,21 @@ of which may be optional.
 
 Historically, web applications that needed a bidirectional data stream between a
 client and a server could rely on WebSockets {{?RFC6455}}, a message-based
-protocol compatible with the Web security model.  However, since the
-abstraction it provides is a single ordered reliable stream of messages, it
-suffers from head-of-line blocking, meaning that all messages must be sent and
-received in order even if they could be processed independently of each other,
-and some messages may no longer be relevant.  This makes it a poor fit for
+protocol compatible with the Web security model.  However, since the abstraction
+it provides is a single ordered reliable stream of messages, it suffers from
+head-of-line blocking, meaning that all messages must be sent and received in
+order even if they could be processed independently of each other, and some
+messages may no longer be relevant.  This makes it a poor fit for
 latency-sensitive applications which rely on partial reliability and stream
 independence for performance.
 
-One existing option available to Web developers are WebRTC data channels
-{{?RFC8831}}, which provide a WebSocket-like API for a peer-to-peer SCTP
-channel protected by DTLS.  In theory, it is possible to use it for the use
-cases addressed by this specification. However, in practice, it has not seen
-wide adoption outside of browser-to-browser settings due to its dependency on
-ICE (which fits poorly with the Web model) and userspace SCTP (which has a
-limited number of implementations available due to not being used in other
-contexts).
+One existing option available to Web developers is WebRTC data channels
+{{?RFC8831}}, which provide a WebSocket-like API for a peer-to-peer SCTP channel
+protected by DTLS.  In theory, it is possible to use it for the use cases
+addressed by this specification. However, in practice, it has not seen wide
+adoption outside of browser-to-browser settings due to its dependency on ICE
+(which fits poorly with the Web model) and userspace SCTP (which has a limited
+number of implementations available due to not being used in other contexts).
 
 An alternative design would be to open multiple WebSocket connections over
 HTTP/3 {{?RFC9220}}.  That would avoid head-of-line blocking and provide an
@@ -127,8 +126,8 @@ WebTransport session:
   client and a server.  It may correspond to a specific transport-layer
   connection, or it may be a logical entity within an existing multiplexed
   transport-layer connection.  WebTransport sessions are logically independent
-  from one another even if some sessions can share an underlying
-  transport-layer connection.
+  from one another even if some sessions can share an underlying transport-layer
+  connection.
 
 WebTransport protocol:
 
@@ -137,9 +136,9 @@ WebTransport protocol:
 
 Datagram:
 
-: A datagram is a unit of transmission that is limited in size (typically to
-  the path MTU), does not have an expectation of being delivered reliably, and
-  is treated atomically by the transport.
+: A datagram is a unit of transmission that is limited in size (typically to the
+  path MTU), does not have an expectation of being delivered reliably, and is
+  treated atomically by the transport.
 
 Stream:
 
@@ -153,10 +152,10 @@ Message:
 
 : A message is a stream that is sufficiently small that it can be fully buffered
   before being passed to the application.  WebTransport does not define messages
-  as a primitive, since from the transport perspective they can be simulated
-  by fully buffering a stream before passing it to the application.  However,
-  this distinction is important to highlight since some of the similar protocols
-  and APIs (notably WebSocket {{?RFC6455}}) use messages as a core abstraction.
+  as a primitive, since from the transport perspective they can be simulated by
+  fully buffering a stream before passing it to the application.  However, this
+  distinction is important to highlight since some of the similar protocols and
+  APIs (notably WebSocket {{?RFC6455}}) use messages as a core abstraction.
 
 Application:
 
@@ -172,14 +171,13 @@ Server:
   sessions.  In cases when WebTransport is served over a multiplexed protocol
   (such as HTTP/2 or HTTP/3), "WebTransport server" refers to a handler for a
   specific multiplexed endpoint (e.g. an application handling specific HTTP
-  resource), rather than the application listening on a given TCP or UDP
-  socket.
+  resource), rather than the application listening on a given TCP or UDP socket.
 
 Client:
 
-: A WebTransport client is an application that initiates the transport
-  session and may be running in a constrained security context, for instance,
-  a JavaScript application running inside a browser.
+: A WebTransport client is an application that initiates the transport session
+  and may be running in a constrained security context, for instance, a
+  JavaScript application running inside a browser.
 
 Endpoint:
 
@@ -187,9 +185,8 @@ Endpoint:
 
 User agent:
 
-: A WebTransport user agent is a software system that has an unrestricted
-  access to the host network stack and can create transports on behalf
-  of the client.
+: A WebTransport user agent is a software system that has an unrestricted access
+  to the host network stack and can create transports on behalf of the client.
 
 Event:
 
@@ -199,20 +196,20 @@ Event:
 
 # Common Transport Requirements  {#common-requirements}
 
-Since clients are not necessarily trusted and have to be constrained by the
-Web security model, WebTransport imposes certain requirements on any specific
+Since clients are not necessarily trusted and have to be constrained by the Web
+security model, WebTransport imposes certain requirements on any specific
 protocol used.
 
 All WebTransport protocols MUST use TLS {{!RFC8446}} or a semantically
-equivalent security protocol (for instance, DTLS {{?RFC9147}}).
-The protocols SHOULD use TLS version 1.3 or later, unless they aim for
-backwards compatibility with legacy systems.
+equivalent security protocol (for instance, DTLS {{?RFC9147}}).  The protocols
+SHOULD use TLS version 1.3 or later, unless they aim for backwards compatibility
+with legacy systems.
 
 All WebTransport protocols MUST require the user agent to obtain and maintain
 explicit consent from the server to send data.  For connection-oriented
 protocols (such as TCP or QUIC), the connection establishment and keep-alive
-mechanisms suffice.  STUN Consent Freshness {{?RFC7675}} is another example of
-a mechanism satisfying this requirement.
+mechanisms suffice.  STUN Consent Freshness {{?RFC7675}} is another example of a
+mechanism satisfying this requirement.
 
 All WebTransport protocols MUST limit the rate at which the client sends data.
 This SHOULD be accomplished via a feedback-based congestion control mechanism
@@ -224,22 +221,22 @@ sessions between the same client and server.
 All WebTransport protocols MUST prevent clients from establishing transport
 sessions to network endpoints that are not WebTransport servers.
 
-All WebTransport protocols MUST provide a way for the user agent to indicate
-the origin {{!RFC6454}} of the client to the server.
+All WebTransport protocols MUST provide a way for the user agent to indicate the
+origin {{!RFC6454}} of the client to the server.
 
 All WebTransport protocols MUST provide a way for a server endpoint location to
 be described using a URI {{!RFC3986}}.  This enables integration with various
-Web platform features that represent resources as URIs, such as Content
-Security Policy [CSP].
+Web platform features that represent resources as URIs, such as Content Security
+Policy [CSP].
 
 All WebTransport protocols MUST provide a way for the session initiator to
 negotiate a subprotocol with the peer when establishing a WebTransport session.
 The session initiator provides an optional list of subprotocols to the peer.
-The peer selects one and responds indicating the selected subprotocol or
-rejects the session establishment request if none of the subprotocols are
-supported. Note that the semantics of individual subprotocol token values is
-determined by the WebTransport resource in question and are not registered in
-IANA's "ALPN Protocol IDs" registry.
+The peer selects one and responds indicating the selected subprotocol or rejects
+the session establishment request if none of the subprotocols are supported.
+Note that the semantics of individual subprotocol token values are determined by
+the WebTransport resource in question and are not registered in IANA's "ALPN
+Protocol IDs" registry.
 
 # Session Establishment
 
@@ -287,12 +284,12 @@ terminate a session
 drain a session
 : Indicate to the peer that it expects the session to be gracefully terminated
   as soon as possible.  Either endpoint MAY continue using the session and MAY
-  open new streams.  This signal is intended to allow intermediaries and endpoints
-  to request a session be drained of traffic without enforcement.
+  open new streams.  This signal is intended to allow intermediaries and
+  endpoints to request a session be drained of traffic without enforcement.
 
 export keying material
-: Derive a TLS keying material exporter ({{Section 7.5 of
-  !RFC8446}}) to provide keying material specific to the WebTransport session.
+: Derive a TLS keying material exporter ({{Section 7.5 of !RFC8446}}) to provide
+  keying material specific to the WebTransport session.
 
 Any WebTransport protocol SHALL provide the following events:
 
@@ -315,21 +312,20 @@ MTU) and is not expected to be transmitted reliably.  The general goal for
 WebTransport datagrams is to be similar in behavior to UDP while being subject
 to common requirements expressed in {{common-requirements}}.
 
-A WebTransport sender is not expected to retransmit datagrams, though it may
-end up doing so if it is using TCP or some other underlying protocol that only
+A WebTransport sender is not expected to retransmit datagrams, though it may end
+up doing so if it is using TCP or some other underlying protocol that only
 provides reliable delivery.  WebTransport datagrams are not expected to be flow
-controlled, meaning that the receiver might drop datagrams if the application
-is not consuming them fast enough.
+controlled, meaning that the receiver might drop datagrams if the application is
+not consuming them fast enough.
 
 The application MUST be provided with the maximum datagram size that it can
 send.  The size SHOULD be derived from the result of performing path MTU
 discovery.
 
-In the WebTransport model, all of the outgoing and incoming datagrams are
-placed into a size-bound queue (similar to a network interface card queue).
+In the WebTransport model, all of the outgoing and incoming datagrams are placed
+into a size-bound queue (similar to a network interface card queue).
 
-Any WebTransport protocol SHALL provide the following operations on the
-session:
+Any WebTransport protocol SHALL provide the following operations on the session:
 
 send a datagram
 : Enqueues a datagram to be sent to the peer.  This can potentially result in
@@ -365,8 +361,7 @@ as well: an endpoint may only open a limited number of streams until the peer
 explicitly allows creating more streams.  From the perspective of the client,
 this is presented as a size-bounded queue of incoming streams.
 
-Any WebTransport protocol SHALL provide the following operations on the
-session:
+Any WebTransport protocol SHALL provide the following operations on the session:
 
 create a unidirectional stream
 : Creates an outgoing unidirectional stream; this operation may block until the
@@ -389,7 +384,7 @@ individual stream:
 
 send bytes
 : Add bytes into the stream send buffer.  The sender can also indicate a FIN,
-  signalling the fact that no new data will be send on the stream.  Not
+  signalling the fact that no new data will be sent on the stream.  Not
   applicable for incoming unidirectional streams.
 
 receive bytes
@@ -397,13 +392,13 @@ receive bytes
   with the stream data.  Not applicable for outgoing unidirectional streams.
 
 abort send side
-: Sends a signal to the peer that the write side of the stream
-  has been aborted, including an offset in the stream that is reliably
-  delivered.  Discards the send buffer after that offset; if possible, no
-  currently outstanding data after the provided send offset is transmitted or
-  retransmitted.  If omitted, the offset is presumed to be 0.  An unsigned
-  32-bit error code can be supplied as a part of the signal to the peer; if
-  omitted, the error code is presumed to be 0.
+: Sends a signal to the peer that the write side of the stream has been aborted,
+  including an offset in the stream that is reliably delivered.  Discards the
+  send buffer after that offset; if possible, no currently outstanding data
+  after the provided send offset is transmitted or retransmitted.  If omitted,
+  the offset is presumed to be 0.  An unsigned 32-bit error code can be supplied
+  as a part of the signal to the peer; if omitted, the error code is presumed to
+  be 0.
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
@@ -427,28 +422,26 @@ all data committed
   stream indication, is in the state where aborting the send side would have no
   further effect on any data being delivered.
 
-: For protocols, like HTTP/2, stream data might be passed to another
-  component (like a kernel) for transmission. Once data is passed to that
-  component it might not be possible to abort the sending of stream data
-  without also aborting the entire connection.
-  For these protocols, data is considered committed once it passes to the
-  other component.
+: For protocols, like HTTP/2, stream data might be passed to another component
+  (like a kernel) for transmission. Once data is passed to that component it
+  might not be possible to abort the sending of stream data without also
+  aborting the entire connection.  For these protocols, data is considered
+  committed once it passes to the other component.
 
 : A protocol, like HTTP/3, that uses a more integrated stack might be able to
   retract data further into the process. For these protocols, sending on a
   stream might be aborted at any time until all data has been received and
-  acknowledged by the peer, corresponding to the "Data Recvd" state in QUIC;
-  see {{Section 3.1 of !QUIC=RFC9000}}.
+  acknowledged by the peer, corresponding to the "Data Recvd" state in QUIC; see
+  {{Section 3.1 of !QUIC=RFC9000}}.
 
 # Transport Properties
 
-WebTransport defines common semantics for multiple protocols to allow them to
-be used interchangeably.  Nevertheless, those protocols still have
-substantially different performance properties that an application may want to
-query.
+WebTransport defines common semantics for multiple protocols to allow them to be
+used interchangeably.  Nevertheless, those protocols still have substantially
+different performance properties that an application may want to query.
 
-The most notable property is support for unreliable data delivery.  The
-protocol is defined to support unreliable delivery if:
+The most notable property is support for unreliable data delivery.  The protocol
+is defined to support unreliable delivery if:
 
 * Resetting a stream results in the lost stream data no longer being
   retransmitted, and
