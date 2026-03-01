@@ -76,7 +76,7 @@ and some messages may no longer be relevant.  This makes it a poor fit for
 latency-sensitive applications which rely on partial reliability and stream
 independence for performance.
 
-One existing option available to Web developers are WebRTC data channels
+One existing option available to Web developers is WebRTC data channels
 {{?RFC8831}}, which provide a WebSocket-like API for a peer-to-peer SCTP
 channel protected by DTLS.  In theory, it is possible to use it for the use
 cases addressed by this specification. However, in practice, it has not seen
@@ -237,7 +237,7 @@ negotiate a subprotocol with the peer when establishing a WebTransport session.
 The session initiator provides an optional list of subprotocols to the peer.
 The peer selects one and responds indicating the selected subprotocol or
 rejects the session establishment request if none of the subprotocols are
-supported. Note that the semantics of individual subprotocol token values is
+supported. Note that the semantics of individual subprotocol token values are
 determined by the WebTransport resource in question and are not registered in
 IANA's "ALPN Protocol IDs" registry.
 
@@ -389,7 +389,7 @@ individual stream:
 
 send bytes
 : Add bytes into the stream send buffer.  The sender can also indicate a FIN,
-  signalling the fact that no new data will be send on the stream.  Not
+  signalling the fact that no new data will be sent on the stream.  Not
   applicable for incoming unidirectional streams.
 
 receive bytes
