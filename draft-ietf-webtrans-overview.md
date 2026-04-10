@@ -398,24 +398,30 @@ abort send side
   after the provided send offset is transmitted or retransmitted.  If omitted,
   the offset is presumed to be 0.  An unsigned 32-bit error code can be supplied
   as a part of the signal to the peer; if omitted, the error code is presumed to
-  be 0.
+  be WT_ERROR_NO_ERROR.  Error codes in the range reserved by
+  {{reserved-error-codes}} MUST NOT be used by applications.
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
   Discards the receive buffer; the peer is typically expected to abort the
   corresponding send side in response.  An unsigned 32-bit error code can be
-  supplied as a part of the signal to the peer.
+  supplied as a part of the signal to the peer.  Error codes in the range
+  reserved by {{reserved-error-codes}} MUST NOT be used by applications.
 
 Any WebTransport protocol SHALL provide the following events for an individual
 stream:
 
 send side aborted
 : Indicates that the peer has aborted the corresponding receive side of the
-  stream.  An unsigned 32-bit error code from the peer may be available.
+  stream.  An unsigned 32-bit error code from the peer is provided.  See
+  {{reserved-error-codes}} for error codes that indicate conditions other
+  than a peer-supplied application error.
 
 receive side aborted
 : Indicates that the peer has aborted the corresponding send side of the
-  stream.  An unsigned 32-bit error code from the peer may be available.
+  stream.  An unsigned 32-bit error code from the peer is provided.  See
+  {{reserved-error-codes}} for error codes that indicate conditions other
+  than a peer-supplied application error.
 
 all data committed
 : Indicates that all of the outgoing data on the stream, including the end
@@ -433,6 +439,30 @@ all data committed
   stream might be aborted at any time until all data has been received and
   acknowledged by the peer, corresponding to the "Data Recvd" state in QUIC; see
   {{Section 3.1 of !QUIC=RFC9000}}.
+
+## Reserved Error Codes {#reserved-error-codes}
+
+WebTransport application error codes are unsigned 32-bit integers.  The range
+0xffffff00 to 0xffffffff (256 values) is reserved for use by the WebTransport
+framework and MUST NOT be used by applications.
+
+The following values are defined:
+
+WT_ERROR_NO_ERROR (0xffffff00):
+: The default error code value, equivalent to no error code being provided.
+
+WT_ERROR_SESSION_TERMINATED (0xffffff01):
+: The stream was reset because the associated WebTransport session was
+  terminated.
+
+WT_ERROR_INTERNAL (0xffffff02):
+: The stream was reset due to reasons internal to the WebTransport
+  implementation, rather than an application-supplied error code.  For example,
+  this error code is used when the peer sends a reset with a code that cannot
+  be mapped to a WebTransport application error code.
+
+The remaining values in this range are reserved for future use by
+specifications that update this document.
 
 # Transport Properties
 
@@ -477,6 +507,15 @@ set of server certificate hashes.
 
 # IANA Considerations
 
-There are no requests to IANA in this document.
+IANA is requested to create a "WebTransport Application Error Codes" registry
+with the following initial entries.  New entries in this registry are assigned
+via the Specification Required policy ({{Section 4.6 of !RFC8126}}).
+
+| Value        | Code                          | Description                              | Specification |
+|:-------------|:------------------------------|:-----------------------------------------|:--------------|
+| 0xffffff00   | WT_ERROR_NO_ERROR             | Default; not an error                    | This document |
+| 0xffffff01   | WT_ERROR_SESSION_TERMINATED   | Stream reset due to session termination  | This document |
+| 0xffffff02   | WT_ERROR_INTERNAL             | Implementation-internal error            | This document |
+| 0xffffff03 - 0xffffffff | Reserved           | Reserved for future use                  | This document |
 
 --- back
