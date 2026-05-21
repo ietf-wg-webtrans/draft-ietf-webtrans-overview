@@ -365,7 +365,8 @@ is not interested in receiving further data and signaling the sender to stop
 sending.  These operations are independent: the two directions of a
 bidirectional stream can be terminated separately.
 
-Streams SHOULD be sufficiently lightweight that they can be used as messages.
+WebTransport protocols are designed so that streams are sufficiently lightweight
+to be used as messages.
 
 Data sent on a stream is flow controlled by the transport protocol.  In addition
 to flow controlling stream data, the creation of new streams is flow controlled
