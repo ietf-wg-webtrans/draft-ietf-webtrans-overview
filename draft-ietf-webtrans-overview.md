@@ -340,6 +340,11 @@ get maxiumum datagram size
 : Returns the largest size of the datagram that a WebTransport session is
   expected to be able to send.
 
+The maximum size of an incoming datagram is determined by the WebTransport
+protocol binding and the underlying transport.  WebTransport protocols MAY
+expose a way for the application to influence the maximum receive datagram
+size or buffer capacity.
+
 ## Streams  {#features-streams}
 
 A unidirectional stream is a one-way reliable in-order stream of bytes where the
