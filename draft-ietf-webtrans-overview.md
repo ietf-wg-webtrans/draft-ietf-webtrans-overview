@@ -236,7 +236,9 @@ The peer selects one and responds indicating the selected subprotocol or rejects
 the session establishment request if none of the subprotocols are supported.
 Note that the semantics of individual subprotocol token values are determined by
 the WebTransport resource in question and are not registered in IANA's "ALPN
-Protocol IDs" registry.
+Protocol IDs" registry.  Resources SHOULD use tokens that clearly identify their
+intended protocol; reusing identifiers associated with established ALPN
+protocols for unrelated purposes is NOT RECOMMENDED.
 
 # Session Establishment
 
