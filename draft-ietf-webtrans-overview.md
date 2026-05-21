@@ -396,9 +396,15 @@ Any WebTransport protocol SHALL provide the following operations on an
 individual stream:
 
 send bytes
-: Add bytes into the stream send buffer.  The sender can also indicate a FIN,
-  signalling the fact that no new data will be sent on the stream.  Not
-  applicable for incoming unidirectional streams.
+: Add bytes into the stream send buffer.  The sender can also indicate a FIN
+  together with the bytes, signaling that no new data will be sent on the
+  stream.  Not applicable for incoming unidirectional streams.
+
+close send side
+: Indicate a FIN on the stream without writing additional bytes, signaling
+  that no new data will be sent.  Equivalent to calling send bytes with an
+  empty payload and a FIN.  Not applicable for incoming unidirectional
+  streams.
 
 receive bytes
 : Removes bytes from the stream receive buffer.  FIN can be received together
