@@ -421,9 +421,9 @@ abort send side
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
-  Discards the receive buffer; the peer is typically expected to abort the
-  corresponding send side in response.  An unsigned 32-bit error code can be
-  supplied as a part of the signal to the peer.
+  Discards the receive buffer; the peer SHOULD abort the corresponding send
+  side in response (similar to {{Section 3.5 of ?RFC9000}}).  An unsigned 32-bit
+  error code can be supplied as a part of the signal to the peer.
 
 Any WebTransport protocol SHALL provide the following events for an individual
 stream:
