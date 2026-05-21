@@ -355,10 +355,15 @@ of unidirectional streams.
 The streams are in general expected to follow the semantics and the state
 machine of QUIC streams ({{?RFC9000}}, Sections 2 and 3).
 
-A WebTransport stream can be reset, indicating that the endpoint is not
-interested in either sending or receiving any data related to the stream. The
-sender of a stream can indicate an offset in the stream (possibly zero) after
-which data that was already sent will not be retransmitted.
+A WebTransport stream sender can reset its send side, indicating that no
+further data will be transmitted on the stream.  The sender can indicate an
+offset in the stream (possibly zero) after which data that was already sent
+will not be retransmitted.
+
+A WebTransport stream receiver can abort its receive side, indicating that it
+is not interested in receiving further data and signaling the sender to stop
+sending.  These operations are independent: the two directions of a
+bidirectional stream can be terminated separately.
 
 Streams SHOULD be sufficiently lightweight that they can be used as messages.
 
