@@ -236,7 +236,9 @@ The peer selects one and responds indicating the selected subprotocol or rejects
 the session establishment request if none of the subprotocols are supported.
 Note that the semantics of individual subprotocol token values are determined by
 the WebTransport resource in question and are not registered in IANA's "ALPN
-Protocol IDs" registry.
+Protocol IDs" registry.  Resources SHOULD use tokens that clearly identify their
+intended protocol; reusing identifiers associated with established ALPN
+protocols for unrelated purposes is NOT RECOMMENDED.
 
 # Session Establishment
 
@@ -338,6 +340,11 @@ get maximum datagram size
 : Returns the largest size of the datagram that a WebTransport session is
   expected to be able to send.
 
+The maximum size of an incoming datagram is determined by the WebTransport
+protocol binding and the underlying transport.  WebTransport protocols MAY
+expose a way for the application to influence the maximum receive datagram
+size or buffer capacity.
+
 ## Streams  {#features-streams}
 
 A unidirectional stream is a one-way reliable in-order stream of bytes where the
@@ -348,12 +355,18 @@ of unidirectional streams.
 The streams are in general expected to follow the semantics and the state
 machine of QUIC streams ({{?RFC9000}}, Sections 2 and 3).
 
-A WebTransport stream can be reset, indicating that the endpoint is not
-interested in either sending or receiving any data related to the stream. The
-sender of a stream can indicate an offset in the stream (possibly zero) after
-which data that was already sent will not be retransmitted.
+A WebTransport stream sender can reset its send side, indicating that no
+further data will be transmitted on the stream.  The sender can indicate an
+offset in the stream (possibly zero) after which data that was already sent
+will not be retransmitted.
 
-Streams SHOULD be sufficiently lightweight that they can be used as messages.
+A WebTransport stream receiver can abort its receive side, indicating that it
+is not interested in receiving further data and signaling the sender to stop
+sending.  These operations are independent: the two directions of a
+bidirectional stream can be terminated separately.
+
+WebTransport protocols are designed so that streams are sufficiently lightweight
+to be used as messages.
 
 Data sent on a stream is flow controlled by the transport protocol.  In addition
 to flow controlling stream data, the creation of new streams is flow controlled
@@ -383,9 +396,15 @@ Any WebTransport protocol SHALL provide the following operations on an
 individual stream:
 
 send bytes
-: Add bytes into the stream send buffer.  The sender can also indicate a FIN,
-  signalling the fact that no new data will be sent on the stream.  Not
-  applicable for incoming unidirectional streams.
+: Add bytes into the stream send buffer.  The sender can also indicate a FIN
+  together with the bytes, signaling that no new data will be sent on the
+  stream.  Not applicable for incoming unidirectional streams.
+
+close send side
+: Indicate a FIN on the stream without writing additional bytes, signaling
+  that no new data will be sent.  Equivalent to calling send bytes with an
+  empty payload and a FIN.  Not applicable for incoming unidirectional
+  streams.
 
 receive bytes
 : Reads bytes from the stream receive buffer.  FIN can be received together
@@ -401,9 +420,9 @@ abort send side
 
 abort receive side
 : Sends a signal to the peer that the read side of the stream has been aborted.
-  Discards the receive buffer; the peer is typically expected to abort the
-  corresponding send side in response.  An unsigned 32-bit error code can be
-  supplied as a part of the signal to the peer.
+  Discards the receive buffer; the peer SHOULD abort the corresponding send
+  side in response (similar to {{Section 3.5 of ?RFC9000}}).  An unsigned 32-bit
+  error code can be supplied as a part of the signal to the peer.
 
 Any WebTransport protocol SHALL provide the following events for an individual
 stream:
