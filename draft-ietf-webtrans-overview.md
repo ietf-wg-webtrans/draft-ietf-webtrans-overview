@@ -324,8 +324,18 @@ The application MUST be provided with the maximum datagram size that it can
 send.  The size SHOULD be derived from the result of performing path MTU
 discovery, when the underlying transport supports it.
 
-WebTransport datagrams have bounded send and receive buffers; datagrams that
-exceed available buffer space are dropped.
+WebTransport datagrams have bounded send and receive buffers.  Either endpoint
+can drop a datagram when its buffer is full: the sender can drop an outgoing
+datagram that does not fit in its send buffer, and the receiver can drop an
+incoming datagram that does not fit in its receive buffer.
+
+Additionally, because datagrams are not reliably delivered, applications
+sending time-sensitive data can use age-based limits to request that stale
+data is not sent.  A sender MAY impose an age-based limit that caps how long
+an outgoing datagram remains queued before it is either sent or discarded.
+A receiver MAY apply a similar age-based limit to discard incoming datagrams
+that have waited in the receive queue for longer than the application is
+willing to accept.
 
 Any WebTransport protocol SHALL provide the following operations on the session:
 
