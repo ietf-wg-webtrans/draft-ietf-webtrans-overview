@@ -213,7 +213,10 @@ mechanism satisfying this requirement.
 
 All WebTransport protocols MUST limit the rate at which an endpoint sends data.
 This SHOULD be accomplished via a feedback-based congestion control mechanism
-(such as {{?RFC5681}} or {{?RFC9002}}).
+(such as {{?RFC5681}} or {{?RFC9002}}).  A WebTransport protocol MAY expose a
+way for the application to select among different congestion control profiles
+(for example, one optimized for throughput and one optimized for low latency),
+where the underlying transport supports it.
 
 All WebTransport protocols MUST support simultaneously establishing multiple
 sessions between the same client and server.
@@ -248,6 +251,11 @@ that it is willing to accept the session with the provided origin and URI.
 WebTransport protocols MAY allow clients to send data before the session is
 ready; however, they MUST NOT use mechanisms that are unsafe against replay
 attacks without an explicit indication from the client.
+
+Where a WebTransport protocol is layered on a protocol whose session
+establishment carries additional metadata (for example, HTTP response header
+fields), the WebTransport protocol MAY expose that metadata to the
+application once the session is ready.
 
 ## Application Protocol Negotiation
 
@@ -375,6 +383,11 @@ is not interested in receiving further data and signaling the sender to stop
 sending.  These operations are independent: the two directions of a
 bidirectional stream can be terminated separately.
 
+Errors signaled through resetting or aborting a stream are scoped to that
+stream and do not terminate the WebTransport session.  Session-level errors,
+signaled through the "terminate a session" operation, apply to the entire
+session.
+
 WebTransport protocols are designed so that streams are sufficiently lightweight
 to be used as messages.
 
@@ -382,17 +395,23 @@ Data sent on a stream is flow controlled by the transport protocol.  In addition
 to flow controlling stream data, the creation of new streams is flow controlled
 as well: an endpoint may only open a limited number of streams until the peer
 explicitly allows creating more streams.  From the receiver's perspective, this
-is presented as a size-bounded queue of incoming streams.
+is presented as a size-bounded queue of incoming streams.  A WebTransport
+protocol MUST expose enough information about the current stream-creation flow
+control state that a caller can determine whether stream creation would succeed
+and know when additional stream credit becomes available.
+
+Applications MAY provide the transport with hints about how sending on different
+streams and datagrams should be scheduled relative to each other.  A
+WebTransport protocol MAY honor these hints using the prioritization facilities
+of the underlying transport, where such facilities are available.
 
 Any WebTransport protocol SHALL provide the following operations on the session:
 
 create a unidirectional stream
-: Creates an outgoing unidirectional stream; this operation might block until
-  the flow control of the underlying protocol allows for it to be completed.
+: Creates an outgoing unidirectional stream.
 
 create a bidirectional stream
-: Creates an outgoing bidirectional stream; this operation might block until
-  the flow control of the underlying protocol allows for it to be completed.
+: Creates an outgoing bidirectional stream.
 
 receive a unidirectional stream
 : Returns the next stream from the queue of incoming unidirectional streams, if
@@ -475,6 +494,11 @@ is defined to support unreliable delivery if:
 * Resetting a stream results in the lost stream data no longer being
   retransmitted, and
 * Datagrams are never retransmitted.
+
+Applications that depend on unreliable delivery, such as applications sending
+time-sensitive datagrams, MAY require it when establishing a session, and a
+WebTransport protocol MAY expose a way for such applications to refuse a
+protocol binding that cannot provide unreliable delivery.
 
 Another important property is pooling support.  Pooling means that multiple
 transport sessions may end up sharing the same transport layer connection, and
