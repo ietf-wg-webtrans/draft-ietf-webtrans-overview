@@ -5,8 +5,8 @@
 WEBTRANS                                                      E. Kinnear
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                             V. Vasiliev
-Expires: 14 December 2026                                         Google
-                                                            12 June 2026
+Expires: 7 January 2027                                           Google
+                                                             6 July 2026
 
 
                   The WebTransport Protocol Framework
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 December 2026.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -375,8 +375,20 @@ Table of Contents
    performing path MTU discovery, when the underlying transport supports
    it.
 
-   WebTransport datagrams have bounded send and receive buffers;
-   datagrams that exceed available buffer space are dropped.
+   WebTransport datagrams have bounded send and receive buffers.  Either
+   endpoint can drop a datagram when its buffer is full: the sender can
+   drop an outgoing datagram that does not fit in its send buffer, and
+   the receiver can drop an incoming datagram that does not fit in its
+   receive buffer.
+
+   Additionally, because datagrams are not reliably delivered,
+   applications sending time-sensitive data can use age-based limits to
+   request that stale data is not sent.  A sender MAY impose an age-
+   based limit that caps how long an outgoing datagram remains queued
+   before it is either sent or discarded.  A receiver MAY apply a
+   similar age-based limit to discard incoming datagrams that have
+   waited in the receive queue for longer than the application is
+   willing to accept.
 
    Any WebTransport protocol SHALL provide the following operations on
    the session:
@@ -587,7 +599,7 @@ Table of Contents
 
 8.2.  Informative References
 
-   [CSP]      W3C, "Content Security Policy Level 3", June 2026,
+   [CSP]      W3C, "Content Security Policy Level 3", July 2026,
               <https://www.w3.org/TR/CSP/>.
 
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion

@@ -17,22 +17,23 @@ be used interchangeably.
 WebTransport, as well as the common features of the protocols, support for some
 of which is optional. 
     " name="description">
-<meta content="xml2rfc 3.33.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="webtransport" name="keyword">
 <meta content="draft-ietf-webtrans-overview-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.33.0
-    Python 3.12.13
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.2
-    platformdirs 4.9.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.7.0
+    wcwidth 0.8.2
 -->
 <link href="draft-ietf-webtrans-overview.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1051,11 +1052,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">WebTransport</td>
-<td class="right">June 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Kinnear &amp; Vasiliev</td>
-<td class="center">Expires 14 December 2026</td>
+<td class="center">Expires 7 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1069,12 @@ svg {
 <dd class="internet-draft">draft-ietf-webtrans-overview-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-12" class="published">12 June 2026</time>
+<time datetime="2026-07-06" class="published">6 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-14">14 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1134,7 +1135,7 @@ of which is optional.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1549,32 +1550,41 @@ not consuming them fast enough.<a href="#section-4.2-2" class="pilcrow">¶</a></
 <p id="section-4.2-3">The application MUST be provided with the maximum datagram size that it can
 send.  The size SHOULD be derived from the result of performing path MTU
 discovery, when the underlying transport supports it.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
-<p id="section-4.2-4">WebTransport datagrams have bounded send and receive buffers; datagrams that
-exceed available buffer space are dropped.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
-<p id="section-4.2-5">Any WebTransport protocol SHALL provide the following operations on the session:<a href="#section-4.2-5" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-4.2-6">
-          <dt id="section-4.2-6.1">send a datagram</dt>
-          <dd style="margin-left: 1.5em" id="section-4.2-6.2">
-            <p id="section-4.2-6.2.1">Enqueues a datagram to be sent to the peer.  This can potentially result in
-the datagram being dropped if the queue is full.<a href="#section-4.2-6.2.1" class="pilcrow">¶</a></p>
+<p id="section-4.2-4">WebTransport datagrams have bounded send and receive buffers.  Either endpoint
+can drop a datagram when its buffer is full: the sender can drop an outgoing
+datagram that does not fit in its send buffer, and the receiver can drop an
+incoming datagram that does not fit in its receive buffer.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<p id="section-4.2-5">Additionally, because datagrams are not reliably delivered, applications
+sending time-sensitive data can use age-based limits to request that stale
+data is not sent.  A sender MAY impose an age-based limit that caps how long
+an outgoing datagram remains queued before it is either sent or discarded.
+A receiver MAY apply a similar age-based limit to discard incoming datagrams
+that have waited in the receive queue for longer than the application is
+willing to accept.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
+<p id="section-4.2-6">Any WebTransport protocol SHALL provide the following operations on the session:<a href="#section-4.2-6" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-4.2-7">
+          <dt id="section-4.2-7.1">send a datagram</dt>
+          <dd style="margin-left: 1.5em" id="section-4.2-7.2">
+            <p id="section-4.2-7.2.1">Enqueues a datagram to be sent to the peer.  This can potentially result in
+the datagram being dropped if the queue is full.<a href="#section-4.2-7.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.2-6.3">receive a datagram</dt>
-          <dd style="margin-left: 1.5em" id="section-4.2-6.4">
-            <p id="section-4.2-6.4.1">Dequeues an incoming datagram, if one is available.<a href="#section-4.2-6.4.1" class="pilcrow">¶</a></p>
+<dt id="section-4.2-7.3">receive a datagram</dt>
+          <dd style="margin-left: 1.5em" id="section-4.2-7.4">
+            <p id="section-4.2-7.4.1">Dequeues an incoming datagram, if one is available.<a href="#section-4.2-7.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.2-6.5">get maximum datagram size</dt>
-          <dd style="margin-left: 1.5em" id="section-4.2-6.6">
-            <p id="section-4.2-6.6.1">Returns the largest size of the datagram that a WebTransport session is
-expected to be able to send.<a href="#section-4.2-6.6.1" class="pilcrow">¶</a></p>
+<dt id="section-4.2-7.5">get maximum datagram size</dt>
+          <dd style="margin-left: 1.5em" id="section-4.2-7.6">
+            <p id="section-4.2-7.6.1">Returns the largest size of the datagram that a WebTransport session is
+expected to be able to send.<a href="#section-4.2-7.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-4.2-7">The maximum size of an incoming datagram is determined by the WebTransport
+<p id="section-4.2-8">The maximum size of an incoming datagram is determined by the WebTransport
 protocol binding and the underlying transport.  WebTransport protocols MAY
 expose a way for the application to influence the maximum receive datagram
-size or buffer capacity.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
+size or buffer capacity.<a href="#section-4.2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="features-streams">
@@ -1821,7 +1831,7 @@ set of server certificate hashes.<a href="#section-6-4" class="pilcrow">¶</a></
 <dl class="references">
 <dt id="CSP">[CSP]</dt>
         <dd>
-<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
+<span class="refAuthor">W3C</span>, <span class="refTitle">"Content Security Policy Level 3"</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://www.w3.org/TR/CSP/">https://www.w3.org/TR/CSP/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5681">[RFC5681]</dt>
         <dd>
