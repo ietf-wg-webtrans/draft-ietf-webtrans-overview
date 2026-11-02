@@ -281,9 +281,9 @@ Any WebTransport protocol SHALL provide the following operations on the
 session:
 
 establish a session
-: Create a new WebTransport session given a URI {{!RFC3986}} of the requester.
-  An origin {{!RFC6454}} MUST be given if the WebTransport session is coming
-  from a browser client; otherwise, it is OPTIONAL.
+: Create a new WebTransport session given a URI {{!RFC3986}} of the server
+  endpoint.  An origin {{!RFC6454}} MUST be given if the WebTransport session is
+  coming from a browser client; otherwise, it is OPTIONAL.
 
 terminate a session
 : Terminate the session while communicating to the peer an unsigned 32-bit
